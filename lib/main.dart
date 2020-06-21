@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   void initState() {
     super.initState();
 
-    getFileFromAsset("assets/rev_kidush_Shabaten.pdf").then((f) {
+    getAssetByName("rev_blessing_of_the_childrensp.pdf").then((f) {
       setState(() {
         print('este es el path ' + f.path);
         assetPDFPath = f.path;
@@ -32,26 +31,24 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     });
   }
 
-// Future que devueleve el Path completo del PDF
-  Future<File> getFileFromAsset(String asset) async {
-    try {
-      var data = await rootBundle.load(asset);
-      var bytes = data.buffer.asUint8List();
-      var dir = await getApplicationDocumentsDirectory();
-      File file = File("${dir.path}/rev_kidush_Shabaten.pdf");
+  Future<File> getAssetByName(String sourceName) async {
+    var sampleData = await rootBundle.load("assets/$sourceName");
+    final path = await _localPath;
+    var file = File('$path/$sourceName');
+    file = await file.writeAsBytes(sampleData.buffer.asUint8List());
+    return file;
+  }
 
-      File assetFile = await file.writeAsBytes(bytes);
-      return assetFile;
-    } catch (e) {
-      print(e);
-      throw Exception("Error opening asset file");
-    }
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
+        home: Builder(
+      builder: (context) => Scaffold(
         appBar: AppBar(
           title: Text('Blessing Grid View'),
         ),
@@ -92,7 +89,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
