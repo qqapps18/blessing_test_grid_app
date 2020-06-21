@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
+import 'Blessing.dart';
+import 'PDFViewPage.dart';
+import 'FileProvider.dart';
 
 void main() {
   runApp(BlessingGridView());
@@ -15,34 +13,18 @@ class BlessingGridView extends StatefulWidget {
 }
 
 class _BlessingGridViewState extends State<BlessingGridView> {
-// variable para el Path del PDF
-  String assetPDFPath = "";
+  // Inicializamos la clase 'FileProvider'
+  var fileProvider = FileProvider();
 
-// inicializa el path del PDF
-  @override
-  void initState() {
-    super.initState();
-
-    getAssetByName("rev_blessing_of_the_childrensp.pdf").then((f) {
-      setState(() {
-        print('este es el path ' + f.path);
-        assetPDFPath = f.path;
-      });
-    });
-  }
-
-  Future<File> getAssetByName(String sourceName) async {
-    var sampleData = await rootBundle.load("assets/$sourceName");
-    final path = await _localPath;
-    var file = File('$path/$sourceName');
-    file = await file.writeAsBytes(sampleData.buffer.asUint8List());
-    return file;
-  }
-
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
+  // Inicializamos un arreglo con todos los blessings que queremos mostrar.
+  // Idealmente, este arreglo se cambiaria por otra clase que nos provea la
+  // estructura de la vista, es decir, el número de secciones y la cantidad de
+  // elementos por sección.
+  var blessingsPDFs = [
+    Blessing("Children", "rev_blessing_of_the_childrensp.pdf",
+        'assets/imgblessingaftereaten.jpg'),
+    Blessing("Sidur", "siduraskarvinv.pdf", 'assets/imgblessingaftereaten.jpg'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -50,106 +32,56 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         home: Builder(
       builder: (context) => Scaffold(
         appBar: AppBar(
-          title: Text('Blessing Grid View'),
+          title: Text('Blessing.dart Grid View'),
         ),
         body: GridView.count(
-          crossAxisCount: 3,
-          children: <Widget>[
-            Card(
-              color: Colors.amberAccent,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    child: InkWell(
-                      onTap: () {
-//                                 Se abre el PDF
-                        if (assetPDFPath != null) {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return PdfViewPage(path: assetPDFPath);
-                          }));
-                        }
-                      },
-                      child: Image.asset(
-                        'assets/imgblessingaftereaten.jpg',
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Bendiciones Hijos',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+            crossAxisCount: 3,
+            // Este metodo genera una lista del numero de elementos en
+            // 'blessingPDFs' y nos da el indice que es el que luego
+            // necesitamos para poder obtener la información del rezo.
+            children: List.generate(blessingsPDFs.length, (index) {
+              // Abstraemos la creación de la vista a otro metodo
+              // para que quede mas limpio el código.
+              return cardView(context, index);
+            })),
       ),
     ));
   }
-}
 
-// Se pone el PDF en pantalla
-class PdfViewPage extends StatefulWidget {
-  final String path;
+  // Este metodo crea el 'CardView' en base a la información del objeto
+  // 'Blessing' que creamos en la lista. Este objeto se consigue en base
+  // al indice que nos pasa el metodo al crear el GridCount.
+  // Para mas información: https://flutter.dev/docs/cookbook/lists/grid-lists
+  Widget cardView(BuildContext context, int index) {
 
-  const PdfViewPage({Key key, this.path}) : super(key: key);
+    // Este es el rezo y en el metodode abajo vamos a utilizar la información
+    // para customizar el 'CardView'.
+    var blessing = blessingsPDFs[index];
 
-  @override
-  _PdfViewPageState createState() => _PdfViewPageState();
-}
-
-class _PdfViewPageState extends State<PdfViewPage> {
-  int _totalPages = 0;
-  int _currentPage = 0;
-  bool pdfReady = false;
-  PDFViewController _pdfViewController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("My Document"),
-      ),
-      body: Stack(
+    return Card(
+      color: Colors.amberAccent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          PDFView(
-            filePath: widget.path,
-            autoSpacing: true,
-            enableSwipe: true,
-            pageSnap: true,
-            swipeHorizontal: true,
-            nightMode: false,
-            onError: (e) {
-              print(e);
-            },
-            onRender: (_pages) {
-              setState(() {
-                print('Esta es la pagina ' + _pages.toString());
-                _totalPages = _pages;
-                _currentPage = _pages;
-                _pdfViewController.setPage(_pages);
-                print('esta en la pagina a abrir  ' + _pages.toString());
-                pdfReady = true;
-              });
-            },
-            onViewCreated: (PDFViewController vc) {
-              _pdfViewController = vc;
-            },
-            onPageChanged: (int page, int total) {
-              setState(() {});
-            },
-            onPageError: (page, e) {},
+          Container(
+            child: InkWell(
+              onTap: () async {
+                var filePath =
+                    await fileProvider.getAssetByName(blessing.fileName);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PdfViewPage(path: filePath.path);
+                }));
+              },
+              child: Image.asset(blessing.imagePath),
+            ),
           ),
-          !pdfReady
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Offstage()
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            blessing.name,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
