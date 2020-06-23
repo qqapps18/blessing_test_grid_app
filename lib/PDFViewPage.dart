@@ -11,7 +11,7 @@ class _PdfViewPageState extends State<PdfViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Document"),
+        title: Text(widget.appBarName),
       ),
       body: Stack(
         children: <Widget>[
@@ -27,11 +27,9 @@ class _PdfViewPageState extends State<PdfViewPage> {
             },
             onRender: (_pages) {
               setState(() {
-                print('Esta es la pagina ' + _pages.toString());
                 _totalPages = _pages;
                 _currentPage = _pages;
                 _pdfViewController.setPage(_pages);
-                print('esta en la pagina a abrir  ' + _pages.toString());
                 pdfReady = true;
               });
             },
@@ -45,8 +43,8 @@ class _PdfViewPageState extends State<PdfViewPage> {
           ),
           !pdfReady
               ? Center(
-            child: CircularProgressIndicator(),
-          )
+                  child: CircularProgressIndicator(),
+                )
               : Offstage()
         ],
       ),
@@ -57,8 +55,9 @@ class _PdfViewPageState extends State<PdfViewPage> {
 // Se pone el PDF en pantalla
 class PdfViewPage extends StatefulWidget {
   final String path;
+  final String appBarName;
 
-  const PdfViewPage({Key key, this.path}) : super(key: key);
+  const PdfViewPage({Key key, this.path, this.appBarName}) : super(key: key);
 
   @override
   _PdfViewPageState createState() => _PdfViewPageState();
