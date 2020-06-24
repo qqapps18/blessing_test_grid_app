@@ -49,6 +49,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       ),
     );
   }
+
 // ************************************************************************
 
   @override
@@ -118,25 +119,20 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 //*******************************************************************
 // este es el SliverGrid, equivalente al GridView pero soporta la animacion
 // que quiero tenga la aplicacion
-              SliverGrid(
+              SliverGrid.count(
+                crossAxisCount: 4,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                children: List.generate(blessingsPDFs.length, (index) {
+                  return cardView(context, index);
+                }
+
 //aqui defino el formato del SliverGrid, cuantas columnas y el espacion entre las casillas
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                ),
+
 // aqui deberia mandar cargar las celdas con el CardView, pero no lo he logrado todavia
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return Container(
-                    child: GridView(
-                        children: List.generate(blessingsPDFs.length, (index) {
-                      return cardView(context, index);
-                    })),
-                  );
-                }),
+
+                    ),
               ),
-            ],
 
 // segmento original que funciona bien, reservado como plan "B" *********
 //          child: GridView.count(
@@ -150,6 +146,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 //                return cardView(context, index);
 //              })),
 //***********************************************************************
+            ],
           ),
         ),
       ),
