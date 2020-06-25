@@ -27,36 +27,57 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   // se agrego nombre para el AppBar de la lectura del PDF
   var blessingsPDFs = [
     Blessing("Children", "rev_blessing_of_the_childrensp.pdf",
-        'assets/imgblessingofchildren.jpg', 'Blessing of Children'),
+        'assets/imgblessingofchildren.jpg', 'Family'),
+    Blessing("Home", "rev_blessing_affix_mesusahen.pdf",
+        'assets/img_affixing_a_mezuzahen.png', 'Family'),
+    Blessing("Travel", "rev_the_travelers_prayeren_sp.pdf",
+        'assets/img_the_travelers_prayeren.png', 'Family'),
+  ];
+
+  var blessingsFood = [
+    Blessing("Before Eating", "rev_blessing_over_hand_washingen.pdf",
+        'img_blessingwhenwashinghands.png', 'Food'),
+    Blessing("Wine", "rev_blessing_over_wineen.pdf",
+        'img_blessing_the_wineen.png', 'Food'),
+    Blessing("Bread", "revblessingoverbreaden.pdf",
+        'img_blessingwheneatingbreaden.png', 'Food'),
+    Blessing("Grains", "rev_blessing_over_grainsen.pdf",
+        'img_blessingwheneatinggrainsen.png', 'Food'),
+    Blessing("Vegetables", "rev_blessing_over_vegetablesen.pdf",
+        'img_blessingwheneatingvegetablesen.png', 'Food'),
+    Blessing("Fruits", "rev_blessing_over_fruiten.pdf",
+        'img_blessingwheneatingfruitsen.png', 'Food'),
+    Blessing("All Other Food", "rev_blessing_on_all_other_foodsen.pdf",
+        'img_blessingwheneatingcakeandcandiesen.png', 'Food'),
+    Blessing("Birkat Hamazon", "rev_birkat_hamazonen.pdf",
+        'assets/imgblessingaftereaten.jpg', 'Food'),
+    Blessing(
+        "Challa", "rev_makingchallahen.pdf", 'fondo_bendiciones.png', 'Food'),
+  ];
+
+  var blessingsHome = [
+    Blessing("Children", "rev_blessing_of_the_childrensp.pdf",
+        'assets/imgblessingofchildren.jpg', 'Home'),
+    Blessing("Mezuza", "rev_blessing_affix_mesusahen.pdf",
+        'assets/img_the_travelers_prayeren.png', 'Home'),
+    Blessing("Children", "rev_blessing_of_the_childrensp.pdf",
+        'assets/imgblessingofchildren.jpg', 'Home'),
     Blessing("Mezuza", "rev_blessing_affix_mesusahen.pdf",
         'assets/img_the_travelers_prayeren.png', 'Home'),
     Blessing("Viajes", "rev_the_travelers_prayeren_sp.pdf",
-        'assets/img_the_travelers_prayeren.png', 'Viajes'),
+        'assets/img_the_travelers_prayeren.png', 'Home'),
+    Blessing("Children", "rev_blessing_of_the_childrensp.pdf",
+        'assets/imgblessingofchildren.jpg', 'Home'),
+    Blessing("Mezuza", "rev_blessing_affix_mesusahen.pdf",
+        'assets/img_the_travelers_prayeren.png', 'Home'),
   ];
-
-// widget para probar el sliverList ****************************************
-  Widget _listaDeBendiciones(String type, String pathBlessingPDF,
-      String imageBlessing, String blessingTitle, Color color) {
-    return Container(
-      color: color,
-      child: Column(
-        children: <Widget>[
-          Text(type),
-          Text(pathBlessingPDF),
-          Text(imageBlessing),
-          Text(blessingTitle),
-        ],
-      ),
-    );
-  }
-
-// ************************************************************************
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Builder(
       builder: (context) => Scaffold(
+        backgroundColor: Colors.amber,
         body: SafeArea(
           child: CustomScrollView(
             slivers: <Widget>[
@@ -79,61 +100,60 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                   fit: BoxFit.fitHeight,
                 )),
               ),
-//   este es el encabezado de cada seccion **************************
-              BlessingSectionHeader(Colors.purple[200], 'Family'),
-//*******************************************************************
-// esta lista es de prueba, se debera eliminar mas adelante  y remplazar por el Slivergrid
-              SliverFixedExtentList(
-                itemExtent: 150,
-                delegate: SliverChildListDelegate([
-                  _listaDeBendiciones(
-                      "Children",
-                      "rev_blessing_of_the_childrensp.pdf",
-                      'assets/imgblessingofchildren.jpg',
-                      'Blessing of Children',
-                      Colors.greenAccent),
-                  _listaDeBendiciones(
-                      "Mezuza",
-                      "rev_blessing_affix_mesusahen.pdf",
-                      'assets/img_the_travelers_prayeren.png',
-                      'Home',
-                      Colors.green),
-                ]),
-              ),
-//*******************************************************************
-// encabezado de la segunda seccion y asi se iran creando segun se necesite
-              BlessingSectionHeader(Colors.purple[200], 'Alimentos'),
-//*******************************************************************
-// segunda lista de prueba, para verificar como funcionan los encabezados
-              SliverFixedExtentList(
-                itemExtent: 150,
-                delegate: SliverChildListDelegate([
-                  _listaDeBendiciones(
-                      "Viajes",
-                      "rev_the_travelers_prayeren_sp.pdf",
-                      'assets/img_the_travelers_prayeren.png',
-                      'Viajes',
-                      Colors.greenAccent),
-                ]),
-              ),
-//*******************************************************************
-// este es el SliverGrid, equivalente al GridView pero soporta la animacion
-// que quiero tenga la aplicacion
+
+//   este es el encabezado de la primera seccion  **************************
+              BlessingSectionHeader(Colors.amber[200], 'Family'),
+
+// lista de bendiciones de la primera seccion ******************************
               SliverGrid.count(
-                crossAxisCount: 4,
+                crossAxisCount: 3,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-                children: List.generate(blessingsPDFs.length, (index) {
-                  return cardView(context, index);
-                }
-
-//aqui defino el formato del SliverGrid, cuantas columnas y el espacion entre las casillas
-
-// aqui deberia mandar cargar las celdas con el CardView, pero no lo he logrado todavia
-
-                    ),
+                children: BlessingsFiles(context),
               ),
 
+//   este es el encabezado de la segunda  seccion  **************************
+              BlessingSectionHeader(Colors.amber[200], 'Food'),
+
+// lista de bendiciones de la segunda seccion ******************************
+              SliverGrid.count(
+                crossAxisCount: 3,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                children: BlessingsFood(context),
+              ),
+//   este es el encabezado de la tercera  seccion  **************************
+              BlessingSectionHeader(Colors.amber[200], 'Shabbat'),
+
+// lista de bendiciones de la segunda seccion ******************************
+              SliverGrid.count(
+                crossAxisCount: 3,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                children: BlessingsFiles(context),
+              ),
+//   este es el encabezado de la cuarta  seccion  **************************
+              BlessingSectionHeader(Colors.amber[200], 'Festivities'),
+
+// lista de bendiciones de la quinta seccion ******************************
+              SliverGrid.count(
+                crossAxisCount: 3,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                children: BlessingsFiles(context),
+              ),
+//   este es el encabezado de la quinta  seccion  **************************
+              BlessingSectionHeader(Colors.amber[200], 'Miscellaneous'),
+
+// lista de bendiciones de la sexta seccion ******************************
+              SliverGrid.count(
+                crossAxisCount: 3,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                children: BlessingsFiles(context),
+              ),
+
+//*******************************************************************
 // segmento original que funciona bien, reservado como plan "B" *********
 //          child: GridView.count(
 //              crossAxisCount: 3,
@@ -153,6 +173,19 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     ));
   }
 
+  // TODO la idea es crear un metodo por seccion y carge el grid con sus contenido
+  List<Widget> BlessingsFiles(BuildContext context) {
+    return List.generate(blessingsPDFs.length, (index) {
+      return cardView(context, index);
+    });
+  }
+
+  List<Widget> BlessingsFood(BuildContext context) {
+    return List.generate(blessingsPDFs.length, (index) {
+      return cardView(context, index);
+    });
+  }
+
   // Este metodo crea el 'CardView' en base a la información del objeto
   // 'Blessing' que creamos en la lista. Este objeto se consigue en base
   // al indice que nos pasa el metodo al crear el GridCount.
@@ -160,6 +193,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   Widget cardView(BuildContext context, int index) {
     // Este es el rezo y en el metodode abajo vamos a utilizar la información
     // para customizar el 'CardView'.
+
     var blessing = blessingsPDFs[index];
 
     return Card(
