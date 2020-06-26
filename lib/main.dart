@@ -1,4 +1,8 @@
 import 'package:blessingtestgridapp/BlessingSectionHeader.dart';
+import 'package:blessingtestgridapp/FestivitiesBlessing.dart';
+import 'package:blessingtestgridapp/FoodBlessing.dart';
+import 'package:blessingtestgridapp/MiscellaneousBlessing.dart';
+import 'package:blessingtestgridapp/ShabbatBlesing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Blessing.dart';
@@ -35,41 +39,70 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   ];
 
   var blessingsFood = [
-    Blessing("Before Eating", "rev_blessing_over_hand_washingen.pdf",
-        'img_blessingwhenwashinghands.png', 'Food'),
-    Blessing("Wine", "rev_blessing_over_wineen.pdf",
-        'img_blessing_the_wineen.png', 'Food'),
-    Blessing("Bread", "revblessingoverbreaden.pdf",
-        'img_blessingwheneatingbreaden.png', 'Food'),
-    Blessing("Grains", "rev_blessing_over_grainsen.pdf",
-        'img_blessingwheneatinggrainsen.png', 'Food'),
-    Blessing("Vegetables", "rev_blessing_over_vegetablesen.pdf",
-        'img_blessingwheneatingvegetablesen.png', 'Food'),
-    Blessing("Fruits", "rev_blessing_over_fruiten.pdf",
-        'img_blessingwheneatingfruitsen.png', 'Food'),
-    Blessing("All Other Food", "rev_blessing_on_all_other_foodsen.pdf",
-        'img_blessingwheneatingcakeandcandiesen.png', 'Food'),
-    Blessing("Birkat Hamazon", "rev_birkat_hamazonen.pdf",
+    FoodBlessing("Before Eating", "rev_blessing_over_hand_washingen.pdf",
+        'assets/img_blessingwhenwashinghands.png', 'Food'),
+    FoodBlessing("Wine", "rev_blessing_over_wineen.pdf",
+        'assets/img_blessing_the_wineen.png', 'Food'),
+    FoodBlessing("Bread", "revblessingoverbreaden.pdf",
+        'assets/img_blessingwheneatingbreaden.png', 'Food'),
+    FoodBlessing("Grains", "rev_blessing_over_grainsen.pdf",
+        'assets/img_blessingwheneatinggrainsen.png', 'Food'),
+    FoodBlessing("Vegetables", "rev_blessing_over_vegetablesen.pdf",
+        'assets/img_blessingwheneatingvegetablesen.png', 'Food'),
+    FoodBlessing("Fruits", "rev_blessing_over_fruiten.pdf",
+        'assets/img_blessingwheneatingfruitsen.png', 'Food'),
+    FoodBlessing("All Other Food", "rev_blessing_on_all_other_foodsen.pdf",
+        'assets/img_blessingwheneatingcakeandcandiesen.png', 'Food'),
+    FoodBlessing("Birkat Hamazon", "rev_birkat_hamazonen.pdf",
         'assets/imgblessingaftereaten.jpg', 'Food'),
-    Blessing(
-        "Challa", "rev_makingchallahen.pdf", 'fondo_bendiciones.png', 'Food'),
+    FoodBlessing("Challa", "rev_makingchallahen.pdf",
+        'assets/fondo_bendiciones.png', 'Food'),
   ];
 
-  var blessingsHome = [
-    Blessing("Children", "rev_blessing_of_the_childrensp.pdf",
-        'assets/imgblessingofchildren.jpg', 'Home'),
-    Blessing("Mezuza", "rev_blessing_affix_mesusahen.pdf",
-        'assets/img_the_travelers_prayeren.png', 'Home'),
-    Blessing("Children", "rev_blessing_of_the_childrensp.pdf",
-        'assets/imgblessingofchildren.jpg', 'Home'),
-    Blessing("Mezuza", "rev_blessing_affix_mesusahen.pdf",
-        'assets/img_the_travelers_prayeren.png', 'Home'),
-    Blessing("Viajes", "rev_the_travelers_prayeren_sp.pdf",
-        'assets/img_the_travelers_prayeren.png', 'Home'),
-    Blessing("Children", "rev_blessing_of_the_childrensp.pdf",
-        'assets/imgblessingofchildren.jpg', 'Home'),
-    Blessing("Mezuza", "rev_blessing_affix_mesusahen.pdf",
-        'assets/img_the_travelers_prayeren.png', 'Home'),
+  var blessingsShabbat = [
+    ShabbatBlessing(
+        "The Candles",
+        "rev_blessing_over_the_shabbat_candlesen.pdf",
+        'assets/img_blessingofsabbathcandelsen.png',
+        'Shabbat'),
+    ShabbatBlessing("Kidush", "rev_kidush_Shabaten.pdf",
+        'assets/img_kidush_shabbaten.png', 'Shabbat'),
+    ShabbatBlessing(
+        "Havdala", "rev_havdalahen.pdf", 'assets/imghavdalahen.jpg', 'Shabbat'),
+  ];
+
+  var blessingsFestivites = [
+    FestivitiesBlessing("Hanukka", "rev_blessings_over_hanukkah_candlesen.pdf",
+        'assets/img_blessing_over_hanukkah_candlesen.png', 'Festivities'),
+    FestivitiesBlessing("Yom Tov", "rev_blessing_over_yom_tov_candlesen.pdf",
+        'assets/img_blessing_over_yom_tov_candlesen.png', 'Festivities'),
+    FestivitiesBlessing("Sukkot", "rev_sukkot_blessingsen.pdf",
+        'assets/img_blessings_over_sukkoten.png', 'Festivities'),
+    FestivitiesBlessing("Yom Tov", "rev_kiddush_shalosh_regalimen.pdf",
+        'assets/img_kidush_shalosh_regalimen.png', 'Festivities'),
+    FestivitiesBlessing("Rosh Hashanah", "rev_kiddush_Rosh_hashanahen.pdf",
+        'assets/fondo_bendiciones.png', 'Festivities'),
+    FestivitiesBlessing(
+        "Yom Kipur",
+        "rev_blessing_over_yom_kippur_candlesen.pdf",
+        'assets/fondo_bendiciones.png',
+        'Festivities'),
+  ];
+
+  var blessingsMiscellaneous = [
+    MiscellaneousBlessing("Nature", "rev_blessings_when_hear_thunderen.pdf",
+        'assets/img_when_hear_thunderen.png', 'Miscellaneous'),
+    MiscellaneousBlessing("Nature", "rev_blessings_when_see_lightningen.pdf",
+        'assets/img_when_see_lightningen.png', 'Miscellaneous'),
+    MiscellaneousBlessing("Nature", "rev_blessings_when_see_rainbowen.pdf",
+        'assets/img_when_see_a_rainbowen.png', 'Miscellaneous'),
+    MiscellaneousBlessing(
+        "Personnel",
+        "rev_blessings_when_hear_good_newsen.pdf",
+        'assets/fondo_bendiciones.png',
+        'Miscellaneous'),
+    MiscellaneousBlessing("Personnel", "rev_blessings_when_hear_bad_newsen.pdf",
+        'assets/fondo_bendiciones.png', 'Miscellaneous'),
   ];
 
   @override
@@ -130,7 +163,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                 crossAxisCount: 3,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-                children: BlessingsFiles(context),
+                children: BlessingsShabbat(context),
               ),
 //   este es el encabezado de la cuarta  seccion  **************************
               BlessingSectionHeader(Colors.amber[200], 'Festivities'),
@@ -140,7 +173,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                 crossAxisCount: 3,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-                children: BlessingsFiles(context),
+                children: BlessingsFestivities(context),
               ),
 //   este es el encabezado de la quinta  seccion  **************************
               BlessingSectionHeader(Colors.amber[200], 'Miscellaneous'),
@@ -150,7 +183,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                 crossAxisCount: 3,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-                children: BlessingsFiles(context),
+                children: BlessingsMiscellaneous(context),
               ),
 
 //*******************************************************************
@@ -173,7 +206,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     ));
   }
 
-  // TODO la idea es crear un metodo por seccion y carge el grid con sus contenido
+// TODO la idea es crear un metodo por seccion y carge el grid con sus contenido
   List<Widget> BlessingsFiles(BuildContext context) {
     return List.generate(blessingsPDFs.length, (index) {
       return cardView(context, index);
@@ -181,8 +214,26 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
   List<Widget> BlessingsFood(BuildContext context) {
-    return List.generate(blessingsPDFs.length, (index) {
-      return cardView(context, index);
+    return List.generate(blessingsFood.length, (index) {
+      return cardViewF(context, index);
+    });
+  }
+
+  List<Widget> BlessingsShabbat(BuildContext context) {
+    return List.generate(blessingsShabbat.length, (index) {
+      return cardViewS(context, index);
+    });
+  }
+
+  List<Widget> BlessingsFestivities(BuildContext context) {
+    return List.generate(blessingsFestivites.length, (index) {
+      return cardViewFes(context, index);
+    });
+  }
+
+  List<Widget> BlessingsMiscellaneous(BuildContext context) {
+    return List.generate(blessingsMiscellaneous.length, (index) {
+      return cardViewMis(context, index);
     });
   }
 
@@ -221,6 +272,158 @@ class _BlessingGridViewState extends State<BlessingGridView> {
           ),
           Text(
             blessing.name,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget cardViewF(BuildContext context, int index) {
+    // Este es el rezo y en el metodode abajo vamos a utilizar la información
+    // para customizar el 'CardView'.
+
+    var blessibgF = blessingsFood[index];
+
+    return Card(
+      color: Colors.amberAccent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            child: InkWell(
+              onTap: () async {
+                var filePath =
+                    await fileProvider.getAssetByName(blessibgF.fileName);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PdfViewPage(
+                    path: filePath.path,
+                    appBarName: blessibgF.appBarName,
+                  );
+                }));
+              },
+              child: Image.asset(blessibgF.imagePath),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            blessibgF.name,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget cardViewS(BuildContext context, int index) {
+    // Este es el rezo y en el metodode abajo vamos a utilizar la información
+    // para customizar el 'CardView'.
+
+    var blessibgS = blessingsShabbat[index];
+
+    return Card(
+      color: Colors.amberAccent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            child: InkWell(
+              onTap: () async {
+                var filePath =
+                    await fileProvider.getAssetByName(blessibgS.fileName);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PdfViewPage(
+                    path: filePath.path,
+                    appBarName: blessibgS.appBarName,
+                  );
+                }));
+              },
+              child: Image.asset(blessibgS.imagePath),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            blessibgS.name,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget cardViewFes(BuildContext context, int index) {
+    // Este es el rezo y en el metodode abajo vamos a utilizar la información
+    // para customizar el 'CardView'.
+
+    var blessibgFe = blessingsFestivites[index];
+
+    return Card(
+      color: Colors.amberAccent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            child: InkWell(
+              onTap: () async {
+                var filePath =
+                    await fileProvider.getAssetByName(blessibgFe.fileName);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PdfViewPage(
+                    path: filePath.path,
+                    appBarName: blessibgFe.appBarName,
+                  );
+                }));
+              },
+              child: Image.asset(blessibgFe.imagePath),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            blessibgFe.name,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget cardViewMis(BuildContext context, int index) {
+    // Este es el rezo y en el metodode abajo vamos a utilizar la información
+    // para customizar el 'CardView'.
+
+    var blessibgMis = blessingsMiscellaneous[index];
+
+    return Card(
+      color: Colors.amberAccent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            child: InkWell(
+              onTap: () async {
+                var filePath =
+                    await fileProvider.getAssetByName(blessibgMis.fileName);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PdfViewPage(
+                    path: filePath.path,
+                    appBarName: blessibgMis.appBarName,
+                  );
+                }));
+              },
+              child: Image.asset(blessibgMis.imagePath),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            blessibgMis.name,
             textAlign: TextAlign.center,
           ),
         ],
