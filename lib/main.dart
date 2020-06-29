@@ -6,7 +6,6 @@ import 'package:blessingtestgridapp/ShabbatBlesing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Blessing.dart';
-import 'PDFViewPage.dart';
 import 'FileProvider.dart';
 import 'BlessingSectionHeader.dart';
 
@@ -185,20 +184,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                 crossAxisSpacing: 8,
                 children: BlessingsMiscellaneous(context),
               ),
-
-//*******************************************************************
-// segmento original que funciona bien, reservado como plan "B" *********
-//          child: GridView.count(
-//              crossAxisCount: 3,
-//              // Este metodo genera una lista del numero de elementos en
-//              // 'blessingPDFs' y nos da el indice que es el que luego
-//              // necesitamos para poder obtener la información del rezo.
-//              children: List.generate(blessingsPDFs.length, (index) {
-//                // Abstraemos la creación de la vista a otro metodo
-//                // para que quede mas limpio el código.
-//                return cardView(context, index);
-//              })),
-//***********************************************************************
             ],
           ),
         ),
@@ -247,36 +232,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     var blessing = blessingsPDFs[index];
 
-    return Card(
-      color: Colors.amberAccent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            child: InkWell(
-              onTap: () async {
-                var filePath =
-                    await fileProvider.getAssetByName(blessing.fileName);
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PdfViewPage(
-                    path: filePath.path,
-                    appBarName: blessing.appBarName,
-                  );
-                }));
-              },
-              child: Image.asset(blessing.imagePath),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            blessing.name,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
+    return CardLoad(fileProvider: fileProvider, blessing: blessing);
   }
 
   Widget cardViewF(BuildContext context, int index) {
@@ -285,36 +241,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     var blessibgF = blessingsFood[index];
 
-    return Card(
-      color: Colors.amberAccent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            child: InkWell(
-              onTap: () async {
-                var filePath =
-                    await fileProvider.getAssetByName(blessibgF.fileName);
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PdfViewPage(
-                    path: filePath.path,
-                    appBarName: blessibgF.appBarName,
-                  );
-                }));
-              },
-              child: Image.asset(blessibgF.imagePath),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            blessibgF.name,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
+    return CardLoadF(fileProvider: fileProvider, blessibgF: blessibgF);
   }
 
   Widget cardViewS(BuildContext context, int index) {
@@ -323,36 +250,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     var blessibgS = blessingsShabbat[index];
 
-    return Card(
-      color: Colors.amberAccent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            child: InkWell(
-              onTap: () async {
-                var filePath =
-                    await fileProvider.getAssetByName(blessibgS.fileName);
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PdfViewPage(
-                    path: filePath.path,
-                    appBarName: blessibgS.appBarName,
-                  );
-                }));
-              },
-              child: Image.asset(blessibgS.imagePath),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            blessibgS.name,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
+    return CardLoadS(fileProvider: fileProvider, blessibgS: blessibgS);
   }
 
   Widget cardViewFes(BuildContext context, int index) {
@@ -361,36 +259,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     var blessibgFe = blessingsFestivites[index];
 
-    return Card(
-      color: Colors.amberAccent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            child: InkWell(
-              onTap: () async {
-                var filePath =
-                    await fileProvider.getAssetByName(blessibgFe.fileName);
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PdfViewPage(
-                    path: filePath.path,
-                    appBarName: blessibgFe.appBarName,
-                  );
-                }));
-              },
-              child: Image.asset(blessibgFe.imagePath),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            blessibgFe.name,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
+    return CardLoadFes(fileProvider: fileProvider, blessibgFe: blessibgFe);
   }
 
   Widget cardViewMis(BuildContext context, int index) {
@@ -399,35 +268,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     var blessibgMis = blessingsMiscellaneous[index];
 
-    return Card(
-      color: Colors.amberAccent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            child: InkWell(
-              onTap: () async {
-                var filePath =
-                    await fileProvider.getAssetByName(blessibgMis.fileName);
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PdfViewPage(
-                    path: filePath.path,
-                    appBarName: blessibgMis.appBarName,
-                  );
-                }));
-              },
-              child: Image.asset(blessibgMis.imagePath),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            blessibgMis.name,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
+    return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
   }
 }
