@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // esta clase va a poner los titulos de las secciones
@@ -27,7 +28,19 @@ class DelegateHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: backgroundColor,
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.indigo),
+          color: Colors.amberAccent,
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Colors.blue,
+              Colors.amberAccent,
+              Colors.amberAccent,
+              Colors.blueAccent
+            ],
+          )),
       child: Center(
         child: Text(
           headerTitle,

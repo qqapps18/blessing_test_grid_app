@@ -3,11 +3,14 @@ import 'package:blessingtestgridapp/FestivitiesBlessing.dart';
 import 'package:blessingtestgridapp/FoodBlessing.dart';
 import 'package:blessingtestgridapp/MiscellaneousBlessing.dart';
 import 'package:blessingtestgridapp/ShabbatBlesing.dart';
+import 'package:blessingtestgridapp/localization/App_Localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Blessing.dart';
 import 'FileProvider.dart';
 import 'BlessingSectionHeader.dart';
+import 'localization/localization_constants.dart';
 
 void main() {
   runApp(BlessingGridView());
@@ -19,6 +22,7 @@ class BlessingGridView extends StatefulWidget {
 }
 
 class _BlessingGridViewState extends State<BlessingGridView> {
+ 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
 
@@ -107,88 +111,110 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('es', 'ES'),
+        ],
+        localizationsDelegates: [
+          AppLocalization.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        localeResolutionCallback: (deviceLocale, supportedLocales) {
+          if ('es' == deviceLocale.languageCode) {
+            return deviceLocale;
+          }
+
+          return supportedLocales.first;
+        },
         home: Builder(
-      builder: (context) => Scaffold(
-        backgroundColor: Colors.amber,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                title: Text(
-                  'Book Of Blassings',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
+          builder: (context) => Scaffold(
+            backgroundColor: Colors.amber,
+            body: SafeArea(
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverAppBar(
+                    title: Text(
+                      getTranslated(context, 'Book_Of_ Blessings'),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    centerTitle: true,
+                    pinned: true,
+                    backgroundColor: Colors.amber,
+                    expandedHeight: 200,
+                    flexibleSpace: FlexibleSpaceBar(
+                        background: Image.asset(
+                      'assets/headerblassingbookappbar.png',
+                      fit: BoxFit.fitHeight,
+                    )),
                   ),
-                ),
-                centerTitle: true,
-                pinned: true,
-                backgroundColor: Colors.amber,
-                expandedHeight: 200,
-                flexibleSpace: FlexibleSpaceBar(
-                    background: Image.asset(
-                  'assets/headerblassingbookappbar.png',
-                  fit: BoxFit.fitHeight,
-                )),
-              ),
 
 //   este es el encabezado de la primera seccion  **************************
-              BlessingSectionHeader(Colors.amber[200], 'Family'),
+                  BlessingSectionHeader(
+                      Colors.amber[200], getTranslated(context, 'Family')),
 
 // lista de bendiciones de la primera seccion ******************************
-              SliverGrid.count(
-                crossAxisCount: 3,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                children: BlessingsFiles(context),
-              ),
+                  SliverGrid.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    children: BlessingsFiles(context),
+                  ),
 
 //   este es el encabezado de la segunda  seccion  **************************
-              BlessingSectionHeader(Colors.amber[200], 'Food'),
+                  BlessingSectionHeader(
+                      Colors.amber[200], getTranslated(context, 'Food')),
 
 // lista de bendiciones de la segunda seccion ******************************
-              SliverGrid.count(
-                crossAxisCount: 3,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                children: BlessingsFood(context),
-              ),
+                  SliverGrid.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    children: BlessingsFood(context),
+                  ),
 //   este es el encabezado de la tercera  seccion  **************************
-              BlessingSectionHeader(Colors.amber[200], 'Shabbat'),
+                  BlessingSectionHeader(
+                      Colors.amber[200], getTranslated(context, 'Sabbath')),
 
 // lista de bendiciones de la segunda seccion ******************************
-              SliverGrid.count(
-                crossAxisCount: 3,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                children: BlessingsShabbat(context),
-              ),
+                  SliverGrid.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    children: BlessingsShabbat(context),
+                  ),
 //   este es el encabezado de la cuarta  seccion  **************************
-              BlessingSectionHeader(Colors.amber[200], 'Festivities'),
+                  BlessingSectionHeader(
+                      Colors.amber[200], getTranslated(context, 'Festivities')),
 
 // lista de bendiciones de la quinta seccion ******************************
-              SliverGrid.count(
-                crossAxisCount: 3,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                children: BlessingsFestivities(context),
-              ),
+                  SliverGrid.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    children: BlessingsFestivities(context),
+                  ),
 //   este es el encabezado de la quinta  seccion  **************************
-              BlessingSectionHeader(Colors.amber[200], 'Miscellaneous'),
+                  BlessingSectionHeader(Colors.amber[200],
+                      getTranslated(context, 'Miscellaneous')),
 
 // lista de bendiciones de la sexta seccion ******************************
-              SliverGrid.count(
-                crossAxisCount: 3,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                children: BlessingsMiscellaneous(context),
+                  SliverGrid.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    children: BlessingsMiscellaneous(context),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 
 // TODO la idea es crear un metodo por seccion y carge el grid con sus contenido

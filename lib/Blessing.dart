@@ -9,6 +9,7 @@ class Blessing {
   String name;
   String fileName;
   String imagePath;
+
 // agrego nombre de para el AppBAr de lectura del PDF
   String appBarName;
 
