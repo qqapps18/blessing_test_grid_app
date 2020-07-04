@@ -1,8 +1,11 @@
 {
-  "Book_Of_ Blessings": "Book Of Blessings",
+  "Book_Of_Blessings": "Book Of Blessings",
   "Family":             "Family",
   "Food":               "Food",
   "Sabbath":            "Sabbath",
   "Festivities":        "Festivities,",
-  "Miscellaneous":      "Miscellaneous"
+  "Miscellaneous":      "Miscellaneous",
+  "Blessing_of_Children": "Blessing of Children",
+  "Affixing_a_Mezuzah": "Affixing a Mezuzah",
+  "Blessings_for_Travelers": "Blessings for Travelers"
 }

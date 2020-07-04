@@ -6,11 +6,14 @@ import 'package:blessingtestgridapp/ShabbatBlesing.dart';
 import 'package:blessingtestgridapp/localization/App_Localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Blessing.dart';
 import 'FileProvider.dart';
 import 'BlessingSectionHeader.dart';
+import 'PDFViewPage.dart';
 import 'localization/localization_constants.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(BlessingGridView());
@@ -22,7 +25,8 @@ class BlessingGridView extends StatefulWidget {
 }
 
 class _BlessingGridViewState extends State<BlessingGridView> {
- 
+  var platform = MethodChannel("blessing/date");
+
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
 
@@ -40,6 +44,18 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     Blessing("Travel", "rev_the_travelers_prayeren_sp.pdf",
         'assets/img_the_travelers_prayeren.png', 'Family'),
   ];
+
+//****************************************************************************
+  var blessingsPDFsTest = [
+    Blessing('Blessing of Children', "rev_blessing_of_the_childrensp.pdf",
+        'assets/fondo_bendiciones.png', 'Children'),
+    Blessing("Affixing a Mezuzah", "rev_blessing_affix_mesusahen.pdf",
+        'assets/fondo_bendiciones.png', 'Home'),
+    Blessing("Blessings for Travelers", "rev_the_travelers_prayeren_sp.pdf",
+        'assets/fondo_bendiciones.png', 'Travel'),
+  ];
+
+  //****************************************************************************
 
   var blessingsFood = [
     FoodBlessing("Before Eating", "rev_blessing_over_hand_washingen.pdf",
@@ -121,6 +137,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
+
         localeResolutionCallback: (deviceLocale, supportedLocales) {
           if ('es' == deviceLocale.languageCode) {
             return deviceLocale;
@@ -128,6 +145,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
           return supportedLocales.first;
         },
+
         home: Builder(
           builder: (context) => Scaffold(
             backgroundColor: Colors.amber,
@@ -136,17 +154,17 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                 slivers: <Widget>[
                   SliverAppBar(
                     title: Text(
-                      getTranslated(context, 'Book_Of_ Blessings'),
+                      getTranslated(context, 'Book_Of_Blessings'),
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 36,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     centerTitle: true,
                     pinned: true,
                     backgroundColor: Colors.amber,
-                    expandedHeight: 200,
+                    expandedHeight: 90,
                     flexibleSpace: FlexibleSpaceBar(
                         background: Image.asset(
                       'assets/headerblassingbookappbar.png',
@@ -163,8 +181,16 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                     crossAxisCount: 3,
                     mainAxisSpacing: 8,
                     crossAxisSpacing: 8,
-                    children: BlessingsFiles(context),
+//                    children: BlessingsFiles(context),
                   ),
+//******************************************************************************
+                  SliverGrid.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    children: BlessingsFilesTest(context),
+                  ),
+//******************************************************************************
 
 //   este es el encabezado de la segunda  seccion  **************************
                   BlessingSectionHeader(
@@ -230,6 +256,15 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     });
   }
 
+//******************************************************************************
+  List<Widget> BlessingsFilesTest(BuildContext context) {
+    return List.generate(blessingsPDFsTest.length, (index) {
+      return cardViewTest(context, index);
+    });
+  }
+
+//******************************************************************************
+
   List<Widget> BlessingsShabbat(BuildContext context) {
     return List.generate(blessingsShabbat.length, (index) {
       return cardViewS(context, index);
@@ -260,6 +295,18 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     return CardLoad(fileProvider: fileProvider, blessing: blessing);
   }
+
+//******************************************************************************
+  Widget cardViewTest(BuildContext context, int index) {
+    // Este es el rezo y en el metodode abajo vamos a utilizar la información
+    // para customizar el 'CardView'.
+
+    var blessing = blessingsPDFsTest[index];
+
+    return CardLoadTest(fileProvider: fileProvider, blessing: blessing);
+  }
+
+//******************************************************************************
 
   Widget cardViewF(BuildContext context, int index) {
     // Este es el rezo y en el metodode abajo vamos a utilizar la información
@@ -295,5 +342,82 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     var blessibgMis = blessingsMiscellaneous[index];
 
     return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
+  }
+}
+
+class CardLoadTest extends StatelessWidget {
+  const CardLoadTest({
+    Key key,
+    @required this.fileProvider,
+    @required this.blessing,
+  }) : super(key: key);
+
+  final FileProvider fileProvider;
+  final Blessing blessing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Card(
+          color: Colors.amberAccent,
+          child: Column(
+//            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/fondo_bendiciones.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Stack(
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () async {
+                        var filePath = await fileProvider
+                            .getAssetByName(blessing.fileName);
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return PdfViewPage(
+                            path: filePath.path,
+                            appBarName: blessing.appBarName,
+                          );
+                        }));
+                      },
+                      child: Container(
+                        height: 95,
+                      ),
+
+//                      child: Image.asset(blessing.imagePath),
+                    ),
+                    Center(
+                      heightFactor: 5,
+                      child: Text(
+                        blessing.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontFamily: 'RobotoSlab'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                blessing.appBarName,
+                textAlign: TextAlign.center,
+                style:
+                    TextStyle(color: Colors.indigo, fontFamily: 'RobotoSlab'),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

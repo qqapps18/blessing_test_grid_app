@@ -1,8 +1,11 @@
 {
-  "Book_Of_ Blessings": "Libro de Bendiciones",
+  "Book_Of_Blessings": "Libro de Bendiciones",
   "Family":             "Familia",
   "Food":               "Comida",
   "Sabbath":            "Shabat",
   "Festivities":        "Festividades,",
-  "Miscellaneous":      "Miscelaneos"
+  "Miscellaneous":      "Miscelaneos",
+  "Blessing_of_Children": "Bendición de los Hijos",
+  "Affixing_a_Mezuzah": "Colocación de una Mezuzá",
+  "Blessings_for_Travelers": "Bendiciones para los Viajeros"
 }
