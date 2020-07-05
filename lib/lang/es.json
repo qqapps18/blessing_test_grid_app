@@ -1,11 +1,17 @@
 {
-  "Book_Of_Blessings": "Libro de Bendiciones",
-  "Family":             "Familia",
-  "Food":               "Comida",
-  "Sabbath":            "Shabat",
-  "Festivities":        "Festividades,",
-  "Miscellaneous":      "Miscelaneos",
-  "Blessing_of_Children": "Bendición de los Hijos",
-  "Affixing_a_Mezuzah": "Colocación de una Mezuzá",
-  "Blessings_for_Travelers": "Bendiciones para los Viajeros"
+  "Book_Of_Blessings":        "Libro de Bendiciones",
+  "Family":                   "Familia",
+  "Food":                     "Comida",
+  "Sabbath":                  "Shabat",
+  "Festivities":              "Festividades,",
+  "Miscellaneous":            "Miscelaneos",
+  "Blessing_of_Children":     "Bendición de los Hijos",
+  "Affixing_a_Mezuzah":       "Colocación de la Mezuzá",
+  "Blessings_for_Travelers":  "Bendiciones para los Viajeros",
+  "B_Children":               "Hijos",
+  "B_Mezuzah":                "Hogar",
+  "B_Travel":                 "Viajes",
+  "B_PDF_Children":           "rev_blessing_of_the_childrensp.pdf",
+  "B_PDF_Mezuzah":           "rev_blessing_affix_mesusahsp.pdf",
+  "B_PDF_Travelers":         "rev_the_travelers_prayeren_sp.pdf"
 }

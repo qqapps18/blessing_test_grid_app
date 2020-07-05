@@ -12,6 +12,7 @@ class _PdfViewPageState extends State<PdfViewPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.appBarName),
+        centerTitle: true,
       ),
       body: Stack(
         children: <Widget>[
