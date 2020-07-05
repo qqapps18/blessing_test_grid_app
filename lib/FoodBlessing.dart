@@ -33,20 +33,12 @@ class CardLoadF extends StatelessWidget {
         Card(
           color: Colors.amberAccent,
           child: Column(
-//            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
                   color: Color.fromARGB(500, 13, 17, 50),
                 ),
-                height: 80,
-
-//                decoration: BoxDecoration(
-//                  image: DecorationImage(
-//                    image: AssetImage('assets/fondo_bendiciones.png'),
-//                    fit: BoxFit.cover,
-//                  ),
-//                ),
+                height: 65,
                 child: Stack(
                   children: <Widget>[
                     InkWell(
@@ -63,24 +55,17 @@ class CardLoadF extends StatelessWidget {
                           );
                         }));
                       },
-                      child: Container(
-//                        decoration: BoxDecoration(
-//                            color: Color.fromARGB(500, 13, 17, 50)),
-//                        height: 100,
-                          ),
-
-//                      child: Image.asset(blessingF.imagePath),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Center(
-                        heightFactor: 5,
+                        heightFactor: 4,
                         child: Text(
                           getTranslated(context, blessingF.name),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 11,
+                              fontSize: 10,
                               fontFamily: 'RobotoSlab'),
                         ),
                       ),
@@ -98,17 +83,17 @@ class CardLoadF extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Color.fromARGB(500, 13, 17, 50),
                 ),
-                height: 20,
+                height: 10,
               ),
               SizedBox(
-                height: 5,
+                height: 6,
               ),
               Text(
                 getTranslated(context, blessingF.appBarName),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.indigo,
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'RobotoSlab'),
               ),

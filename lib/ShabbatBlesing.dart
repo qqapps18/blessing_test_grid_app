@@ -33,20 +33,12 @@ class CardLoadS extends StatelessWidget {
         Card(
           color: Colors.amberAccent,
           child: Column(
-//            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
                   color: Color.fromARGB(500, 13, 17, 50),
                 ),
-                height: 80,
-
-//                decoration: BoxDecoration(
-//                  image: DecorationImage(
-//                    image: AssetImage('assets/fondo_bendiciones.png'),
-//                    fit: BoxFit.cover,
-//                  ),
-//                ),
+                height: 60,
                 child: Stack(
                   children: <Widget>[
                     InkWell(
@@ -63,13 +55,6 @@ class CardLoadS extends StatelessWidget {
                           );
                         }));
                       },
-                      child: Container(
-//                        decoration: BoxDecoration(
-//                            color: Color.fromARGB(500, 13, 17, 50)),
-//                        height: 100,
-                          ),
-
-//                      child: Image.asset(blessingF.imagePath),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -80,7 +65,7 @@ class CardLoadS extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 11,
+                              fontSize: 10,
                               fontFamily: 'RobotoSlab'),
                         ),
                       ),
@@ -98,7 +83,7 @@ class CardLoadS extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Color.fromARGB(500, 13, 17, 50),
                 ),
-                height: 20,
+                height: 15,
               ),
               SizedBox(
                 height: 5,
