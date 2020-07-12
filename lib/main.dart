@@ -299,4 +299,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
   }
+
+  //*********************************************************************
+
+//*********************************************************************
 }
