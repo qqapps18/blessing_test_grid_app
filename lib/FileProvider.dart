@@ -37,13 +37,6 @@ class FileProvider {
 
     try {
       List<dynamic> listResult = await _methodChannel.invokeMethod("Documents");
-      responseList[0] = listResult[0];
-      responseList[1] = listResult[1];
-      responseList[2] = listResult[2];
-      responseList[3] = listResult[3];
-      responseList[4] = listResult[4];
-      _message = responseList[4];
-
       print("Result from android: " + listResult.cast<String>().toString());
     } on Exception catch (e) {
       print("exception " + e.toString());

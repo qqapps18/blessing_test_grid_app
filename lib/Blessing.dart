@@ -35,17 +35,18 @@ class CardLoad extends StatelessWidget {
           color: Colors.amberAccent,
           child: InkWell(
             onTap: () async {
-              print('File Name ' +
-                  getTranslated(context, blessing.fileName));
-              var filePath = await fileProvider.getAssetByName(
-                  getTranslated(context, blessing.fileName));
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) {
-                    return PdfViewPage(
-                      path: filePath.path,
-                      appBarName: getTranslated(context, blessing.name),
-                    );
-                  }));
+              fileProvider.getDocuments();
+//              print('File Name ' +
+//                  getTranslated(context, blessing.fileName));
+//              var filePath = await fileProvider.getAssetByName(
+//                  getTranslated(context, blessing.fileName));
+//              Navigator.push(context,
+//                  MaterialPageRoute(builder: (context) {
+//                    return PdfViewPage(
+//                      path: filePath.path,
+//                      appBarName: getTranslated(context, blessing.name),
+//                    );
+//                  }));
             },
             child: Column(
               children: <Widget>[
