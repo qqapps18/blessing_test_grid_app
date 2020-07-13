@@ -13,6 +13,7 @@ import 'FileProvider.dart';
 import 'BlessingSectionHeader.dart';
 import 'localization/localization_constants.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(BlessingGridView());
@@ -28,6 +29,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
+  String _deviceLocale;
+  DateTime _dateTime = new DateTime.now();
+  String _date = DateFormat.yMMMd().format(DateTime.now());
 
   // Inicializamos un arreglo con todos los blessings que queremos mostrar.
   // Idealmente, este arreglo se cambiaria por otra clase que nos provea la
@@ -139,9 +143,18 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                 slivers: <Widget>[
                   SliverAppBar(
                     title: Text(
-                      getTranslated(context, 'Book_Of_Blessings'),
+                      '      ' +
+                          getTranslated(context, 'Book_Of_Blessings') +
+                          '                    ' +
+                          DateFormat.yMMMd(_deviceLocale)
+                              .format(DateTime.now()) +
+                          '                ' +
+                          DateFormat.yMMMd(_deviceLocale)
+                              .format(DateTime.now()),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.indigo,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -149,10 +162,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                     centerTitle: true,
                     pinned: true,
                     backgroundColor: Colors.amber,
-                    expandedHeight: 75,
+                    expandedHeight: 120,
                     flexibleSpace: FlexibleSpaceBar(
                         background: Image.asset(
-                      'assets/headerblassingbookappbar.png',
+                      'assets/maguendavidyellow.png',
                       fit: BoxFit.fitHeight,
                     )),
                   ),
