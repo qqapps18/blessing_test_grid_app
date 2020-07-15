@@ -2,6 +2,8 @@ package com.example.blessingtestgridapp;
 
 import androidx.annotation.NonNull;
 
+import com.example.blessingtestgridapp.HebrewDate.HebrewDate;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,11 +22,9 @@ public class MainActivity extends FlutterActivity {
         new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "flutter/MethodChannelDemo")
                 .setMethodCallHandler(
                         (call, result) -> {
-                            System.out.println("[ANDRES] In the callback. Method: " + call.method);
                             if (call.method.equals("Documents")) {
-                                System.out.println("[ANDRES] In the if");
-                                List<String> list = Arrays.asList("foo", "bar");
-                                result.success(list);
+                                HebrewDate date = new HebrewDate();
+                                result.success(date.getHebrewDateAsString());
                             } else {
                                 System.out.println("[ANDRES] In the else");
                                 result.notImplemented();

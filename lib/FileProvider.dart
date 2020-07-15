@@ -36,8 +36,8 @@ class FileProvider {
 //    yomview     = complete date
 
     try {
-      List<dynamic> listResult = await _methodChannel.invokeMethod("Documents");
-      print("Result from android: " + listResult.cast<String>().toString());
+      String listResult = await _methodChannel.invokeMethod("Documents");
+      print("Result from android: " + listResult);
     } on Exception catch (e) {
       print("exception " + e.toString());
     }
