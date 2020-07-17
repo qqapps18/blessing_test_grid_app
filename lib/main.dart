@@ -27,6 +27,12 @@ class BlessingGridView extends StatefulWidget {
 class _BlessingGridViewState extends State<BlessingGridView> {
   var platform = MethodChannel("blessing/date");
 
+  @override
+  void initState() {
+    fileProvider.getDocuments();
+    super.initState();
+  }
+
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
   String _deviceLocale;
@@ -142,27 +148,54 @@ class _BlessingGridViewState extends State<BlessingGridView> {
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
-                    title: Text(
-                      '      ' +
-                          getTranslated(context, 'Book_Of_Blessings') +
-                          '                    ' +
-                          DateFormat.yMMMd(_deviceLocale)
-                              .format(DateTime.now()) +
-                          '                ' +
-                          DateFormat.yMMMd(_deviceLocale)
-                              .format(DateTime.now()),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.indigo,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    title: Column(
+                      children: <Widget>[
+                        Text(
+                          getTranslated(
+                            context,
+                            'Book_Of_Blessings',
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          style: TextStyle(
+                            color: Colors.indigo,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              DateFormat.yMMMd(_deviceLocale)
+                                  .format(DateTime.now()),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Colors.indigo,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              fileProvider.yomview,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Colors.indigo,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     centerTitle: true,
                     pinned: true,
                     backgroundColor: Colors.amber,
-                    expandedHeight: 120,
+                    expandedHeight: 130,
                     flexibleSpace: FlexibleSpaceBar(
                         background: Image.asset(
                       'assets/maguendavidyellow.png',
@@ -313,7 +346,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
   }
 
-  //*********************************************************************
+//*********************************************************************
 
 //*********************************************************************
 }

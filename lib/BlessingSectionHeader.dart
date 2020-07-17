@@ -55,7 +55,7 @@ class DelegateHeader extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 55;
+  double get maxExtent => 50;
 
   @override
   double get minExtent => 35;

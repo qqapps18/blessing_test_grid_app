@@ -6,6 +6,8 @@ import 'dart:io';
 /// conseguir las rutas a los PDFs. Para usarla solo basta con instanciar
 /// un objeto de esta clase y llamar al metodo de 'getAssetByname(String)'
 class FileProvider {
+  String yomview;
+
   Future<File> getAssetByName(String sourceName) async {
     var sampleData = await rootBundle.load("assets/$sourceName");
     final path = await _localPath;
@@ -36,8 +38,8 @@ class FileProvider {
 //    yomview     = complete date
 
     try {
-      String listResult = await _methodChannel.invokeMethod("Documents");
-      print("Result from android: " + listResult);
+      yomview = await _methodChannel.invokeMethod("Documents");
+      print("Result from android: " + yomview);
     } on Exception catch (e) {
       print("exception " + e.toString());
     }
