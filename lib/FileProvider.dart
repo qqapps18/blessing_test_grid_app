@@ -6,7 +6,7 @@ import 'dart:io';
 /// conseguir las rutas a los PDFs. Para usarla solo basta con instanciar
 /// un objeto de esta clase y llamar al metodo de 'getAssetByname(String)'
 class FileProvider {
-  String yomview;
+  List<dynamic> yomview;
   String yom;
   String jodesh;
   String Shana;
@@ -29,7 +29,7 @@ class FileProvider {
 
   Future<void> getDocuments() async {
     String _message = 'no message yet ... ';
-    List<String> responseList = List(5);
+    List<dynamic> responseList = List(5);
 
     MethodChannel _methodChannel = MethodChannel('flutter/MethodChannelDemo');
 
@@ -42,9 +42,9 @@ class FileProvider {
 
     try {
       yomview = await _methodChannel.invokeMethod("Documents");
-      print("Result from android: " + yomview);
+      print("[ANDROID] Result from android: " + yomview.cast<String>().toString());
     } on Exception catch (e) {
-      print("exception " + e.toString());
+      print("[ANDROID] exception " + e.toString());
     }
   }
 }

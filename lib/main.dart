@@ -179,7 +179,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                               ),
                             ),
                             Text(
-                              fileProvider.yomview,
+                              fileProvider.yomview.cast<String>().toString(),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               style: TextStyle(
