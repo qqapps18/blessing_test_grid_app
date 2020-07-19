@@ -7,6 +7,9 @@ import 'dart:io';
 /// un objeto de esta clase y llamar al metodo de 'getAssetByname(String)'
 class FileProvider {
   String yomview;
+  String yom;
+  String jodesh;
+  String Shana;
 
   Future<File> getAssetByName(String sourceName) async {
     var sampleData = await rootBundle.load("assets/$sourceName");

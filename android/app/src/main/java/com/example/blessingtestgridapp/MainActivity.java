@@ -13,6 +13,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
+    ArrayList listdates;
 
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
@@ -24,7 +25,11 @@ public class MainActivity extends FlutterActivity {
                         (call, result) -> {
                             if (call.method.equals("Documents")) {
                                 HebrewDate date = new HebrewDate();
-                                result.success(date.getHebrewDateAsString());
+                                String jodesh =HebrewDate.CURRENT_HMONTH;
+                                listdates.add(date.getHebrewDateAsString());
+                                listdates.add(jodesh);
+                                result.success(listdates);
+/*                                result.success(date.getHebrewDateAsString());   */
                             } else {
                                 System.out.println("[ANDRES] In the else");
                                 result.notImplemented();
