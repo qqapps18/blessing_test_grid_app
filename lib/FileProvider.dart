@@ -7,9 +7,12 @@ import 'dart:io';
 /// un objeto de esta clase y llamar al metodo de 'getAssetByname(String)'
 class FileProvider {
   List<dynamic> yomview;
-  String yom;
+  String datehebrew;
+  int yom;
   String jodesh;
-  String Shana;
+  int Shana;
+  bool isleapyear;
+  String leapyear;
 
   Future<File> getAssetByName(String sourceName) async {
     var sampleData = await rootBundle.load("assets/$sourceName");
@@ -28,9 +31,6 @@ class FileProvider {
   // Busqueda de las fechas en android
 
   Future<void> getDocuments() async {
-    String _message = 'no message yet ... ';
-    List<dynamic> responseList = List(5);
-
     MethodChannel _methodChannel = MethodChannel('flutter/MethodChannelDemo');
 
 // those are the items position in the List
@@ -42,7 +42,21 @@ class FileProvider {
 
     try {
       yomview = await _methodChannel.invokeMethod("Documents");
-      print("[ANDROID] Result from android: " + yomview.cast<String>().toString());
+
+      datehebrew = yomview[0];
+      yom = int.parse(yomview[1]);
+      jodesh = yomview[2];
+      Shana = int.parse(yomview[3]);
+      leapyear = yomview[4];
+
+      if (leapyear == "1") {
+        isleapyear = true;
+      } else {
+        isleapyear = false;
+      }
+
+      print("[ANDROID] Result from android: " +
+          yomview.cast<String>().toString());
     } on Exception catch (e) {
       print("[ANDROID] exception " + e.toString());
     }

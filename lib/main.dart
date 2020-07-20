@@ -25,8 +25,6 @@ class BlessingGridView extends StatefulWidget {
 }
 
 class _BlessingGridViewState extends State<BlessingGridView> {
-  var platform = MethodChannel("blessing/date");
-
   @override
   void initState() {
     fileProvider.getDocuments();
@@ -158,7 +156,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           style: TextStyle(
-                            color: Colors.indigo,
+                            color: Color.fromARGB(500, 13, 17, 50),
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
@@ -173,17 +171,17 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               style: TextStyle(
-                                color: Colors.indigo,
+                                color: Color.fromARGB(500, 13, 17, 50),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              fileProvider.yomview.cast<String>().toString(),
+                              fileProvider.datehebrew,
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               style: TextStyle(
-                                color: Colors.indigo,
+                                color: Color.fromARGB(500, 13, 17, 50),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),

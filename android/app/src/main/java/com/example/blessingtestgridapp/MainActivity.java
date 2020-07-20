@@ -11,6 +11,7 @@ import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
 
 public class MainActivity extends FlutterActivity {
+    String leapyear;
     ArrayList<String> listdates = new ArrayList<String>();
 
     @Override
@@ -22,9 +23,23 @@ public class MainActivity extends FlutterActivity {
                 .setMethodCallHandler(
                         (call, result) -> {
                             if (call.method.equals("Documents")) {
-                                listdates.add("Some Value");
+                                HebrewDate date = new HebrewDate();
+                                listdates.add(date.getHebrewDateAsString());
+                                listdates.add(Integer.toString(HebrewDate.CURRENT_HDAY));
+                                listdates.add(HebrewDate.CURRENT_HMONTH);
+                                listdates.add(Integer.toString(HebrewDate.CURRENT_HYEAR));
+
+                                if(HebrewDate.IS_LEAP_YEAR == true) {
+                                    leapyear = "1";
+                                    listdates.add(leapyear);
+                                } else {
+                                    leapyear = "0";
+                                    listdates.add(leapyear);
+                                }
+
+                                System.out.println("[ANDRES] In Android  " + listdates);
+
                                 result.success(listdates);
-/*                                result.success(date.getHebrewDateAsString());   */
                             } else {
                                 System.out.println("[ANDRES] In the else");
                                 result.notImplemented();
