@@ -22,10 +22,6 @@ public class MainActivity extends FlutterActivity {
                 .setMethodCallHandler(
                         (call, result) -> {
                             if (call.method.equals("Documents")) {
-//                                HebrewDate date = new HebrewDate();
-//                                String jodesh = HebrewDate.CURRENT_HMONTH;
-//                                listdates.add(date.getHebrewDateAsString());
-//                                listdates.add(jodesh);
                                 listdates.add("Some Value");
                                 result.success(listdates);
 /*                                result.success(date.getHebrewDateAsString());   */
