@@ -25,17 +25,26 @@ class BlessingGridView extends StatefulWidget {
 }
 
 class _BlessingGridViewState extends State<BlessingGridView> {
-  @override
-  void initState() {
-    fileProvider.getDocuments();
-    super.initState();
-  }
+  String intTimeString;
+  int intTime;
+  String headerImage = 'assets/maguendavidyellow.png';
+  String holidayText = '          ';
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
   String _deviceLocale;
   DateTime _dateTime = new DateTime.now();
   String _date = DateFormat.yMMMd().format(DateTime.now());
+
+  @override
+  void initState() {
+    fileProvider.getDocuments();
+    intTimeString = DateFormat.H(_deviceLocale).format(DateTime.now());
+    intTime = int.parse(intTimeString);
+    // se inicia con el chequeo de los feriados
+    checkHoliday();
+    super.initState();
+  }
 
   // Inicializamos un arreglo con todos los blessings que queremos mostrar.
   // Idealmente, este arreglo se cambiaria por otra clase que nos provea la
@@ -134,9 +143,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         ],
         localeResolutionCallback: (deviceLocale, supportedLocales) {
           if ('es' == deviceLocale.languageCode) {
+            checkHoliday();
             return deviceLocale;
           }
-
+          checkHoliday();
           return supportedLocales.first;
         },
         home: Builder(
@@ -177,7 +187,18 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                               ),
                             ),
                             Text(
-                              fileProvider.datehebrew,
+                              holidayText,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Colors.indigo,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+// *************************** aqui funciona bien ***************************
+                              fileProvider.jodesh,
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               style: TextStyle(
@@ -196,7 +217,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                     expandedHeight: 130,
                     flexibleSpace: FlexibleSpaceBar(
                         background: Image.asset(
-                      'assets/maguendavidyellow.png',
+                      headerImage,
                       fit: BoxFit.fitHeight,
                     )),
                   ),
@@ -344,7 +365,46 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
   }
 
-//*********************************************************************
+  void checkHoliday() {
+    print(' estoy en checkholiday **********************');
+    checkRoshHashana();
+  }
 
-//*********************************************************************
+//*************************************************************
+  void checkRoshHashana() {
+    String hmonth = fileProvider.jodesh;
+    print(' estoy en checkRoshHashana **********************');
+    print('hora  ' + intTime.toString() + '-----');
+    // aqui chequeo la fecha para ver si es año nuevo ***************
+    // el error en el if es que esta evaluado a fileProvider.jodesh tiene valor null
+    if (fileProvider.jodesh == "Elul") {
+      if (fileProvider.yom == 29 && intTime > 17) {
+        print('mes $fileProvider.jodesh    hora $intTime *******************');
+        headerImage = 'assets/roshhashana.png';
+        holidayText = 'SHANA TOVA';
+      }
+    }
+
+//************************************************************
+
+//    if (jodesh == "Elul") {
+//      if (yom == 29 && intTime > 17) {
+//        imageHoliday.setImageResource(R.drawable.roshhashana);
+//        yomholiday.setText(getString(R.string.roshhashana));
+//        todayIsHoliday();
+//      } else if (isHoliday == 0) {
+//        todayIsNotHoliday();
+//      }
+//    }
+//
+//    if (jodesh == "Tishrei") {
+//      if (yom == 1 || (yom == 2 && intTime < 19)) {
+//        imageHoliday.setImageResource(R.drawable.roshhashana);
+//        yomholiday.setText(getString(R.string.roshhashana));
+//        todayIsHoliday();
+//      } else if (isHoliday == 0) {
+//        todayIsNotHoliday();
+//      }
+//    }
+  }
 }
