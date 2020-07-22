@@ -29,9 +29,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   int intTime;
   String headerImage = 'assets/maguendavidyellow.png';
   String holidayText = '          ';
-  int yom;
-  int shana;
-  bool isLeapYear;
+//  int yom;
+//  int shana;
+//  bool isLeapYear;
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
@@ -42,15 +42,14 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   @override
   void initState() {
-    fileProvider.getDocuments();
+    fileProvider.getDocuments(callback: checkHoliday);
     intTimeString = DateFormat.H(_deviceLocale).format(DateTime.now());
     intTime = int.parse(intTimeString);
-    hmonth = fileProvider.jodesh;
-    yom = fileProvider.yom;
-    shana = fileProvider.shana;
-    isLeapYear = fileProvider.isleapyear;
+//    hmonth = fileProvider.jodesh;
+//    yom = fileProvider.yom;
+//    shana = fileProvider.shana;
+//    isLeapYear = fileProvider.isleapyear;
     // se inicia con el chequeo de los feriados
-    checkHoliday();
     super.initState();
   }
 
@@ -386,17 +385,17 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 //*************************************************************
   void checkRoshHashana() {
-    print(' estoy en checkRoshHashana **********************');
-    print('mes $hmonth  *******************');
-    print('hora  ' + intTime.toString() + '-----');
-    print('dia' + yom.toString() + '--------------');
-    print('año' + shana.toString() + '--------------');
-    print('leapyear ' + isLeapYear.toString() + '--------------');
+    print('[DEBUG] estoy en checkRoshHashana **********************');
+    print('[DEBUG] mes ' + fileProvider.jodesh + ' *******************');
+    print('[DEBUG] hora  ' + intTime.toString() + '-----');
+    print('[DEBUG] dia' + fileProvider.yom.toString() + '--------------');
+    print('[DEBUG] año' + fileProvider.shana.toString() + '--------------');
+    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString() + '--------------');
     // aqui chequeo la fecha para ver si es año nuevo ***************
     // el error en el if es que esta evaluado a fileProvider.jodesh tiene valor null
     if (hmonth == "Elul") {
       if (fileProvider.yom == 29 && intTime > 17) {
-        print('mes $hmonth    hora $intTime *******************');
+        print('mes ' + fileProvider.jodesh + ' hora ' + intTime.toString() + ' *******************');
         headerImage = 'assets/roshhashana.png';
         holidayText = 'SHANA TOVA';
       }
