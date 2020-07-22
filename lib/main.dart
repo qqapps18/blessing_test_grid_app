@@ -28,28 +28,32 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   String intTimeString;
   int intTime;
   String headerImage = 'assets/maguendavidyellow.png';
-  String holidayText = '          ';
-//  int yom;
-//  int shana;
-//  bool isLeapYear;
+  String holidayText = 'texto de pruebga';
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
+
+  DateTime date = DateTime.now();
+
   String _deviceLocale;
   DateTime _dateTime = new DateTime.now();
   String _date = DateFormat.yMMMd().format(DateTime.now());
   String hmonth;
+  int hyom;
+  int hshana;
+  bool hisLeapYear;
+  int dayofweek;
 
   @override
   void initState() {
     fileProvider.getDocuments(callback: checkHoliday);
+    dayofweek = date.weekday;
     intTimeString = DateFormat.H(_deviceLocale).format(DateTime.now());
     intTime = int.parse(intTimeString);
-//    hmonth = fileProvider.jodesh;
-//    yom = fileProvider.yom;
-//    shana = fileProvider.shana;
-//    isLeapYear = fileProvider.isleapyear;
-    // se inicia con el chequeo de los feriados
+    hmonth = fileProvider.jodesh;
+    hyom = fileProvider.yom;
+    hshana = fileProvider.shana;
+    hisLeapYear = fileProvider.isleapyear;
     super.initState();
   }
 
@@ -150,10 +154,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         ],
         localeResolutionCallback: (deviceLocale, supportedLocales) {
           if ('es' == deviceLocale.languageCode) {
-            checkHoliday();
             return deviceLocale;
           }
-          checkHoliday();
           return supportedLocales.first;
         },
         home: Builder(
@@ -205,13 +207,23 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                             ),
                             Text(
 // *************************** aqui funciona bien ***************************
-                              fileProvider.jodesh +
-                                  ' ' +
-                                  fileProvider.yom.toString() +
-                                  ' ' +
-                                  fileProvider.shana.toString() +
-                                  ' ' +
-                                  fileProvider.isleapyear.toString(),
+                              fileProvider.datehebrew,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Color.fromARGB(500, 13, 17, 50),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+// *************************** segunda linea de texto ***************************
+                              holidayText,
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               style: TextStyle(
@@ -299,6 +311,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
 // TODO la idea es crear un metodo por seccion y carge el grid con sus contenido
+
   List<Widget> BlessingsFiles(BuildContext context) {
     return List.generate(blessingsPDFs.length, (index) {
       return cardView(context, index);
@@ -381,46 +394,73 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   void checkHoliday() {
     print(' estoy en checkholiday **********************');
     checkRoshHashana();
+    checkTzomGedalia();
   }
 
-//*************************************************************
   void checkRoshHashana() {
     print('[DEBUG] estoy en checkRoshHashana **********************');
-    print('[DEBUG] mes ' + fileProvider.jodesh + ' *******************');
-    print('[DEBUG] hora  ' + intTime.toString() + '-----');
-    print('[DEBUG] dia' + fileProvider.yom.toString() + '--------------');
-    print('[DEBUG] año' + fileProvider.shana.toString() + '--------------');
-    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString() + '--------------');
+    print('[DEBUG] mes ' + fileProvider.jodesh);
+    print('[DEBUG] hora  ' + intTime.toString());
+    print('[DEBUG] dia' + fileProvider.yom.toString());
+    print('[DEBUG] año' + fileProvider.shana.toString());
+    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
+
     // aqui chequeo la fecha para ver si es año nuevo ***************
-    // el error en el if es que esta evaluado a fileProvider.jodesh tiene valor null
-    if (hmonth == "Elul") {
-      if (fileProvider.yom == 29 && intTime > 17) {
-        print('mes ' + fileProvider.jodesh + ' hora ' + intTime.toString() + ' *******************');
+
+    if (fileProvider.jodesh == "Elul") {
+      if (fileProvider.yom == 29 && intTime > 19) {
         headerImage = 'assets/roshhashana.png';
         holidayText = 'SHANA TOVA';
+      } else {
+        todayIsNotHoliday();
       }
     }
 
-//************************************************************
+    if (fileProvider.jodesh == "Tishrei") {
+      if (fileProvider.yom == 1 || (fileProvider.yom == 2 && intTime < 19)) {
+        headerImage = 'assets/roshhashana.png';
+        holidayText = getTranslated(context, 'shana_tova');
+      } else {
+        todayIsNotHoliday();
+      }
+    }
+  }
 
-//    if (jodesh == "Elul") {
-//      if (yom == 29 && intTime > 17) {
-//        imageHoliday.setImageResource(R.drawable.roshhashana);
-//        yomholiday.setText(getString(R.string.roshhashana));
-//        todayIsHoliday();
-//      } else if (isHoliday == 0) {
-//        todayIsNotHoliday();
-//      }
+  void checkTzomGedalia() {
+//    if (fileProvider.jodesh == "Tishrei") {
+//      if (fileProvider.yom == 3 &&
+//          (intTime > 5 && intTime < 19)) if (dayofweek == 7) {}
 //    }
-//
+  }
+
 //    if (jodesh == "Tishrei") {
-//      if (yom == 1 || (yom == 2 && intTime < 19)) {
-//        imageHoliday.setImageResource(R.drawable.roshhashana);
-//        yomholiday.setText(getString(R.string.roshhashana));
-//        todayIsHoliday();
-//      } else if (isHoliday == 0) {
-//        todayIsNotHoliday();
+//      if (yom == 3 && (intTime > 5 && intTime < 19)) {
+//        if (day_of_the_week == 7) {
+//          yomholiday.setText(getString(R.string.tzomshabat1) + "\n" + getString(R.string.gedaliashabat) +"\n" + getString(R.string.tzomshabat2));
+//          todayIsTzom();
+//        } else {
+//          yomholiday.setText(getString(R.string.tzomGedalia));
+//          todayIsTzom();
+//        }
+//      }
+//      if (jodesh == "Tishrei") {
+//        if (yom == 4 && (intTime > 5 && intTime < 19)) {
+//          if (day_of_the_week == 1) {
+//            {
+//              yomholiday.setText(getString(R.string.tzomGedalia));
+//              todayIsTzom();
+//            }
+//          }
+//          if (isHoliday == 0) {
+//            todayIsNotHoliday();
+//          }
+//        }
 //      }
 //    }
+//  }
+
+  void todayIsNotHoliday() {
+    headerImage = 'assets/maguendavidyellow.png';
+    holidayText = '          ';
   }
 }
