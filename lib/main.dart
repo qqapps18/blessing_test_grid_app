@@ -206,7 +206,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                             ),
                             Text(
 // *************************** aqui funciona bien ***************************
-                              fileProvider.jodesh,
+                              fileProvider.jodesh +
+                                  fileProvider.yom.toString() +
+                                  fileProvider.shana.toString() +
+                                  fileProvider.isleapyear.toString(),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               style: TextStyle(
