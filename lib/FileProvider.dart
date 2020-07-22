@@ -10,7 +10,7 @@ class FileProvider {
   String datehebrew;
   int yom;
   String jodesh;
-  int Shana;
+  int shana;
   bool isleapyear;
   String leapyear;
 
@@ -46,7 +46,7 @@ class FileProvider {
       datehebrew = yomview[0];
       yom = int.parse(yomview[1]);
       jodesh = yomview[2];
-      Shana = int.parse(yomview[3]);
+      shana = int.parse(yomview[3]);
       leapyear = yomview[4];
 
       if (leapyear == "1") {

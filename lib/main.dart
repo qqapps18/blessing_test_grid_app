@@ -29,18 +29,26 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   int intTime;
   String headerImage = 'assets/maguendavidyellow.png';
   String holidayText = '          ';
+  int yom;
+  int shana;
+  bool isLeapYear;
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
   String _deviceLocale;
   DateTime _dateTime = new DateTime.now();
   String _date = DateFormat.yMMMd().format(DateTime.now());
+  String hmonth;
 
   @override
   void initState() {
     fileProvider.getDocuments();
     intTimeString = DateFormat.H(_deviceLocale).format(DateTime.now());
     intTime = int.parse(intTimeString);
+    hmonth = fileProvider.jodesh;
+    yom = fileProvider.yom;
+    shana = fileProvider.shana;
+    isLeapYear = fileProvider.isleapyear;
     // se inicia con el chequeo de los feriados
     checkHoliday();
     super.initState();
@@ -372,14 +380,17 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 //*************************************************************
   void checkRoshHashana() {
-    String hmonth = fileProvider.jodesh;
     print(' estoy en checkRoshHashana **********************');
+    print('mes $hmonth  *******************');
     print('hora  ' + intTime.toString() + '-----');
+    print('dia' + yom.toString() + '--------------');
+    print('año' + shana.toString() + '--------------');
+    print('leapyear ' + isLeapYear.toString() + '--------------');
     // aqui chequeo la fecha para ver si es año nuevo ***************
     // el error en el if es que esta evaluado a fileProvider.jodesh tiene valor null
-    if (fileProvider.jodesh == "Elul") {
+    if (hmonth == "Elul") {
       if (fileProvider.yom == 29 && intTime > 17) {
-        print('mes $fileProvider.jodesh    hora $intTime *******************');
+        print('mes $hmonth    hora $intTime *******************');
         headerImage = 'assets/roshhashana.png';
         holidayText = 'SHANA TOVA';
       }
