@@ -15,6 +15,8 @@ import 'localization/localization_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import 'myappbar.dart';
+
 void main() {
   runApp(BlessingGridView());
 }
@@ -165,87 +167,97 @@ class _BlessingGridViewState extends State<BlessingGridView> {
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
-                    title: Column(
-                      children: <Widget>[
-                        Text(
-                          getTranslated(
-                            context,
-                            'Book_Of_Blessings',
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          style: TextStyle(
-                            color: Color.fromARGB(500, 13, 17, 50),
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              DateFormat.yMMMd(_deviceLocale)
-                                  .format(DateTime.now()),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              style: TextStyle(
-                                color: Color.fromARGB(500, 13, 17, 50),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              holidayText,
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              style: TextStyle(
-                                color: Colors.indigo,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-// *************************** aqui funciona bien ***************************
-                              fileProvider.datehebrew,
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              style: TextStyle(
-                                color: Color.fromARGB(500, 13, 17, 50),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-// *************************** segunda linea de texto ***************************
-                              holidayText,
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              style: TextStyle(
-                                color: Color.fromARGB(500, 13, 17, 50),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    centerTitle: true,
+                    title: MyAppBar(),
+                    floating: false,
                     pinned: true,
-                    backgroundColor: Colors.amber,
-                    expandedHeight: 130,
+                    expandedHeight: 165.0,
                     flexibleSpace: FlexibleSpaceBar(
-                        background: Image.asset(
-                      headerImage,
-                      fit: BoxFit.fitHeight,
-                    )),
+                      background:
+                          MyFlexiableAppBar(_date, fileProvider.datehebrew),
+                    ),
                   ),
+//                  SliverAppBar(
+//                    title: Column(
+//                      children: <Widget>[
+//                        Text(
+//                          getTranslated(
+//                            context,
+//                            'Book_Of_Blessings',
+//                          ),
+//                          textAlign: TextAlign.center,
+//                          maxLines: 2,
+//                          style: TextStyle(
+//                            color: Color.fromARGB(500, 13, 17, 50),
+//                            fontSize: 25,
+//                            fontWeight: FontWeight.bold,
+//                          ),
+//                        ),
+//                        SizedBox(height: 10),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                          children: <Widget>[
+//                            Text(
+//                              DateFormat.yMMMd(_deviceLocale)
+//                                  .format(DateTime.now()),
+//                              textAlign: TextAlign.center,
+//                              maxLines: 2,
+//                              style: TextStyle(
+//                                color: Color.fromARGB(500, 13, 17, 50),
+//                                fontSize: 18,
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
+//                            Text(
+//                              holidayText,
+//                              textAlign: TextAlign.center,
+//                              maxLines: 2,
+//                              style: TextStyle(
+//                                color: Colors.indigo,
+//                                fontSize: 20,
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
+//                            Text(
+//// *************************** aqui funciona bien ***************************
+//                              fileProvider.datehebrew,
+//                              textAlign: TextAlign.center,
+//                              maxLines: 2,
+//                              style: TextStyle(
+//                                color: Color.fromARGB(500, 13, 17, 50),
+//                                fontSize: 18,
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.center,
+//                          children: <Widget>[
+//                            Text(
+//// *************************** segunda linea de texto ***************************
+//                              holidayText,
+//                              textAlign: TextAlign.center,
+//                              maxLines: 2,
+//                              style: TextStyle(
+//                                color: Color.fromARGB(500, 13, 17, 50),
+//                                fontSize: 18,
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                      ],
+//                    ),
+//                    centerTitle: true,
+//                    pinned: true,
+//                    backgroundColor: Colors.amber,
+//                    expandedHeight: 130,
+//                    flexibleSpace: FlexibleSpaceBar(
+//                        background: Image.asset(
+//                      headerImage,
+//                      fit: BoxFit.fitHeight,
+//                    )),
+//                  ),
 
 //   este es el encabezado de la primera seccion  **************************
                   BlessingSectionHeader(
@@ -462,5 +474,103 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   void todayIsNotHoliday() {
     headerImage = 'assets/maguendavidyellow.png';
     holidayText = '          ';
+  }
+}
+
+class MyFlexiableAppBar extends StatelessWidget {
+  final double appBarHeight = 60.0;
+
+  final String datehebrew;
+  final String date;
+
+  const MyFlexiableAppBar(this.date, this.datehebrew);
+
+  @override
+  Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+
+    return new Container(
+      padding: new EdgeInsets.only(top: statusBarHeight),
+      height: statusBarHeight + appBarHeight,
+      child: new Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: Text("Holiday Line 1",
+                        style: TextStyle(
+                          color: Color.fromARGB(500, 13, 17, 50),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                  Container(
+                    child: new Text("Holiday Line 2",
+                        style: const TextStyle(
+                          color: Color.fromARGB(500, 13, 17, 50),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                  Container(
+                    child: new Text("Holiday Line 3",
+                        style: const TextStyle(
+                          color: Color.fromARGB(500, 13, 17, 50),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text(date,
+                          style: TextStyle(
+                              color: Color.fromARGB(500, 13, 17, 50),
+                              fontFamily: 'Poppins',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(datehebrew,
+                          style: TextStyle(
+                              color: Color.fromARGB(500, 13, 17, 50),
+                              fontFamily: 'Poppins',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      )),
+      decoration: new BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/maguendavidyellow.png'),
+          fit: BoxFit.scaleDown,
+        ),
+        color: Colors.amber,
+      ),
+    );
   }
 }
