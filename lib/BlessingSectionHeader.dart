@@ -35,10 +35,12 @@ class DelegateHeader extends SliverPersistentHeaderDelegate {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
             colors: [
-              Colors.blue,
-              Colors.amberAccent,
-              Colors.amberAccent,
-              Colors.blueAccent
+              Colors.white,
+              Colors.blue[900],
+              Colors.white,
+              Colors.white,
+              Colors.blue[900],
+              Colors.white,
             ],
           )),
       child: Center(

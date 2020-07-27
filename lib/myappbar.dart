@@ -16,7 +16,7 @@ class MyAppBar extends StatelessWidget {
         children: <Widget>[
           Container(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+              padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
               child: Icon(
                 Icons.menu,
                 color: Colors.red,
@@ -30,8 +30,9 @@ class MyAppBar extends StatelessWidget {
                 getTranslated(context, 'Book_Of_Blessings'),
                 style: TextStyle(
                   color: Color.fromARGB(500, 13, 17, 50),
-                  fontFamily: 'Poppins',
-                  fontSize: 25.0,
+                  fontFamily: 'RobotoSlab',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22.0,
                 ),
               ),
             ),
