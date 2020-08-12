@@ -80,5 +80,15 @@
   "Blessing_When_Hear_Bad_News":          "Blessing When Hear Bad News",
   "B_PDF_Bad_news":                       "rev_blessings_when_hear_bad_newsen.pdf",
   "hemptytxt":                            " ",
-  "shana_tova":                           "SHANA TOVA"
+  "shana_tova":                           "SHANA TOVA",
+  "tzomshabat1":                          "TODAY IS SHABBAT",
+  "tzomshabat2":                          "MOVES FOR TOMORROW",
+  "tzomGedalia":                          "FAST OF GEDALIA",
+  "Yzomshabat1":                          "YESTERDAY WAS SHABBAT",
+  "Yzomshabat2":                          "IS TODAY",
+  "yomkipur":                             "YOM KIPUR",
+  "sukkot":                               "SUKKOT",
+  "hoshanaraba":                          ">HOSHANA RABA",
+  "sheminiatzeret":                       "SHEMINI ATZERET",
+  "sinchattorah":                         "SIMCHAT TORAH"
 }

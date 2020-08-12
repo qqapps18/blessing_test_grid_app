@@ -18,6 +18,12 @@ import java.util.Date;
 
 public class MainActivity extends FlutterActivity {
     String leapyear;
+    Calendar calendar;
+    int tday;
+    int tmonth;
+    int tyear;
+    String hebrewDateYesterdayString;
+    String hebrewDateDaybeforeString;
     ArrayList<String> listdates = new ArrayList<String>();
 
     @Override
@@ -42,32 +48,20 @@ public class MainActivity extends FlutterActivity {
                                     leapyear = "0";
                                     listdates.add(leapyear);
                                 }
-/*
+
                                 calendar= Calendar.getInstance();
                                 tday = calendar.get(Calendar.DAY_OF_MONTH);
                                 tmonth = calendar.get(Calendar.MONTH);
                                 tyear = calendar.get(Calendar.YEAR);
 
-                                DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-*/
-/* ------------------- fecha dia anterior (ayer) ----------------------------- */
-/*                                Date diayurzaityesterday = new Date((tday - 1900), (tmonth - 1), (tday - 1));
-                                hebrewDateYurzaitString = dateFormat.format(diayurzaityesterday);
+                                tmonth = tmonth + 1;
 
-                                HebrewDate hebrewDateYurzaityesterday = new HebrewDate(diayurzaityesterday);
-                                listdates.add(Integer.toString(HebrewDate.CURRENT_HDAY));
-                                listdates.add(HebrewDate.CURRENT_HMONTH);
-                                listdates.add(Integer.toString(HebrewDate.CURRENT_HYEAR));
-*/
-/* ------------------- fecha dia 2 antes(antiayer) ----------------------------- */
-/*                                Date diayurzaitdaybefore = new Date((tday - 1900), (tmonth - 1), (tday - 2));
-                                hebrewDateYurzaitString = dateFormat.format(diayurzaitdaybefore);
+                                /* ------------------- fecha dia anterior (ayer) ----------------------------- */
+                                yesterdaydate();
 
-                                HebrewDate hebrewDateYurzaitdaybafore = new HebrewDate(diayurzaitdaybefore);
-                                listdates.add(Integer.toString(HebrewDate.CURRENT_HDAY));
-                                listdates.add(HebrewDate.CURRENT_HMONTH);
-                                listdates.add(Integer.toString(HebrewDate.CURRENT_HYEAR));
-*/
+                                /* ------------------- fecha dia 2 antes(antiayer) ----------------------------- */
+                                daybeforedate();
+
                                 System.out.println("[ANDRES] In Android  " + listdates);
 
                                 result.success(listdates);
@@ -77,6 +71,33 @@ public class MainActivity extends FlutterActivity {
                             }
                         }
                 );
+    }
+
+    private void yesterdaydate() {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+
+        /* ------------------- fecha dia anterior (ayer) ----------------------------- */
+        Date diayurzaityesterday = new Date((tyear - 1900), (tmonth - 1), (tday - 1));
+        hebrewDateYesterdayString = dateFormat.format(diayurzaityesterday);
+
+        HebrewDate hebrewDateYesterday = new HebrewDate(diayurzaityesterday);
+        listdates.add(Integer.toString(hebrewDateYesterday.getHebrewDate()));
+        listdates.add(HebrewDate.CURRENT_HMONTH);
+        listdates.add(Integer.toString(hebrewDateYesterday.getHebrewYear()));
+    }
+
+
+    private void daybeforedate() {
+        DateFormat dateFormat2 = DateFormat.getDateInstance(DateFormat.MEDIUM);
+
+        /* ------------------- fecha dia 2 antes(antiayer) ----------------------------- */
+        Date diayurzaitdaybefore = new Date((tyear - 1900), (tmonth - 1), (tday - 2));
+        hebrewDateDaybeforeString = dateFormat2.format(diayurzaitdaybefore);
+
+        HebrewDate hebrewDateDaybefore = new HebrewDate(diayurzaitdaybefore);
+        listdates.add(Integer.toString(hebrewDateDaybefore.getHebrewDate()));
+        listdates.add(HebrewDate.CURRENT_HMONTH);
+        listdates.add(Integer.toString(hebrewDateDaybefore.getHebrewYear()));
     }
 
 }

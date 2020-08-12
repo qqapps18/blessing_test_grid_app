@@ -423,8 +423,11 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     print(' estoy en checkholiday **********************');
     checkRoshHashana();
     checkTzomGedalia();
+    checkYomKipur();
+    checksukkot();
   }
 
+// ++++++++++++++++ check for Rosh Hashana **************************
   void checkRoshHashana() {
     print('[DEBUG] estoy en checkRoshHashana **********************');
     print('[DEBUG] mes ' + fileProvider.jodesh);
@@ -432,6 +435,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     print('[DEBUG] dia' + fileProvider.yom.toString());
     print('[DEBUG] año' + fileProvider.shana.toString());
     print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
+    print('[DEBUG] dia de la semana ' + dayofweek.toString());
 
     // aqui chequeo la fecha para ver si es año nuevo ***************
 
@@ -458,55 +462,198 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
   }
 
+//por default para Fluter el primer dia de la semana es el lunes
+// por lo que el sabado es el dia 6
+// ++++++++++++++++ check for Tzom Gedalia **************************
+
+  void checkTzomGedalia() {
+    if (fileProvider.jodesh == "Tishrei") {
+      if (fileProvider.yom == 3 && (intTime > 5 && intTime < 19)) {
+        if (dayofweek == 6) {
+          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzomGedalia',
+              'tzomshabat2');
+        } else {
+          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomGedalia',
+              'hemptytxt ');
+        }
+      }
+    }
+
+    if (fileProvider.jodesh == "Tishrei") {
+      if (fileProvider.yom == 4 && (intTime > 5 && intTime < 19)) {
+        if (dayofweek == 7) {
+          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzomGedalia',
+              'Yzomshabat2 ');
+        } else {
+          todayIsNotHoliday();
+        }
+      }
+    }
+  }
+
+// ++++++++++++++++ check for Yom Kipur **************************
+  void checkYomKipur() {
+    if (fileProvider.jodesh == "Tishrei") {
+      if ((fileProvider.yom == 9 && intTime > 17) ||
+          (fileProvider.yom == 10 && intTime < 19)) {
+        todayIsTzom(
+            'assets/emptyimage.png', 'hemptytxt', 'yomkipur', 'hemptytxt');
+      } else {
+        todayIsNotHoliday();
+      }
+    }
+  }
+
+// ++++++++++++++++ check for Sukkot **************************
+  void checksukkot() {
+    if (fileProvider.jodesh == "Tishrei") {
+      if ((fileProvider.yom == 14 && intTime > 17) ||
+          (fileProvider.yom > 14 && fileProvider.yom < 20) ||
+          (fileProvider.yom == 20 && intTime < 19)) {
+        isHoliday(
+            'assets/sukkot.png', 'hemptytxt', 'sukkot', 'hemptytxt');
+      } else {
+        if ((fileProvider.yom == 20 && intTime > 17) ||
+            (fileProvider.yom == 21 && intTime < 19)) {
+          isHoliday(
+              'assets/sukkot.png', 'hemptytxt', 'hoshanaraba', 'hemptytxt');
+        } else {
+          if ((fileProvider.yom == 21 && intTime > 17) ||
+              (fileProvider.yom == 22 && intTime < 19)) {
+            isHoliday(
+                'assets/sukkot.png', 'hemptytxt', 'sheminiatzeret', 'hemptytxt');
+          } else {
+            if ((fileProvider.yom == 22 && intTime > 17) ||
+                (fileProvider.yom == 23 && intTime < 19)) {
+              isHoliday(
+                  'assets/sukkot.png', 'hemptytxt', 'sinchattorah', 'hemptytxt');
+            } else {
+              todayIsNotHoliday();
+            }
+          }
+        }
+      }
+    }
+  }
+
+//  private void checkJanuca() {
+//    int endmonth = 0;
+//
+//    checkprevday();
+//    checkantprevday();
+//
+//    if (jodesh.equals("Tevet")) {
+//      if (yom == 1 && prevyom == 29) {
+//        endmonth = 1;
+//      } else if (yom == 2 && (antprevyom == 29)) {
+//        endmonth = 1;
+//      } else if (yom == 1 && (prevyom == 30)) {
+//        endmonth = 2;
+//      } else if (yom == 2 && (antprevyom == 30)) {
+//        endmonth = 2;
+//      }
+//    }
+//
+//    if (jodesh.equals("Kislev")) {
+//      if ((yom == 24 && intTime > 17) || (yom == 25 && intTime < 18)) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia1);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if ((yom == 25 && intTime > 17) || (yom == 26 && intTime < 18)) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia2);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      }  else if ((yom == 26 && intTime > 17) || (yom == 27 && intTime < 18)) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia3);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      }  else if ((yom == 27 && intTime > 17) || (yom == 28 && intTime < 18)) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia4);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if ((yom == 28 && intTime > 17) || (yom == 29 && intTime < 18)) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia5);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if ((yom == 29 && intTime > 17) || (yom == 30  && intTime < 18)) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia6);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if (yom == 30  && intTime > 17) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia7);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      }
+//    }
+//
+//    if (jodesh.equals("Tevet")) {
+//      if (yom == 1 && endmonth == 1 && intTime < 18) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia7);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if (yom == 1 && endmonth == 1 && intTime > 17) {
+//        imageHoliday.setImageResource(R.drawable.januquillacompleta);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if (yom == 2 && endmonth == 1 && intTime < 18) {
+//        imageHoliday.setImageResource(R.drawable.januquillacompleta);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if (yom == 1 && endmonth == 2 && intTime < 18) {
+//        imageHoliday.setImageResource(R.drawable.januquilladia7);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if (yom == 1 && endmonth == 2 && intTime > 17) {
+//        imageHoliday.setImageResource(R.drawable.januquillacompleta);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if (yom == 1 && endmonth == 2 && intTime > 18) {
+//        todayIsNotHoliday();
+//      } else if (yom == 2 && endmonth == 2 && intTime < 18) {
+//        imageHoliday.setImageResource(R.drawable.januquillacompleta);
+//        yomholiday.setText(getString(R.string.happyjanuca));
+//        todayIsHoliday();
+//      } else if (yom == 3 || (yom == 2 && intTime > 17)) {
+//        endmonth = 0;
+//        isHoliday = 0;
+//        todayIsNotHoliday();
+//      }
+//    }
+//  }
+
+
+
+
+
+
+
   void isHoliday(String himage, String hline1, hline2, hline3) {
-    print(' estoy rosh hashanah 1 tishrei ' + himage + ' ' + hline2);
+    print(' estoy isHoliday ' + himage + ' ' + hline2);
     headerimage = himage;
 //    holidayline1 = getTranslated(context, hline1);
 //    holidayline2 = getTranslated(context, hline2);
 //    holidayline3 = getTranslated(context, hline3);
-    holidayline1 = ' ';
-    holidayline2 = "SHANA TOVA";
-    holidayline3 = ' ';
+    holidayline1 = hline1;
+    holidayline2 = hline2;
+    holidayline3 = hline3;
   }
-
-  void checkTzomGedalia() {
-//    if (fileProvider.jodesh == "Tishrei") {
-//      if (fileProvider.yom == 3 &&
-//          (intTime > 5 && intTime < 19)) if (dayofweek == 7) {}
-//    }
-  }
-
-//    if (jodesh == "Tishrei") {
-//      if (yom == 3 && (intTime > 5 && intTime < 19)) {
-//        if (day_of_the_week == 7) {
-//          yomholiday.setText(getString(R.string.tzomshabat1) + "\n" + getString(R.string.gedaliashabat) +"\n" + getString(R.string.tzomshabat2));
-//          todayIsTzom();
-//        } else {
-//          yomholiday.setText(getString(R.string.tzomGedalia));
-//          todayIsTzom();
-//        }
-//      }
-//      if (jodesh == "Tishrei") {
-//        if (yom == 4 && (intTime > 5 && intTime < 19)) {
-//          if (day_of_the_week == 1) {
-//            {
-//              yomholiday.setText(getString(R.string.tzomGedalia));
-//              todayIsTzom();
-//            }
-//          }
-//          if (isHoliday == 0) {
-//            todayIsNotHoliday();
-//          }
-//        }
-//      }
-//    }
-//  }
 
   void todayIsNotHoliday() {
     headerImage = 'assets/maguendavidyellow.png';
     holidayline1 = ' ';
     holidayline2 = ' ';
     holidayline3 = ' ';
+  }
+
+  void todayIsTzom(String himage, String hline1, hline2, hline3) {
+    print(' estoy todayIsTzom ' + himage + ' ' + hline2);
+    headerimage = himage;
+//    holidayline1 = getTranslated(context, hline1);
+//    holidayline2 = getTranslated(context, hline2);
+//    holidayline3 = getTranslated(context, hline3);
+    holidayline1 = hline1;
+    holidayline2 = hline2;
+    holidayline3 = hline3;
   }
 }
 
@@ -548,7 +695,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                   Container(
                     child: Text(holidayline1,
                         style: TextStyle(
-                          color: Color.fromARGB(500, 13, 17, 50),
+                          color: Colors.black,
                           fontSize: 20,
                           fontFamily: 'RobotoSlab',
                           fontWeight: FontWeight.bold,
@@ -557,7 +704,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                   Container(
                     child: new Text(holidayline2,
                         style: const TextStyle(
-                          color: Color.fromARGB(500, 13, 17, 50),
+                          color: Colors.black,
                           fontSize: 20,
                           fontFamily: 'RobotoSlab',
                           fontWeight: FontWeight.bold,
@@ -566,7 +713,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                   Container(
                     child: new Text(holidayline3,
                         style: const TextStyle(
-                          color: Color.fromARGB(500, 13, 17, 50),
+                          color: Colors.black,
                           fontSize: 20,
                           fontFamily: 'RobotoSlab',
                           fontWeight: FontWeight.bold,
