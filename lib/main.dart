@@ -49,18 +49,21 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   String holidayline2 = ' ';
   String holidayline3 = ' ';
   String headerimage = 'assets/maguendavidyellow.png';
+  int istzomesther = 0;
 
   @override
   void initState() {
     print('++++++++++++++++++  initstate ++++++++++++++++++++');
     fileProvider.getDocuments(callback: checkHoliday);
     dayofweek = date.weekday;
-    intTimeString = DateFormat.H(_deviceLocale).format(DateTime.now());
+    intTimeString =
+        DateFormat.H(_deviceLocale).format(DateTime.now().toLocal());
     intTime = int.parse(intTimeString);
     hmonth = fileProvider.jodesh;
     hyom = fileProvider.yom;
     hshana = fileProvider.shana;
     hisLeapYear = fileProvider.isleapyear;
+    print(_dateTime);
     print(' estoy de regreso de en initstate ' +
         headerimage +
         'y la linea 2 es ' +
@@ -192,88 +195,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                       ),
                     ),
                   ),
-//                  SliverAppBar(
-//                    title: Column(
-//                      children: <Widget>[
-//                        Text(
-//                          getTranslated(
-//                            context,
-//                            'Book_Of_Blessings',
-//                          ),
-//                          textAlign: TextAlign.center,
-//                          maxLines: 2,
-//                          style: TextStyle(
-//                            color: Color.fromARGB(500, 13, 17, 50),
-//                            fontSize: 25,
-//                            fontWeight: FontWeight.bold,
-//                          ),
-//                        ),
-//                        SizedBox(height: 10),
-//                        Row(
-//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                          children: <Widget>[
-//                            Text(
-//                              DateFormat.yMMMd(_deviceLocale)
-//                                  .format(DateTime.now()),
-//                              textAlign: TextAlign.center,
-//                              maxLines: 2,
-//                              style: TextStyle(
-//                                color: Color.fromARGB(500, 13, 17, 50),
-//                                fontSize: 18,
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
-//                            Text(
-//                              holidayText,
-//                              textAlign: TextAlign.center,
-//                              maxLines: 2,
-//                              style: TextStyle(
-//                                color: Colors.indigo,
-//                                fontSize: 20,
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
-//                            Text(
-//// *************************** aqui funciona bien ***************************
-//                              fileProvider.datehebrew,
-//                              textAlign: TextAlign.center,
-//                              maxLines: 2,
-//                              style: TextStyle(
-//                                color: Color.fromARGB(500, 13, 17, 50),
-//                                fontSize: 18,
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                        Row(
-//                          mainAxisAlignment: MainAxisAlignment.center,
-//                          children: <Widget>[
-//                            Text(
-//// *************************** segunda linea de texto ***************************
-//                              holidayText,
-//                              textAlign: TextAlign.center,
-//                              maxLines: 2,
-//                              style: TextStyle(
-//                                color: Color.fromARGB(500, 13, 17, 50),
-//                                fontSize: 18,
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ],
-//                    ),
-//                    centerTitle: true,
-//                    pinned: true,
-//                    backgroundColor: Colors.amber,
-//                    expandedHeight: 130,
-//                    flexibleSpace: FlexibleSpaceBar(
-//                        background: Image.asset(
-//                      headerImage,
-//                      fit: BoxFit.fitHeight,
-//                    )),
-//                  ),
 
 //   este es el encabezado de la primera seccion  **************************
                   BlessingSectionHeader(
@@ -425,6 +346,15 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     checkTzomGedalia();
     checkYomKipur();
     checksukkot();
+    checkJanuca();
+    check10Tevet();
+    checkTuBishvat();
+    checkPurim();
+    checkPassover();
+    checkOmer();
+    checkShavuot();
+    check17Tamuz();
+    check9Beav();
   }
 
 // ++++++++++++++++ check for Rosh Hashana **************************
@@ -436,6 +366,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     print('[DEBUG] año' + fileProvider.shana.toString());
     print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
     print('[DEBUG] dia de la semana ' + dayofweek.toString());
+    print('[DEBUG ]init time ' + intTime.toString());
 
     // aqui chequeo la fecha para ver si es año nuevo ***************
 
@@ -510,8 +441,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       if ((fileProvider.yom == 14 && intTime > 17) ||
           (fileProvider.yom > 14 && fileProvider.yom < 20) ||
           (fileProvider.yom == 20 && intTime < 19)) {
-        isHoliday(
-            'assets/sukkot.png', 'hemptytxt', 'sukkot', 'hemptytxt');
+        isHoliday('assets/sukkot.png', 'hemptytxt', 'sukkot', 'hemptytxt');
       } else {
         if ((fileProvider.yom == 20 && intTime > 17) ||
             (fileProvider.yom == 21 && intTime < 19)) {
@@ -520,13 +450,13 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         } else {
           if ((fileProvider.yom == 21 && intTime > 17) ||
               (fileProvider.yom == 22 && intTime < 19)) {
-            isHoliday(
-                'assets/sukkot.png', 'hemptytxt', 'sheminiatzeret', 'hemptytxt');
+            isHoliday('assets/sukkot.png', 'hemptytxt', 'sheminiatzeret',
+                'hemptytxt');
           } else {
             if ((fileProvider.yom == 22 && intTime > 17) ||
                 (fileProvider.yom == 23 && intTime < 19)) {
-              isHoliday(
-                  'assets/sukkot.png', 'hemptytxt', 'sinchattorah', 'hemptytxt');
+              isHoliday('assets/sinchattorah.png', 'hemptytxt', 'sinchattorah',
+                  'hemptytxt');
             } else {
               todayIsNotHoliday();
             }
@@ -536,97 +466,481 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
   }
 
-//  private void checkJanuca() {
-//    int endmonth = 0;
-//
-//    checkprevday();
-//    checkantprevday();
-//
-//    if (jodesh.equals("Tevet")) {
-//      if (yom == 1 && prevyom == 29) {
-//        endmonth = 1;
-//      } else if (yom == 2 && (antprevyom == 29)) {
-//        endmonth = 1;
-//      } else if (yom == 1 && (prevyom == 30)) {
-//        endmonth = 2;
-//      } else if (yom == 2 && (antprevyom == 30)) {
-//        endmonth = 2;
-//      }
-//    }
-//
-//    if (jodesh.equals("Kislev")) {
-//      if ((yom == 24 && intTime > 17) || (yom == 25 && intTime < 18)) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia1);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if ((yom == 25 && intTime > 17) || (yom == 26 && intTime < 18)) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia2);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      }  else if ((yom == 26 && intTime > 17) || (yom == 27 && intTime < 18)) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia3);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      }  else if ((yom == 27 && intTime > 17) || (yom == 28 && intTime < 18)) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia4);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if ((yom == 28 && intTime > 17) || (yom == 29 && intTime < 18)) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia5);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if ((yom == 29 && intTime > 17) || (yom == 30  && intTime < 18)) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia6);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if (yom == 30  && intTime > 17) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia7);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      }
-//    }
-//
-//    if (jodesh.equals("Tevet")) {
-//      if (yom == 1 && endmonth == 1 && intTime < 18) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia7);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if (yom == 1 && endmonth == 1 && intTime > 17) {
-//        imageHoliday.setImageResource(R.drawable.januquillacompleta);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if (yom == 2 && endmonth == 1 && intTime < 18) {
-//        imageHoliday.setImageResource(R.drawable.januquillacompleta);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if (yom == 1 && endmonth == 2 && intTime < 18) {
-//        imageHoliday.setImageResource(R.drawable.januquilladia7);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if (yom == 1 && endmonth == 2 && intTime > 17) {
-//        imageHoliday.setImageResource(R.drawable.januquillacompleta);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if (yom == 1 && endmonth == 2 && intTime > 18) {
-//        todayIsNotHoliday();
-//      } else if (yom == 2 && endmonth == 2 && intTime < 18) {
-//        imageHoliday.setImageResource(R.drawable.januquillacompleta);
-//        yomholiday.setText(getString(R.string.happyjanuca));
-//        todayIsHoliday();
-//      } else if (yom == 3 || (yom == 2 && intTime > 17)) {
-//        endmonth = 0;
-//        isHoliday = 0;
-//        todayIsNotHoliday();
-//      }
-//    }
-//  }
+  // ++++++++++++++++ check for Januca **************************
+
+  void checkJanuca() {
+    int endmonth = 0;
+
+    if (fileProvider.jodesh == "Tevet") {
+      if ((fileProvider.yom == 1 && fileProvider.yesterdayyom == 29) ||
+          (fileProvider.yom == 2 && fileProvider.daybeforeyom == 29)) {
+        endmonth = 1;
+      } else {
+        if ((fileProvider.yom == 1 && fileProvider.daybeforeyom == 30) ||
+            (fileProvider.yom == 2 && fileProvider.daybeforeyom == 30)) {
+          endmonth = 2;
+        }
+      }
+    }
+
+    if (fileProvider.jodesh == "Kislev") {
+      if ((fileProvider.yom == 24 && intTime > 17) ||
+          (fileProvider.yom == 25 && intTime < 19)) {
+        isHoliday('assets/januquilladia1.png', 'hemptytxt', 'happyjanuca',
+            'hemptytxt');
+      } else {
+        if ((fileProvider.yom == 24 && intTime > 17) ||
+            (fileProvider.yom == 25 && intTime < 19)) {
+          isHoliday('assets/januquilladia2.png', 'hemptytxt', 'happyjanuca',
+              'hemptytxt');
+        } else {
+          if ((fileProvider.yom == 26 && intTime > 17) ||
+              (fileProvider.yom == 27 && intTime < 19)) {
+            isHoliday('assets/januquilladia3.png', 'hemptytxt', 'happyjanuca',
+                'hemptytxt');
+          } else {
+            if ((fileProvider.yom == 27 && intTime > 17) ||
+                (fileProvider.yom == 28 && intTime < 19)) {
+              isHoliday('assets/januquilladia4.png', 'hemptytxt', 'happyjanuca',
+                  'hemptytxt');
+            } else {
+              if ((fileProvider.yom == 28 && intTime > 17) ||
+                  (fileProvider.yom == 29 && intTime < 19)) {
+                isHoliday('assets/januquilladia5.png', 'hemptytxt',
+                    'happyjanuca', 'hemptytxt');
+              } else {
+                if ((fileProvider.yom == 29 && intTime > 17) ||
+                    (fileProvider.yom == 30 && intTime < 19)) {
+                  isHoliday('assets/januquilladia6.png', 'hemptytxt',
+                      'happyjanuca', 'hemptytxt');
+                } else {
+                  if (fileProvider.yom == 30 && intTime > 17) {
+                    isHoliday('assets/januquilladia7.png', 'hemptytxt',
+                        'happyjanuca', 'hemptytxt');
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (fileProvider.jodesh == "Tevet") {
+      if (fileProvider.yom == 1 && endmonth == 1 && intTime < 17) {
+        isHoliday('assets/januquilladia6.png', 'hemptytxt', 'happyjanuca',
+            'hemptytxt');
+      } else {
+        if ((fileProvider.yom == 1 && endmonth == 1 && intTime > 17) ||
+            (fileProvider.yom == 2 && endmonth == 1 && intTime < 19)) {
+          isHoliday('assets/januquilladia7.png', 'hemptytxt', 'happyjanuca',
+              'hemptytxt');
+        } else {
+          if ((fileProvider.yom == 2 && endmonth == 1 && intTime > 17) ||
+              (fileProvider.yom == 3 && endmonth == 1 && intTime < 19)) {
+            isHoliday('assets/januquillacompleta.png', 'hemptytxt',
+                'happyjanuca', 'hemptytxt');
+          } else {
+            if (fileProvider.yom == 1 && endmonth == 2 && intTime < 18) {
+              isHoliday('assets/januquilladia7.png', 'hemptytxt', 'happyjanuca',
+                  'hemptytxt');
+            } else {
+              if ((fileProvider.yom == 1 && endmonth == 2 && intTime > 17) ||
+                  (fileProvider.yom == 2 && endmonth == 2 && intTime < 19)) {
+                isHoliday('assets/januquillacompleta.png', 'hemptytxt',
+                    'happyjanuca', 'hemptytxt');
+              } else {
+                todayIsNotHoliday();
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+//por default para Fluter el primer dia de la semana es el lunes
+// por lo que el sabado es el dia 6
+// ++++++++++++++++ check for Tzom 10 of TEVET **************************
+
+  void check10Tevet() {
+    if (fileProvider.jodesh == "Tevet") {
+      if (fileProvider.yom == 10 && (intTime > 5 && intTime < 19)) {
+        if (dayofweek == 6) {
+          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom10Tevet',
+              'tzomshabat2');
+        } else {
+          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom10Tevet',
+              'hemptytxt ');
+        }
+      }
+    }
+
+    if (fileProvider.jodesh == "Tevet") {
+      if (fileProvider.yom == 11 && (intTime > 5 && intTime < 19)) {
+        if (dayofweek == 7) {
+          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom10Tevet',
+              'Yzomshabat2 ');
+        } else {
+          todayIsNotHoliday();
+        }
+      }
+    }
+  }
+
+  // ++++++++++++++++ check for Tu Bishvat **************************
+
+  void checkTuBishvat() {
+    if (fileProvider.jodesh == "Shvat") {
+      if (fileProvider.yom == 15) {
+        isHoliday(
+            'assets/tubishvat.png', 'hemptytxt', 'tubishvat', 'hemptytxt');
+      } else {
+        todayIsNotHoliday();
+      }
+    }
+  }
+
+  // *************** Check for Purim ++++++++++++++++++++++++++++++++
+
+  void checkPurim() {
+    print("[PURIM]  mes " + fileProvider.jodesh);
+    print("[PURIM]  dia " + fileProvider.yom.toString());
+    print("[PURIM]  leapyear " + fileProvider.isleapyear.toString());
+    print("[PURIM]  dia de la semana " + dayofweek.toString());
+    print("[PURIM]  istzomesther entrando " + istzomesther.toString());
+
+    if (fileProvider.isleapyear) {
+      if (fileProvider.jodesh == "Adar I") {
+        if (fileProvider.yom == 14) {
+          isHoliday(
+              'assets/tpurimkatan.png', 'hemptytxt', 'purimkatan', 'hemptytxt');
+        } else {
+          if (fileProvider.yom == 15) {
+            isHoliday('assets/purimkatan.png', 'hemptytxt', 'sushanpurimkatan',
+                'hemptytxt');
+          } else {
+            todayIsNotHoliday();
+          }
+        }
+      }
+    }
+
+    if (fileProvider.isleapyear) {
+      if (fileProvider.jodesh == "Adar II") {
+        todayTzomEsther();
+        print("[PURIM]  istzomesther regresando1 " + istzomesther.toString());
+
+        if (istzomesther == 0) {
+          if (fileProvider.yom == 13 && (intTime > 5 && intTime < 19)) {
+            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
+                'hemptytxt');
+          } else {
+            if (fileProvider.yom == 14) {
+              isHoliday(
+                  'assets/purimnormal.png', 'hemptytxt', 'purim', 'hemptytxt');
+            } else {
+              if (fileProvider.yom == 15) {
+                isHoliday('assets/purimnormal.png', 'hemptytxt', 'sushanpurim',
+                    'hemptytxt');
+              } else {
+                todayIsNotHoliday();
+              }
+            }
+          }
+        } else {
+          if (istzomesther == 1) {
+            if (fileProvider.yom == 13 && (intTime > 5 && intTime < 19)) {
+              if (dayofweek == 6) {
+                todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
+                    'tzomesthershabat', 'tzomesthershabatadarii');
+                istzomesther = 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (!fileProvider.isleapyear) {
+      if (fileProvider.jodesh == "Adar") {
+        todayTzomEsther();
+        print("[PURIM]  istzomesther regresando2 " + istzomesther.toString());
+
+        if (istzomesther == 0) {
+          if (fileProvider.yom == 13 && (intTime > 5 && intTime < 19)) {
+            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
+                'hemptytxt');
+          } else {
+            if (fileProvider.yom == 14) {
+              isHoliday(
+                  'assets/purimnormal.png', 'hemptytxt', 'purim', 'hemptytxt');
+            } else {
+              if (fileProvider.yom == 15) {
+                isHoliday('assets/purimnormal.png', 'hemptytxt', 'sushanpurim',
+                    'hemptytxt');
+              } else {
+                todayIsNotHoliday();
+              }
+            }
+          }
+        }
+        if (istzomesther == 1) {
+          if (fileProvider.yom == 13 && (intTime > 5 && intTime < 19)) {
+            if (dayofweek == 6) {
+              todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
+                  'tzomesthershabat', 'tzomesthershabatadar');
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //++++++++++++++++++++++ check fot Tzom Esther +++++++++++++++++++++
+
+  void todayTzomEsther() {
+    if (fileProvider.isleapyear) {
+      if (fileProvider.jodesh == "Adar II") {
+        if (fileProvider.yom == 11 &&
+            dayofweek == 4 &&
+            (intTime > 5 && intTime < 19)) {
+          todayIsTzom('assets/emptyimage.png', 'tzomEsther',
+              'tzomestheron11adarii', 'hemptytxt');
+          istzomesther = 1;
+        } else {
+          if (fileProvider.yom == 13 &&
+              dayofweek == 7 &&
+              (intTime > 5 && intTime < 19)) {
+            istzomesther = 1;
+          }
+        }
+      }
+    }
+
+    if (!fileProvider.isleapyear) {
+      if (fileProvider.jodesh == "Adar") {
+        if (fileProvider.yom == 11 &&
+            dayofweek == 4 &&
+            (intTime > 5 && intTime < 19)) {
+          todayIsTzom('assets/emptyimage.png', 'tzomEsther',
+              'tzomestheron11adar', 'hemptytxt');
+          istzomesther = 1;
+        } else {
+          if (fileProvider.yom == 13 &&
+              dayofweek == 7 &&
+              (intTime > 5 && intTime < 19)) {
+            istzomesther = 1;
+          }
+        }
+      }
+    }
+  }
+
+  //++++++++++++++++++++++ check for Passover +++++++++++++++++++++
+  void checkPassover() {
+    if (fileProvider.jodesh == "Nissan") {
+      if (fileProvider.yom == 14 && intTime > 17) {
+        isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaje1seder', 'hemptytxt');
+      } else {
+        if (fileProvider.yom == 15 && intTime < 19) {
+          isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj', 'hemptytxt');
+        } else {
+          if (fileProvider.yom == 15 && intTime > 17) {
+            isHoliday(
+                'assets/pesaj.png', 'hemptytxt', 'pesaj2seder', 'hemptytxt');
+          } else {
+            if (fileProvider.yom == 16 && intTime < 19) {
+              isHoliday(
+                  'assets/pesaj.png', 'hemptytxt', 'pesaj1omer', 'hemptytxt');
+            } else {
+              if ((fileProvider.yom == 16 && intTime > 17) ||
+                  (fileProvider.yom == 17 && intTime < 19)) {
+                isHoliday(
+                    'assets/pesaj.png', 'hemptytxt', 'pesaj2omer', 'hemptytxt');
+              } else {
+                if ((fileProvider.yom == 17 && intTime > 17) ||
+                    (fileProvider.yom == 18 && intTime < 19)) {
+                  isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj3omer',
+                      'hemptytxt');
+                } else {
+                  if ((fileProvider.yom == 18 && intTime > 17) ||
+                      (fileProvider.yom == 19 && intTime < 19)) {
+                    isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj4omer',
+                        'hemptytxt');
+                  } else {
+                    if ((fileProvider.yom == 19 && intTime > 17) ||
+                        (fileProvider.yom == 20 && intTime < 19)) {
+                      isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj5omer',
+                          'hemptytxt');
+                    } else {
+                      if ((fileProvider.yom == 20 && intTime > 17) ||
+                          (fileProvider.yom == 21 && intTime < 19)) {
+                        isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj6omer',
+                            'hemptytxt');
+                      } else {
+                        if ((fileProvider.yom == 21 && intTime > 17) ||
+                            (fileProvider.yom == 22 && intTime < 19)) {
+                          isHoliday('assets/pesaj.png', 'hemptytxt',
+                              'pesaj7omer', 'hemptytxt');
+                        } else {
+                          if ((fileProvider.yom == 22 && intTime > 17) ||
+                              (fileProvider.yom == 23 && intTime < 19)) {
+                            isHoliday('assets/pesaj.png', 'hemptytxt',
+                                'pesaj8omer', 'hemptytxt');
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+//++++++++++++++++++++++ check for Omer +++++++++++++++++++++
+  void checkOmer() {
+    int omerday = 0;
+    if (fileProvider.jodesh == "Nissan") {
+      for (int day = 23; day < 31; day++) {
+        if (((fileProvider.yom == day && intTime > 17) ||
+            (fileProvider.yom == (day + 1) && intTime < 19))) {
+          omerday = day - 14;
+          isHoliday('assets/emptyimage.png', 'hemptytxt',
+              ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
+        }
+      }
+    }
+
+    if (fileProvider.jodesh == "Iyar") {
+      if ((fileProvider.yom == 1 && intTime < 17)) {
+        omerday = 16;
+        isHoliday('assets/emptyimage.png', 'hemptytxt',
+            ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
+      }
+    }
+
+    if (fileProvider.jodesh == "Iyar") {
+      for (int day = 1; day < 17; day++) {
+        if (((fileProvider.yom == day && intTime > 17) ||
+            (fileProvider.yom == (day + 1) && intTime < 19))) {
+          omerday = day + 16;
+          isHoliday('assets/emptyimage.png', 'hemptytxt',
+              ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
+        }
+      }
+    }
+
+    if (fileProvider.jodesh == "Iyar") {
+      if (((fileProvider.yom == 17 && intTime > 17) ||
+          (fileProvider.yom == 18 && intTime < 19))) {
+        isHoliday(
+            'assets/lagbaomer.png', 'hemptytxt', 'pesaj33omer', 'hemptytxt');
+      }
+    }
+
+    if (fileProvider.jodesh == "Iyar") {
+      for (int day = 18; day < 30; day++) {
+        if (((fileProvider.yom == day && intTime > 17) ||
+            (fileProvider.yom == (day + 1) && intTime < 19))) {
+          omerday = day + 16;
+          isHoliday('assets/emptyimage.png', 'hemptytxt',
+              ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
+        }
+      }
+    }
+
+    if (fileProvider.jodesh == "Sivan") {
+      if ((fileProvider.yom == 1 && intTime < 17)) {
+        omerday = 45;
+        isHoliday('assets/emptyimage.png', 'hemptytxt',
+            ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
+      }
+    }
+
+    if (fileProvider.jodesh == "Sivan") {
+      for (int day = 1; day < 5; day++) {
+        if (((fileProvider.yom == day && intTime > 17) ||
+            (fileProvider.yom == (day + 1) && intTime < 19))) {
+          omerday = day + 45;
+          isHoliday('assets/emptyimage.png', 'hemptytxt',
+              ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
+        }
+      }
+    }
+  }
+
+//++++++++++++++++++++++ check for Shavuot +++++++++++++++++++++
+  void checkShavuot() {
+    if (fileProvider.jodesh == "Sivan") {
+      if ((fileProvider.yom == 5 && intTime > 17) ||
+          (fileProvider.yom == 6 && intTime < 19)) {
+        isHoliday('assets/shavuot.png', 'hemptytxt', 'shavuot', 'hemptytxt');
+      }
+    }
+  }
+
+// ++++++++++++++++ check for fast of 17 of tamuz **************************
+  void check17Tamuz() {
+    if (fileProvider.jodesh == "Tamuz") {
+      if (fileProvider.yom == 17 && (intTime > 5 && intTime < 19)) {
+        if (dayofweek == 6) {
+          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom17tamuz',
+              'tzomshabat2');
+        } else {
+          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom17tamuz',
+              'hemptytxt ');
+        }
+      }
+    }
+
+    if (fileProvider.jodesh == "Tamuz") {
+      if (fileProvider.yom == 18 && (intTime > 5 && intTime < 19)) {
+        if (dayofweek == 7) {
+          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom17tamuz',
+              'Yzomshabat2 ');
+        } else {
+          todayIsNotHoliday();
+        }
+      }
+    }
+  }
+
+// ++++++++++++++++ check for fast of 9 of av **************************
+  void check9Beav() {
+    if (fileProvider.jodesh == "Av") {
+      if (fileProvider.yom == 8 && dayofweek == 5 && intTime > 17) {
+        todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
+            'tzomshabat2');
+      } else {
+        if (fileProvider.yom == 9 && dayofweek == 6 && intTime < 19) {
+          todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
+              'tzom9beavshabat', 'tzom9beavshabat2');
+        } else {
+          if ((fileProvider.yom == 9 && dayofweek == 6 && intTime > 17) ||
+              (fileProvider.yom == 10 && dayofweek == 7 && intTime < 19)) {
+            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
+                'hemptytxt ');
+          } else {
+            if ((fileProvider.yom == 8 && dayofweek != 5 && intTime > 17) ||
+                (fileProvider.yom == 9 && dayofweek != 6 && intTime < 19)) {
+              todayIsTzom('assets/emptyimage.png', 'hemptytxt',
+                  'tzom9Beav', 'hemptytxt');
+            } else {
+              todayIsNotHoliday();
+            }
+          }
+        }
+      }
+    }
+  }
 
 
-
-
-
-
-
+  //++++++++++ metodo que maneja los dias fectivos +++++++++++++++
   void isHoliday(String himage, String hline1, hline2, hline3) {
     print(' estoy isHoliday ' + himage + ' ' + hline2);
     headerimage = himage;
@@ -638,6 +952,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     holidayline3 = hline3;
   }
 
+  //++++++++++ metodo que maneja los dias  NO fectivos +++++++++++++++
   void todayIsNotHoliday() {
     headerImage = 'assets/maguendavidyellow.png';
     holidayline1 = ' ';
@@ -645,6 +960,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     holidayline3 = ' ';
   }
 
+  //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
   void todayIsTzom(String himage, String hline1, hline2, hline3) {
     print(' estoy todayIsTzom ' + himage + ' ' + hline2);
     headerimage = himage;

@@ -39,13 +39,6 @@ class FileProvider {
   Future<void> getDocuments({Function callback}) async {
     MethodChannel _methodChannel = MethodChannel('flutter/MethodChannelDemo');
 
-// those are the items position in the List
-//    yom         = day
-//    jodesh      = month
-//    shana       = year
-//    isLeapYear  = bicentenary year
-//    yomview     = complete date
-
     try {
       yomview = await _methodChannel.invokeMethod("Documents");
 
@@ -69,10 +62,6 @@ class FileProvider {
       daybeforejodesh = yomview[9];
       daybeforeshana = int.parse(yomview[10]);
 
-      print("[DEBUG] from android yesterday "
-          + yomview[5] + " " +
-          yesterdayyom.toString());
-      print("[DEBUG] from android daybefore " + yomview[8] + " " + daybeforeyom.toString());
       print("[ANDROID] Result from android: " +  yomview.cast<String>().toString());
 
       callback();
