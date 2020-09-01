@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   path_provider:
   flutter_pdfview:
+  geolocator: ^6.0.0
 
 
 dev_dependencies:

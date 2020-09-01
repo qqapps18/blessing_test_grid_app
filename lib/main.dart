@@ -1,3 +1,8 @@
+import 'dart:async';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html';
+
+
 import 'package:blessingtestgridapp/BlessingSectionHeader.dart';
 import 'package:blessingtestgridapp/FestivitiesBlessing.dart';
 import 'package:blessingtestgridapp/FoodBlessing.dart';
@@ -14,6 +19,7 @@ import 'BlessingSectionHeader.dart';
 import 'localization/localization_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'myappbar.dart';
 
@@ -50,6 +56,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   String holidayline3 = ' ';
   String headerimage = 'assets/maguendavidyellow.png';
   int istzomesther = 0;
+  String position;
 
   @override
   void initState() {
@@ -69,6 +76,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         'y la linea 2 es ' +
         holidayline2 +
         '-+-+-+');
+
+    _getCurrentlocation();
+
     super.initState();
   }
 
@@ -367,6 +377,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
     print('[DEBUG] dia de la semana ' + dayofweek.toString());
     print('[DEBUG ]init time ' + intTime.toString());
+    print('[DEBUG ] position' + position);
 
     // aqui chequeo la fecha para ver si es año nuevo ***************
 
@@ -918,8 +929,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
             'tzomshabat2');
       } else {
         if (fileProvider.yom == 9 && dayofweek == 6 && intTime < 19) {
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
-              'tzom9beavshabat', 'tzom9beavshabat2');
+          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
+              'tzom9beavshabat2');
         } else {
           if ((fileProvider.yom == 9 && dayofweek == 6 && intTime > 17) ||
               (fileProvider.yom == 10 && dayofweek == 7 && intTime < 19)) {
@@ -928,8 +939,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
           } else {
             if ((fileProvider.yom == 8 && dayofweek != 5 && intTime > 17) ||
                 (fileProvider.yom == 9 && dayofweek != 6 && intTime < 19)) {
-              todayIsTzom('assets/emptyimage.png', 'hemptytxt',
-                  'tzom9Beav', 'hemptytxt');
+              todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
+                  'hemptytxt');
             } else {
               todayIsNotHoliday();
             }
@@ -938,7 +949,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       }
     }
   }
-
 
   //++++++++++ metodo que maneja los dias fectivos +++++++++++++++
   void isHoliday(String himage, String hline1, hline2, hline3) {
@@ -970,6 +980,11 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     holidayline1 = hline1;
     holidayline2 = hline2;
     holidayline3 = hline3;
+  }
+
+  void _getCurrentlocation() async {
+    final position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 }
 
