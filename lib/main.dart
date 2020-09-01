@@ -1,6 +1,6 @@
-import 'dart:async';
+//import 'dart:async';
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html';
+//import 'dart:html';
 
 
 import 'package:blessingtestgridapp/BlessingSectionHeader.dart';
@@ -985,6 +985,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   void _getCurrentlocation() async {
     final position =
         await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print("ANDRES " + position.toString());
   }
 }
 
