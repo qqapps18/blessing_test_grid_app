@@ -2,7 +2,6 @@
 // ignore: avoid_web_libraries_in_flutter
 //import 'dart:html';
 
-
 import 'package:blessingtestgridapp/BlessingSectionHeader.dart';
 import 'package:blessingtestgridapp/FestivitiesBlessing.dart';
 import 'package:blessingtestgridapp/FoodBlessing.dart';
@@ -20,6 +19,7 @@ import 'localization/localization_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 import 'myappbar.dart';
 
@@ -57,6 +57,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   String headerimage = 'assets/maguendavidyellow.png';
   int istzomesther = 0;
   String position;
+  double lat;
+  double long;
+  DateTime sunrisetime;
+  DateTime sunsettime;
 
   @override
   void initState() {
@@ -78,6 +82,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         '-+-+-+');
 
     _getCurrentlocation();
+    print ('[DEBUG INISTATET] LATITUD $lat  and LONGITUD $long');
+    _getSunriseSunset();
 
     super.initState();
   }
@@ -377,7 +383,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
     print('[DEBUG] dia de la semana ' + dayofweek.toString());
     print('[DEBUG ]init time ' + intTime.toString());
-    print('[DEBUG ] position' + position);
 
     // aqui chequeo la fecha para ver si es año nuevo ***************
 
@@ -982,11 +987,53 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     holidayline3 = hline3;
   }
 
+ // ***************  get geoposition ********************
   void _getCurrentlocation() async {
-    final position =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print("ANDRES " + position.toString());
+    try {
+      final Position position =
+          await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      lat = position.latitude;
+      long = position.longitude;
+      print("ANDRES 1  " + position.toString());
+      print ("ANDRES 1.5  latitud $lat   longitud  $long");
+    } on Exception catch (e) {
+      lat = 0;
+      long = 0;
+      print("[ANDRES] no authorization granted to obtain the position ");
+    }
+
+    _getSunriseSunset();
   }
+
+// ***************  get sunrise & sunset ********************
+  void _getSunriseSunset() async {
+    print ('[DEBUG] LATITUD $lat  and LONGITUD $long');
+    try {
+      final response = await SunriseSunset.getResults(
+          latitude: lat, longitude: long);
+
+      if (response.success) {
+        print('Sunrise: ${response.data.sunrise}');
+        print('Sunset: ${response.data.sunset}');
+        print('Solar Noon: ${response.data.solarNoon}');
+        print('Day Length: ${response.data.dayLength}');
+        print('Civil Twilight Start: ${response.data.civilTwilightBegin}');
+        print('Civil Twilight End: ${response.data.civilTwilightEnd}');
+        print('Nautical Twilight Start: ${response.data.nauticalTwilightBegin}');
+        print('Nautical Twilight End: ${response.data.nauticalTwilightEnd}');
+        print(
+            'Astronomical Twilight Start: ${response.data.astronomicalTwilightBegin}');
+        print(
+            'Astronomical Twilight End: ${response.data.astronomicalTwilightEnd}');
+      } else {
+        print(response.error);
+      }
+    } catch (err) {
+      print("Failed to get data.");
+      print(err);
+    }
+  }
+
 }
 
 class MyFlexiableAppBar extends StatelessWidget {
