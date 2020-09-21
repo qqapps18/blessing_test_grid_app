@@ -2,6 +2,11 @@
 // ignore: avoid_web_libraries_in_flutter
 //import 'dart:html';
 
+import 'dart:async';
+
+//import 'dart:html';
+import 'dart:math';
+
 import 'package:blessingtestgridapp/BlessingSectionHeader.dart';
 import 'package:blessingtestgridapp/FestivitiesBlessing.dart';
 import 'package:blessingtestgridapp/FoodBlessing.dart';
@@ -65,7 +70,11 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   @override
   void initState() {
     print('++++++++++++++++++  initstate ++++++++++++++++++++');
-    fileProvider.getDocuments(callback: checkHoliday);
+    fileProvider
+        .getDocuments()
+        .then((file) => _getCurrentlocation())
+        .then((point) => _getSunriseSunset(point))
+        .then((sunrisedata) => checkHoliday(sunrisedata));
     dayofweek = date.weekday;
     intTimeString =
         DateFormat.H(_deviceLocale).format(DateTime.now().toLocal());
@@ -82,8 +91,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         '-+-+-+');
 
     _getCurrentlocation();
-    print ('[DEBUG INISTATET] LATITUD $lat  and LONGITUD $long');
-    _getSunriseSunset();
+    print('[DEBUG INISTATET] LATITUD $lat  and LONGITUD $long');
 
     super.initState();
   }
@@ -356,10 +364,19 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
   }
 
-  void checkHoliday() {
+  void checkHoliday(SunriseSunsetData data) {
+    var daylight = data.civilTwilightBegin;
+    var offsetInHours = DateTime.now().timeZoneOffset;
+    var sunriseTime = daylight.add(offsetInHours);
+    var nighlight = data.civilTwilightEnd;
+    var sunsetTime = nighlight.add(offsetInHours);
+    var now = DateTime.now();
+    print("Daylight " + daylight.toString());
+    print("Offset GMT " + offsetInHours.toString());
+    print("===== SUNRISE " + sunriseTime.toString());
     print(' estoy en checkholiday **********************');
-    checkRoshHashana();
-    checkTzomGedalia();
+    checkRoshHashana(now, sunsetTime);
+    checkTzomGedalia(now, sunriseTime, sunsetTime);
     checkYomKipur();
     checksukkot();
     checkJanuca();
@@ -374,7 +391,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
 // ++++++++++++++++ check for Rosh Hashana **************************
-  void checkRoshHashana() {
+  void checkRoshHashana(DateTime now, DateTime sunset) {
     print('[DEBUG] estoy en checkRoshHashana **********************');
     print('[DEBUG] mes ' + fileProvider.jodesh);
     print('[DEBUG] hora  ' + intTime.toString());
@@ -383,11 +400,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
     print('[DEBUG] dia de la semana ' + dayofweek.toString());
     print('[DEBUG ]init time ' + intTime.toString());
-
     // aqui chequeo la fecha para ver si es año nuevo ***************
-
     if (fileProvider.jodesh == "Elul") {
-      if (fileProvider.yom == 29 && intTime > 19) {
+      if (fileProvider.yom == 29 && now.isAfter(sunset)) {
         isHoliday(
             'assets/roshhashana.png', 'hemptytxt', 'shana_tova', 'hemptytxt ');
       } else {
@@ -396,7 +411,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Tishrei") {
-      if (fileProvider.yom == 1 || (fileProvider.yom == 2 && intTime < 19)) {
+      if (fileProvider.yom == 1 ||
+          (fileProvider.yom == 2 && now.isBefore(sunset))) {
         isHoliday(
             'assets/roshhashana.png', 'hemptytxt', 'shana_tova', 'hemptytxt ');
         print(' estoy de regreso de isholiday 1 tishrei ' +
@@ -413,9 +429,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 // por lo que el sabado es el dia 6
 // ++++++++++++++++ check for Tzom Gedalia **************************
 
-  void checkTzomGedalia() {
+  void checkTzomGedalia(DateTime now, DateTime sunrise, DateTime sunset) {
     if (fileProvider.jodesh == "Tishrei") {
-      if (fileProvider.yom == 3 && (intTime > 5 && intTime < 19)) {
+      if (fileProvider.yom == 3 &&
+          (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
           todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzomGedalia',
               'tzomshabat2');
@@ -958,13 +975,15 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   //++++++++++ metodo que maneja los dias fectivos +++++++++++++++
   void isHoliday(String himage, String hline1, hline2, hline3) {
     print(' estoy isHoliday ' + himage + ' ' + hline2);
-    headerimage = himage;
+   setState(() {
+     headerimage = himage;
 //    holidayline1 = getTranslated(context, hline1);
 //    holidayline2 = getTranslated(context, hline2);
 //    holidayline3 = getTranslated(context, hline3);
-    holidayline1 = hline1;
-    holidayline2 = hline2;
-    holidayline3 = hline3;
+     holidayline1 = hline1;
+     holidayline2 = hline2;
+     holidayline3 = hline3;
+   });
   }
 
   //++++++++++ metodo que maneja los dias  NO fectivos +++++++++++++++
@@ -978,39 +997,49 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
   void todayIsTzom(String himage, String hline1, hline2, hline3) {
     print(' estoy todayIsTzom ' + himage + ' ' + hline2);
-    headerimage = himage;
+    setState(() {
+      headerimage = himage;
 //    holidayline1 = getTranslated(context, hline1);
 //    holidayline2 = getTranslated(context, hline2);
 //    holidayline3 = getTranslated(context, hline3);
-    holidayline1 = hline1;
-    holidayline2 = hline2;
-    holidayline3 = hline3;
+      holidayline1 = hline1;
+      holidayline2 = hline2;
+      holidayline3 = hline3;
+    });
   }
 
- // ***************  get geoposition ********************
-  void _getCurrentlocation() async {
+  // ***************  get geoposition ********************
+  Future<Point> _getCurrentlocation() async {
+    var completer = Completer<Point>();
+    Point point;
     try {
       final Position position =
           await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       lat = position.latitude;
       long = position.longitude;
+      point = Point(position.latitude, position.longitude);
       print("ANDRES 1  " + position.toString());
-      print ("ANDRES 1.5  latitud $lat   longitud  $long");
+      print("ANDRES 1.5  latitud $lat   longitud  $long");
     } on Exception catch (e) {
       lat = 0;
       long = 0;
+      point = Point(0.0, 0.0);
       print("[ANDRES] no authorization granted to obtain the position ");
     }
 
-    _getSunriseSunset();
+    completer.complete(point);
+
+    return completer.future;
+    //_getSunriseSunset();
   }
 
 // ***************  get sunrise & sunset ********************
-  void _getSunriseSunset() async {
-    print ('[DEBUG] LATITUD $lat  and LONGITUD $long');
+  Future<SunriseSunsetData> _getSunriseSunset(Point point) async {
+    print('[DEBUG] LATITUD $lat  and LONGITUD $long');
+    var completer = Completer<SunriseSunsetData>();
     try {
-      final response = await SunriseSunset.getResults(
-          latitude: lat, longitude: long);
+      final response =
+          await SunriseSunset.getResults(latitude: point.x, longitude: point.y);
 
       if (response.success) {
         print('Sunrise: ${response.data.sunrise}');
@@ -1019,12 +1048,15 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         print('Day Length: ${response.data.dayLength}');
         print('Civil Twilight Start: ${response.data.civilTwilightBegin}');
         print('Civil Twilight End: ${response.data.civilTwilightEnd}');
-        print('Nautical Twilight Start: ${response.data.nauticalTwilightBegin}');
+        print(
+            'Nautical Twilight Start: ${response.data.nauticalTwilightBegin}');
         print('Nautical Twilight End: ${response.data.nauticalTwilightEnd}');
         print(
             'Astronomical Twilight Start: ${response.data.astronomicalTwilightBegin}');
         print(
             'Astronomical Twilight End: ${response.data.astronomicalTwilightEnd}');
+
+        completer.complete(response.data);
       } else {
         print(response.error);
       }
@@ -1032,8 +1064,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       print("Failed to get data.");
       print(err);
     }
-  }
 
+    return completer.future;
+  }
 }
 
 class MyFlexiableAppBar extends StatelessWidget {

@@ -36,7 +36,7 @@ class FileProvider {
 
   // Busqueda de las fechas en android
 
-  Future<void> getDocuments({Function callback}) async {
+  Future<void> getDocuments() async {
     MethodChannel _methodChannel = MethodChannel('flutter/MethodChannelDemo');
 
     try {
@@ -64,7 +64,7 @@ class FileProvider {
 
       print("[ANDROID] Result from android: " +  yomview.cast<String>().toString());
 
-      callback();
+      //callback();
     } on Exception catch (e) {
       print("[ANDROID] exception " + e.toString());
     }
