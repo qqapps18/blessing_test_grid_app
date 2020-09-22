@@ -90,7 +90,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         holidayline2 +
         '-+-+-+');
 
-    _getCurrentlocation();
+ //   _getCurrentlocation();
     print('[DEBUG INISTATET] LATITUD $lat  and LONGITUD $long');
 
     super.initState();
@@ -365,16 +365,20 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
   void checkHoliday(SunriseSunsetData data) {
+
     var daylight = data.civilTwilightBegin;
     var offsetInHours = DateTime.now().timeZoneOffset;
     var sunriseTime = daylight.add(offsetInHours);
     var nighlight = data.civilTwilightEnd;
     var sunsetTime = nighlight.add(offsetInHours);
     var now = DateTime.now();
-    print("Daylight " + daylight.toString());
-    print("Offset GMT " + offsetInHours.toString());
-    print("===== SUNRISE " + sunriseTime.toString());
+    print("Daylight ***************** " + daylight.toString());
+    print("Offset GMT ****************" + offsetInHours.toString());
+    print("===== SUNRISE *************" + sunriseTime.toString());
+    print("===== SUNSET **************" + sunsetTime.toString());
+    
     print(' estoy en checkholiday **********************');
+
     checkRoshHashana(now, sunsetTime);
     checkTzomGedalia(now, sunriseTime, sunsetTime);
     checkYomKipur();
@@ -392,6 +396,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 // ++++++++++++++++ check for Rosh Hashana **************************
   void checkRoshHashana(DateTime now, DateTime sunset) {
+
     print('[DEBUG] estoy en checkRoshHashana **********************');
     print('[DEBUG] mes ' + fileProvider.jodesh);
     print('[DEBUG] hora  ' + intTime.toString());
@@ -400,6 +405,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
     print('[DEBUG] dia de la semana ' + dayofweek.toString());
     print('[DEBUG ]init time ' + intTime.toString());
+
     // aqui chequeo la fecha para ver si es año nuevo ***************
     if (fileProvider.jodesh == "Elul") {
       if (fileProvider.yom == 29 && now.isAfter(sunset)) {
@@ -1069,27 +1075,32 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 }
 
-class MyFlexiableAppBar extends StatelessWidget {
-  final double appBarHeight = 60.0;
+class MyFlexiableAppBar extends StatefulWidget {
+  String datehebrew;
+  String date;
+  String headerimage;
+  String holidayline1;
+  String holidayline2;
+  String holidayline3;
 
-  final String datehebrew;
-  final String date;
-  final String headerimage;
-  final String holidayline1;
-  final String holidayline2;
-  final String holidayline3;
-
-  const MyFlexiableAppBar(this.date, this.datehebrew, this.headerimage,
+  MyFlexiableAppBar(this.date, this.datehebrew, this.headerimage,
       this.holidayline1, this.holidayline2, this.holidayline3);
+
+  @override
+  _MyFlexiableAppBarState createState() => _MyFlexiableAppBarState();
+}
+
+class _MyFlexiableAppBarState extends State<MyFlexiableAppBar> {
+  final double appBarHeight = 60.0;
 
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     print(' estoy  en MyFlexiableAppBar 1 tishrei ' +
-        headerimage +
+        widget.headerimage +
         ' ' +
-        holidayline2);
+        widget.holidayline2);
 
     return new Container(
       padding: new EdgeInsets.only(top: statusBarHeight),
@@ -1105,7 +1116,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    child: Text(holidayline1,
+                    child: Text(widget.holidayline1,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -1114,7 +1125,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                         )),
                   ),
                   Container(
-                    child: new Text(holidayline2,
+                    child: new Text(widget.holidayline2,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -1123,7 +1134,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                         )),
                   ),
                   Container(
-                    child: new Text(holidayline3,
+                    child: new Text(widget.holidayline3,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -1144,7 +1155,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text(date,
+                      child: Text(widget.date,
                           style: TextStyle(
                               color: Color.fromARGB(500, 13, 17, 50),
                               fontFamily: 'RobotoSlab',
@@ -1155,7 +1166,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(datehebrew,
+                      child: Text(widget.datehebrew,
                           style: TextStyle(
                               color: Color.fromARGB(500, 13, 17, 50),
                               fontFamily: 'RobotoSlab',
@@ -1171,7 +1182,7 @@ class MyFlexiableAppBar extends StatelessWidget {
       )),
       decoration: new BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(headerimage),
+          image: AssetImage(widget.headerimage),
           fit: BoxFit.scaleDown,
         ),
         color: Colors.amber,
