@@ -56,9 +56,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   int hshana;
   bool hisLeapYear;
   int dayofweek;
-  String holidayline1 = ' ';
-  String holidayline2 = ' ';
-  String holidayline3 = ' ';
+  String holidayline1 = 'LINEA 1';
+  String holidayline2 = 'LINEA 2';
+  String holidayline3 = 'LINEA 3';
   String headerimage = 'assets/maguendavidyellow.png';
   int istzomesther = 0;
   String position;
@@ -403,8 +403,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     // aqui chequeo la fecha para ver si es año nuevo ***************
     if (fileProvider.jodesh == "Elul") {
       if (fileProvider.yom == 29 && now.isAfter(sunset)) {
-        isHoliday(
-            'assets/roshhashana.png', 'hemptytxt', 'shana_tova', 'hemptytxt ');
+        isHoliday('assets/roshhashana.png', 'hemptytxt', 'shana_tova', 'hemptytxt ');
       } else {
         todayIsNotHoliday();
       }
@@ -1105,7 +1104,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    child: Text(holidayline1,
+                    child: Text('$holidayline1',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -1114,7 +1113,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                         )),
                   ),
                   Container(
-                    child: new Text(holidayline2,
+                    child: new Text('$holidayline2',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -1123,7 +1122,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                         )),
                   ),
                   Container(
-                    child: new Text(holidayline3,
+                    child: new Text('$holidayline3',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
