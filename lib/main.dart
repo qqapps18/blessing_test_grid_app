@@ -43,8 +43,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   DateTime date = DateTime.now();
 
   String _deviceLocale;
-  DateTime _dateTime = new DateTime.now();
-  String _date = DateFormat.yMMMd().format(DateTime.now());
+
   String hmonth;
   int hyom;
   int hshana;
@@ -79,12 +78,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     hyom = fileProvider.yom;
     hshana = fileProvider.shana;
     hisLeapYear = fileProvider.isleapyear;
-    print(_dateTime);
-    print(' estoy de regreso de en initstate ' +
-        headerimage +
-        'y la linea 2 es ' +
-        holidayline2 +
-        '-+-+-+');
 
     super.initState();
   }
@@ -203,7 +196,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                     expandedHeight: 180.0,
                     flexibleSpace: FlexibleSpaceBar(
                       background: MyFlexiableAppBar(
-                        _date,
+                        DateFormat.yMMMd().format(date),
                         fileProvider.datehebrew,
                         headerimage,
                         holidayline1,
@@ -358,30 +351,41 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
   void checkHoliday(SunriseSunsetData data) {
-    print('CheckHoliday holidayline1' + holidayline1 + '===========');
+    print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
+
+    // variables para el calculo del sunrise y sunset
+    // daylight - hora local del amanecer en el meridiano 0
+    // nighlight - hora local del atardecer en el meridiano 0
+    // offsetInHours - horas de diferencia con el meridiano 0
+    //                 que se sumaran para obtener la hora local correcta
+    // sunriseTime - hora local del amanecer
+    // sunsetTime - hora local del atardecer
+    // now - la hora actual
+
     var daylight = data.civilTwilightBegin;
+    var nighlight = data.civilTwilightEnd;
     var offsetInHours = DateTime.now().timeZoneOffset;
     var sunriseTime = daylight.add(offsetInHours);
-    var nighlight = data.civilTwilightEnd;
     var sunsetTime = nighlight.add(offsetInHours);
-    var now = DateTime.now();
+//    var now = DateTime.now();
     print("Daylight " + daylight.toString());
     print("Offset GMT " + offsetInHours.toString());
     print("===== SUNRISE " + sunriseTime.toString());
     print(' estoy en checkholiday **********************');
-    checkRoshHashana(now, sunsetTime);
-    checkTzomGedalia(now, sunriseTime, sunsetTime);
-    checkYomKipur(now, sunriseTime, sunsetTime);
-    checksukkot(now, sunsetTime);
-    checkJanuca(now, sunsetTime);
-    check10Tevet(now, sunriseTime, sunsetTime);
+
+    checkRoshHashana(date, sunsetTime);
+    checkTzomGedalia(date, sunriseTime, sunsetTime);
+    checkYomKipur(date, sunriseTime, sunsetTime);
+    checksukkot(date, sunsetTime);
+    checkJanuca(date, sunsetTime);
+    check10Tevet(date, sunriseTime, sunsetTime);
     checkTuBishvat();
-    checkPurim(now, sunriseTime, sunsetTime);
-    checkPassover(now, sunsetTime);
-    checkOmer(now, sunsetTime);
-    checkShavuot(now, sunsetTime);
-    check17Tamuz(now, sunriseTime, sunsetTime);
-    check9Beav(now, sunsetTime);
+    checkPurim(date, sunriseTime, sunsetTime);
+    checkPassover(date, sunsetTime);
+    checkOmer(date, sunsetTime);
+    checkShavuot(date, sunsetTime);
+    check17Tamuz(date, sunriseTime, sunsetTime);
+    check9Beav(date, sunsetTime);
     swfestivity = false;
     swtzom = false;
   }
@@ -390,12 +394,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   void checkRoshHashana(DateTime now, DateTime sunset) {
     print('[DEBUG] estoy en checkRoshHashana **********************');
     print('[DEBUG] mes ' + fileProvider.jodesh);
-    print('[DEBUG] hora  ' + intTime.toString());
     print('[DEBUG] dia ' + fileProvider.yom.toString());
     print('[DEBUG] año ' + fileProvider.shana.toString());
     print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
     print('[DEBUG] dia de la semana ' + dayofweek.toString());
-    print('[DEBUG ]init time ' + intTime.toString());
 
     // aqui chequeo la fecha para ver si es año nuevo ***************
     if (fileProvider.jodesh == "Elul") {
@@ -414,10 +416,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         swfestivity = true;
         isHoliday(
             'assets/roshhashana.png', 'hemptytxt', 'shana_tova', 'hemptytxt ');
-        print(' estoy de regreso de isholiday 1 tishrei ' +
-            headerimage +
-            ' ' +
-            holidayline2);
       } else {
         todayIsNotHoliday();
       }
@@ -669,10 +667,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   // *************** Check for Purim ++++++++++++++++++++++++++++++++
 
   void checkPurim(DateTime now, DateTime sunrise, DateTime sunset) {
-    print("[PURIM]  mes " + fileProvider.jodesh);
-    print("[PURIM]  dia " + fileProvider.yom.toString());
-    print("[PURIM]  leapyear " + fileProvider.isleapyear.toString());
-    print("[PURIM]  dia de la semana " + dayofweek.toString());
     print("[PURIM]  istzomesther entrando " + istzomesther.toString());
 
     if (fileProvider.isleapyear) {
@@ -988,7 +982,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 // ++++++++++++++++ check for fast of 17 of tamuz **************************
   void check17Tamuz(DateTime now, DateTime sunrise, DateTime sunset) {
     if (fileProvider.jodesh == "Tamuz") {
-      if (fileProvider.yom == 17 && (intTime > 5 && now.isBefore(sunset))) {
+      if (fileProvider.yom == 17 &&
+          (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
           swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom17tamuz',
@@ -1059,7 +1054,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   //++++++++++ metodo que maneja los dias fectivos +++++++++++++++
   void isHoliday(String himage, String hline1, hline2, hline3) {
     print(' estoy isHoliday ' + himage + ' ' + hline2);
-    print('Rosh Hashana dia 29 holidayline1' + holidayline1 + '===========');
+
     setState(() {
       headerimage = himage;
 //    holidayline1 = getTranslated(context, hline1);
@@ -1073,9 +1068,11 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   //++++++++++ metodo que maneja los dias  NO fectivos +++++++++++++++
   void todayIsNotHoliday() {
+    print('swfestiviti xxxxxxxxxxxxx' + swfestivity.toString());
+    print('swtzom xxxxxxxxxxxxxxxxxx' + swtzom.toString());
+
     if (!swfestivity && !swtzom) {
       setState(() {
-        print('swfestiviti xxxxxxxxxxxxx' + swfestivity.toString());
         headerImage = 'assets/maguendavidyellow.png';
         holidayline1 = ' ';
         holidayline2 = ' ';
@@ -1087,6 +1084,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
   void todayIsTzom(String himage, String hline1, hline2, hline3) {
     print(' estoy todayIsTzom ' + himage + ' ' + hline2);
+
     setState(() {
       headerimage = himage;
 //    holidayline1 = getTranslated(context, hline1);
@@ -1109,6 +1107,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       lat = position.latitude;
       long = position.longitude;
       point = Point(position.latitude, position.longitude);
+
       print("ANDRES 1  " + position.toString());
       print("ANDRES 1.5  latitud $lat   longitud  $long");
     } on Exception catch (e) {
@@ -1128,26 +1127,19 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 // ***************  get sunrise & sunset ********************
   Future<SunriseSunsetData> _getSunriseSunset(Point point) async {
     print('[DEBUG] LATITUD $lat  and LONGITUD $long');
+
     var completer = Completer<SunriseSunsetData>();
     try {
-      final response =
-          await SunriseSunset.getResults(date: DateTime(2020,09,19,22),latitude: point.x, longitude: point.y);
+      final response = await SunriseSunset.getResults(
+
+// ******** el parametro DateTime se utiliza solo para testear la app,
+// una vez en produccion, se debe eliminar
+
+//          date: DateTime(2020, 09, 19, 22),
+          latitude: point.x,
+          longitude: point.y);
 
       if (response.success) {
-        print('Sunrise: ${response.data.sunrise}');
-        print('Sunset: ${response.data.sunset}');
-        print('Solar Noon: ${response.data.solarNoon}');
-        print('Day Length: ${response.data.dayLength}');
-        print('Civil Twilight Start: ${response.data.civilTwilightBegin}');
-        print('Civil Twilight End: ${response.data.civilTwilightEnd}');
-        print(
-            'Nautical Twilight Start: ${response.data.nauticalTwilightBegin}');
-        print('Nautical Twilight End: ${response.data.nauticalTwilightEnd}');
-        print(
-            'Astronomical Twilight Start: ${response.data.astronomicalTwilightBegin}');
-        print(
-            'Astronomical Twilight End: ${response.data.astronomicalTwilightEnd}');
-
         completer.complete(response.data);
       } else {
         print(response.error);
@@ -1178,10 +1170,7 @@ class MyFlexiableAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
-    print(' estoy  en MyFlexiableAppBar 1 tishrei ' +
-        headerimage +
-        ' ' +
-        holidayline2);
+    print(' estoy  en MyFlexiableAppBar ' + headerimage + ' ' + holidayline2);
 
     return new Container(
       padding: new EdgeInsets.only(top: statusBarHeight),
