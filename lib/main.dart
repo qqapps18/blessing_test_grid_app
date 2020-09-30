@@ -1,12 +1,6 @@
-//import 'dart:async';
-// ignore: avoid_web_libraries_in_flutter
-//import 'dart:html';
-
 import 'dart:async';
 
-//import 'dart:html';
 import 'dart:math';
-
 import 'package:blessingtestgridapp/BlessingSectionHeader.dart';
 import 'package:blessingtestgridapp/FestivitiesBlessing.dart';
 import 'package:blessingtestgridapp/FoodBlessing.dart';
@@ -56,9 +50,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   int hshana;
   bool hisLeapYear;
   int dayofweek;
-  String holidayline1 = ' ';
-  String holidayline2 = ' ';
-  String holidayline3 = ' ';
+  String holidayline1 = 'LINEA 1';
+  String holidayline2 = 'LINEA 2';
+  String holidayline3 = 'LINEA 3';
   String headerimage = 'assets/maguendavidyellow.png';
   int istzomesther = 0;
   String position;
@@ -66,6 +60,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   double long;
   DateTime sunrisetime;
   DateTime sunsettime;
+  bool swfestivity = false;
+  bool swtzom = false;
 
   @override
   void initState() {
@@ -89,9 +85,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         'y la linea 2 es ' +
         holidayline2 +
         '-+-+-+');
-
- //   _getCurrentlocation();
-    print('[DEBUG INISTATET] LATITUD $lat  and LONGITUD $long');
 
     super.initState();
   }
@@ -365,43 +358,41 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
   void checkHoliday(SunriseSunsetData data) {
-
+    print('CheckHoliday holidayline1' + holidayline1 + '===========');
     var daylight = data.civilTwilightBegin;
     var offsetInHours = DateTime.now().timeZoneOffset;
     var sunriseTime = daylight.add(offsetInHours);
     var nighlight = data.civilTwilightEnd;
     var sunsetTime = nighlight.add(offsetInHours);
     var now = DateTime.now();
-    print("Daylight ***************** " + daylight.toString());
-    print("Offset GMT ****************" + offsetInHours.toString());
-    print("===== SUNRISE *************" + sunriseTime.toString());
-    print("===== SUNSET **************" + sunsetTime.toString());
-    
+    print("Daylight " + daylight.toString());
+    print("Offset GMT " + offsetInHours.toString());
+    print("===== SUNRISE " + sunriseTime.toString());
     print(' estoy en checkholiday **********************');
-
     checkRoshHashana(now, sunsetTime);
     checkTzomGedalia(now, sunriseTime, sunsetTime);
-    checkYomKipur();
-    checksukkot();
-    checkJanuca();
-    check10Tevet();
+    checkYomKipur(now, sunriseTime, sunsetTime);
+    checksukkot(now, sunsetTime);
+    checkJanuca(now, sunsetTime);
+    check10Tevet(now, sunriseTime, sunsetTime);
     checkTuBishvat();
-    checkPurim();
-    checkPassover();
-    checkOmer();
-    checkShavuot();
-    check17Tamuz();
-    check9Beav();
+    checkPurim(now, sunriseTime, sunsetTime);
+    checkPassover(now, sunsetTime);
+    checkOmer(now, sunsetTime);
+    checkShavuot(now, sunsetTime);
+    check17Tamuz(now, sunriseTime, sunsetTime);
+    check9Beav(now, sunsetTime);
+    swfestivity = false;
+    swtzom = false;
   }
 
 // ++++++++++++++++ check for Rosh Hashana **************************
   void checkRoshHashana(DateTime now, DateTime sunset) {
-
     print('[DEBUG] estoy en checkRoshHashana **********************');
     print('[DEBUG] mes ' + fileProvider.jodesh);
     print('[DEBUG] hora  ' + intTime.toString());
-    print('[DEBUG] dia' + fileProvider.yom.toString());
-    print('[DEBUG] año' + fileProvider.shana.toString());
+    print('[DEBUG] dia ' + fileProvider.yom.toString());
+    print('[DEBUG] año ' + fileProvider.shana.toString());
     print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
     print('[DEBUG] dia de la semana ' + dayofweek.toString());
     print('[DEBUG ]init time ' + intTime.toString());
@@ -409,6 +400,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     // aqui chequeo la fecha para ver si es año nuevo ***************
     if (fileProvider.jodesh == "Elul") {
       if (fileProvider.yom == 29 && now.isAfter(sunset)) {
+        swfestivity = true;
         isHoliday(
             'assets/roshhashana.png', 'hemptytxt', 'shana_tova', 'hemptytxt ');
       } else {
@@ -419,6 +411,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     if (fileProvider.jodesh == "Tishrei") {
       if (fileProvider.yom == 1 ||
           (fileProvider.yom == 2 && now.isBefore(sunset))) {
+        swfestivity = true;
         isHoliday(
             'assets/roshhashana.png', 'hemptytxt', 'shana_tova', 'hemptytxt ');
         print(' estoy de regreso de isholiday 1 tishrei ' +
@@ -440,9 +433,11 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       if (fileProvider.yom == 3 &&
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzomGedalia',
               'tzomshabat2');
         } else {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomGedalia',
               'hemptytxt ');
         }
@@ -450,8 +445,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Tishrei") {
-      if (fileProvider.yom == 4 && (intTime > 5 && intTime < 19)) {
+      if (fileProvider.yom == 4 &&
+          (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzomGedalia',
               'Yzomshabat2 ');
         } else {
@@ -462,10 +459,11 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
 // ++++++++++++++++ check for Yom Kipur **************************
-  void checkYomKipur() {
+  void checkYomKipur(DateTime now, DateTime sunrise, DateTime sunset) {
     if (fileProvider.jodesh == "Tishrei") {
-      if ((fileProvider.yom == 9 && intTime > 17) ||
-          (fileProvider.yom == 10 && intTime < 19)) {
+      if ((fileProvider.yom == 9 && now.isAfter(sunset)) ||
+          (fileProvider.yom == 10 && now.isBefore(sunset))) {
+        swtzom = true;
         todayIsTzom(
             'assets/emptyimage.png', 'hemptytxt', 'yomkipur', 'hemptytxt');
       } else {
@@ -475,25 +473,29 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
 // ++++++++++++++++ check for Sukkot **************************
-  void checksukkot() {
+  void checksukkot(DateTime now, DateTime sunset) {
     if (fileProvider.jodesh == "Tishrei") {
-      if ((fileProvider.yom == 14 && intTime > 17) ||
+      if ((fileProvider.yom == 14 && now.isAfter(sunset)) ||
           (fileProvider.yom > 14 && fileProvider.yom < 20) ||
-          (fileProvider.yom == 20 && intTime < 19)) {
+          (fileProvider.yom == 20 && now.isBefore(sunset))) {
+        swfestivity = true;
         isHoliday('assets/sukkot.png', 'hemptytxt', 'sukkot', 'hemptytxt');
       } else {
-        if ((fileProvider.yom == 20 && intTime > 17) ||
-            (fileProvider.yom == 21 && intTime < 19)) {
+        if ((fileProvider.yom == 20 && now.isAfter(sunset)) ||
+            (fileProvider.yom == 21 && now.isBefore(sunset))) {
+          swfestivity = true;
           isHoliday(
               'assets/sukkot.png', 'hemptytxt', 'hoshanaraba', 'hemptytxt');
         } else {
-          if ((fileProvider.yom == 21 && intTime > 17) ||
-              (fileProvider.yom == 22 && intTime < 19)) {
+          if ((fileProvider.yom == 21 && now.isBefore(sunset)) ||
+              (fileProvider.yom == 22 && now.isAfter(sunset))) {
+            swfestivity = true;
             isHoliday('assets/sukkot.png', 'hemptytxt', 'sheminiatzeret',
                 'hemptytxt');
           } else {
-            if ((fileProvider.yom == 22 && intTime > 17) ||
-                (fileProvider.yom == 23 && intTime < 19)) {
+            if ((fileProvider.yom == 22 && now.isBefore(sunset)) ||
+                (fileProvider.yom == 23 && now.isAfter(sunset))) {
+              swfestivity = true;
               isHoliday('assets/sinchattorah.png', 'hemptytxt', 'sinchattorah',
                   'hemptytxt');
             } else {
@@ -507,7 +509,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   // ++++++++++++++++ check for Januca **************************
 
-  void checkJanuca() {
+  void checkJanuca(DateTime now, DateTime sunset) {
     int endmonth = 0;
 
     if (fileProvider.jodesh == "Tevet") {
@@ -523,37 +525,44 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Kislev") {
-      if ((fileProvider.yom == 24 && intTime > 17) ||
-          (fileProvider.yom == 25 && intTime < 19)) {
+      if ((fileProvider.yom == 24 && now.isAfter(sunset)) ||
+          (fileProvider.yom == 25 && now.isBefore(sunset))) {
+        swfestivity = true;
         isHoliday('assets/januquilladia1.png', 'hemptytxt', 'happyjanuca',
             'hemptytxt');
       } else {
-        if ((fileProvider.yom == 24 && intTime > 17) ||
-            (fileProvider.yom == 25 && intTime < 19)) {
+        if ((fileProvider.yom == 24 && now.isAfter(sunset)) ||
+            (fileProvider.yom == 25 && now.isBefore(sunset))) {
+          swfestivity = true;
           isHoliday('assets/januquilladia2.png', 'hemptytxt', 'happyjanuca',
               'hemptytxt');
         } else {
-          if ((fileProvider.yom == 26 && intTime > 17) ||
-              (fileProvider.yom == 27 && intTime < 19)) {
+          if ((fileProvider.yom == 26 && now.isAfter(sunset)) ||
+              (fileProvider.yom == 27 && now.isBefore(sunset))) {
+            swfestivity = true;
             isHoliday('assets/januquilladia3.png', 'hemptytxt', 'happyjanuca',
                 'hemptytxt');
           } else {
-            if ((fileProvider.yom == 27 && intTime > 17) ||
-                (fileProvider.yom == 28 && intTime < 19)) {
+            if ((fileProvider.yom == 27 && now.isAfter(sunset)) ||
+                (fileProvider.yom == 28 && now.isBefore(sunset))) {
+              swfestivity = true;
               isHoliday('assets/januquilladia4.png', 'hemptytxt', 'happyjanuca',
                   'hemptytxt');
             } else {
-              if ((fileProvider.yom == 28 && intTime > 17) ||
-                  (fileProvider.yom == 29 && intTime < 19)) {
+              if ((fileProvider.yom == 28 && now.isAfter(sunset)) ||
+                  (fileProvider.yom == 29 && now.isBefore(sunset))) {
+                swfestivity = true;
                 isHoliday('assets/januquilladia5.png', 'hemptytxt',
                     'happyjanuca', 'hemptytxt');
               } else {
-                if ((fileProvider.yom == 29 && intTime > 17) ||
-                    (fileProvider.yom == 30 && intTime < 19)) {
+                if ((fileProvider.yom == 29 && now.isAfter(sunset)) ||
+                    (fileProvider.yom == 30 && now.isBefore(sunset))) {
+                  swfestivity = true;
                   isHoliday('assets/januquilladia6.png', 'hemptytxt',
                       'happyjanuca', 'hemptytxt');
                 } else {
-                  if (fileProvider.yom == 30 && intTime > 17) {
+                  if (fileProvider.yom == 30 && now.isAfter(sunset)) {
+                    swfestivity = true;
                     isHoliday('assets/januquilladia7.png', 'hemptytxt',
                         'happyjanuca', 'hemptytxt');
                   }
@@ -566,26 +575,37 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Tevet") {
-      if (fileProvider.yom == 1 && endmonth == 1 && intTime < 17) {
+      if (fileProvider.yom == 1 && endmonth == 1 && now.isBefore(sunset)) {
+        swfestivity = true;
         isHoliday('assets/januquilladia6.png', 'hemptytxt', 'happyjanuca',
             'hemptytxt');
       } else {
-        if ((fileProvider.yom == 1 && endmonth == 1 && intTime > 17) ||
-            (fileProvider.yom == 2 && endmonth == 1 && intTime < 19)) {
+        if ((fileProvider.yom == 1 && endmonth == 1 && now.isAfter(sunset)) ||
+            (fileProvider.yom == 2 && endmonth == 1 && now.isBefore(sunset))) {
+          swfestivity = true;
           isHoliday('assets/januquilladia7.png', 'hemptytxt', 'happyjanuca',
               'hemptytxt');
         } else {
-          if ((fileProvider.yom == 2 && endmonth == 1 && intTime > 17) ||
-              (fileProvider.yom == 3 && endmonth == 1 && intTime < 19)) {
+          if ((fileProvider.yom == 2 && endmonth == 1 && now.isAfter(sunset)) ||
+              (fileProvider.yom == 3 &&
+                  endmonth == 1 &&
+                  now.isBefore(sunset))) {
+            swfestivity = true;
             isHoliday('assets/januquillacompleta.png', 'hemptytxt',
                 'happyjanuca', 'hemptytxt');
           } else {
-            if (fileProvider.yom == 1 && endmonth == 2 && intTime < 18) {
+            if (fileProvider.yom == 1 && endmonth == 2 && now.isAfter(sunset)) {
+              swfestivity = true;
               isHoliday('assets/januquilladia7.png', 'hemptytxt', 'happyjanuca',
                   'hemptytxt');
             } else {
-              if ((fileProvider.yom == 1 && endmonth == 2 && intTime > 17) ||
-                  (fileProvider.yom == 2 && endmonth == 2 && intTime < 19)) {
+              if ((fileProvider.yom == 1 &&
+                      endmonth == 2 &&
+                      now.isAfter(sunset)) ||
+                  (fileProvider.yom == 2 &&
+                      endmonth == 2 &&
+                      now.isBefore(sunset))) {
+                swfestivity = true;
                 isHoliday('assets/januquillacompleta.png', 'hemptytxt',
                     'happyjanuca', 'hemptytxt');
               } else {
@@ -602,13 +622,16 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 // por lo que el sabado es el dia 6
 // ++++++++++++++++ check for Tzom 10 of TEVET **************************
 
-  void check10Tevet() {
+  void check10Tevet(DateTime now, DateTime sunrise, DateTime sunset) {
     if (fileProvider.jodesh == "Tevet") {
-      if (fileProvider.yom == 10 && (intTime > 5 && intTime < 19)) {
+      if (fileProvider.yom == 10 &&
+          (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom10Tevet',
               'tzomshabat2');
         } else {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom10Tevet',
               'hemptytxt ');
         }
@@ -616,8 +639,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Tevet") {
-      if (fileProvider.yom == 11 && (intTime > 5 && intTime < 19)) {
+      if (fileProvider.yom == 11 &&
+          (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom10Tevet',
               'Yzomshabat2 ');
         } else {
@@ -632,6 +657,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   void checkTuBishvat() {
     if (fileProvider.jodesh == "Shvat") {
       if (fileProvider.yom == 15) {
+        swfestivity = true;
         isHoliday(
             'assets/tubishvat.png', 'hemptytxt', 'tubishvat', 'hemptytxt');
       } else {
@@ -642,7 +668,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   // *************** Check for Purim ++++++++++++++++++++++++++++++++
 
-  void checkPurim() {
+  void checkPurim(DateTime now, DateTime sunrise, DateTime sunset) {
     print("[PURIM]  mes " + fileProvider.jodesh);
     print("[PURIM]  dia " + fileProvider.yom.toString());
     print("[PURIM]  leapyear " + fileProvider.isleapyear.toString());
@@ -652,10 +678,12 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     if (fileProvider.isleapyear) {
       if (fileProvider.jodesh == "Adar I") {
         if (fileProvider.yom == 14) {
+          swfestivity = true;
           isHoliday(
               'assets/tpurimkatan.png', 'hemptytxt', 'purimkatan', 'hemptytxt');
         } else {
           if (fileProvider.yom == 15) {
+            swfestivity = true;
             isHoliday('assets/purimkatan.png', 'hemptytxt', 'sushanpurimkatan',
                 'hemptytxt');
           } else {
@@ -667,19 +695,23 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     if (fileProvider.isleapyear) {
       if (fileProvider.jodesh == "Adar II") {
-        todayTzomEsther();
+        todayTzomEsther(now, sunrise, sunset);
         print("[PURIM]  istzomesther regresando1 " + istzomesther.toString());
 
         if (istzomesther == 0) {
-          if (fileProvider.yom == 13 && (intTime > 5 && intTime < 19)) {
+          if (fileProvider.yom == 13 &&
+              (now.isAfter(sunrise) && now.isBefore(sunset))) {
+            swtzom = true;
             todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
                 'hemptytxt');
           } else {
             if (fileProvider.yom == 14) {
+              swfestivity = true;
               isHoliday(
                   'assets/purimnormal.png', 'hemptytxt', 'purim', 'hemptytxt');
             } else {
               if (fileProvider.yom == 15) {
+                swfestivity = true;
                 isHoliday('assets/purimnormal.png', 'hemptytxt', 'sushanpurim',
                     'hemptytxt');
               } else {
@@ -689,8 +721,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
           }
         } else {
           if (istzomesther == 1) {
-            if (fileProvider.yom == 13 && (intTime > 5 && intTime < 19)) {
+            if (fileProvider.yom == 13 &&
+                (now.isAfter(sunrise) && now.isBefore(sunset))) {
               if (dayofweek == 6) {
+                swtzom = true;
                 todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
                     'tzomesthershabat', 'tzomesthershabatadarii');
                 istzomesther = 0;
@@ -703,19 +737,23 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     if (!fileProvider.isleapyear) {
       if (fileProvider.jodesh == "Adar") {
-        todayTzomEsther();
+        todayTzomEsther(now, sunrise, sunset);
         print("[PURIM]  istzomesther regresando2 " + istzomesther.toString());
 
         if (istzomesther == 0) {
-          if (fileProvider.yom == 13 && (intTime > 5 && intTime < 19)) {
+          if (fileProvider.yom == 13 &&
+              (now.isAfter(sunrise) && now.isBefore(sunset))) {
+            swtzom = true;
             todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
                 'hemptytxt');
           } else {
             if (fileProvider.yom == 14) {
+              swfestivity = true;
               isHoliday(
                   'assets/purimnormal.png', 'hemptytxt', 'purim', 'hemptytxt');
             } else {
               if (fileProvider.yom == 15) {
+                swfestivity = true;
                 isHoliday('assets/purimnormal.png', 'hemptytxt', 'sushanpurim',
                     'hemptytxt');
               } else {
@@ -725,7 +763,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
           }
         }
         if (istzomesther == 1) {
-          if (fileProvider.yom == 13 && (intTime > 5 && intTime < 19)) {
+          if (fileProvider.yom == 13 &&
+              (now.isAfter(sunrise) && now.isBefore(sunset))) {
+            swtzom = true;
             if (dayofweek == 6) {
               todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
                   'tzomesthershabat', 'tzomesthershabatadar');
@@ -738,19 +778,20 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   //++++++++++++++++++++++ check fot Tzom Esther +++++++++++++++++++++
 
-  void todayTzomEsther() {
+  void todayTzomEsther(DateTime now, DateTime sunrise, DateTime sunset) {
     if (fileProvider.isleapyear) {
       if (fileProvider.jodesh == "Adar II") {
         if (fileProvider.yom == 11 &&
             dayofweek == 4 &&
-            (intTime > 5 && intTime < 19)) {
+            (now.isAfter(sunrise) && now.isBefore(sunset))) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'tzomEsther',
               'tzomestheron11adarii', 'hemptytxt');
           istzomesther = 1;
         } else {
           if (fileProvider.yom == 13 &&
               dayofweek == 7 &&
-              (intTime > 5 && intTime < 19)) {
+              (now.isAfter(sunrise) && now.isBefore(sunset))) {
             istzomesther = 1;
           }
         }
@@ -761,14 +802,15 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       if (fileProvider.jodesh == "Adar") {
         if (fileProvider.yom == 11 &&
             dayofweek == 4 &&
-            (intTime > 5 && intTime < 19)) {
+            (now.isAfter(sunrise) && now.isBefore(sunset))) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'tzomEsther',
               'tzomestheron11adar', 'hemptytxt');
           istzomesther = 1;
         } else {
           if (fileProvider.yom == 13 &&
               dayofweek == 7 &&
-              (intTime > 5 && intTime < 19)) {
+              (now.isAfter(sunrise) && now.isBefore(sunset))) {
             istzomesther = 1;
           }
         }
@@ -777,54 +819,66 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
   //++++++++++++++++++++++ check for Passover +++++++++++++++++++++
-  void checkPassover() {
+  void checkPassover(DateTime now, DateTime sunset) {
     if (fileProvider.jodesh == "Nissan") {
-      if (fileProvider.yom == 14 && intTime > 17) {
+      if (fileProvider.yom == 14 && now.isAfter(sunset)) {
+        swfestivity = true;
         isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaje1seder', 'hemptytxt');
       } else {
-        if (fileProvider.yom == 15 && intTime < 19) {
+        if (fileProvider.yom == 15 && now.isBefore(sunset)) {
+          swfestivity = true;
           isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj', 'hemptytxt');
         } else {
-          if (fileProvider.yom == 15 && intTime > 17) {
+          if (fileProvider.yom == 15 && now.isAfter(sunset)) {
+            swfestivity = true;
             isHoliday(
                 'assets/pesaj.png', 'hemptytxt', 'pesaj2seder', 'hemptytxt');
           } else {
-            if (fileProvider.yom == 16 && intTime < 19) {
+            if (fileProvider.yom == 16 && now.isBefore(sunset)) {
+              swfestivity = true;
               isHoliday(
                   'assets/pesaj.png', 'hemptytxt', 'pesaj1omer', 'hemptytxt');
             } else {
-              if ((fileProvider.yom == 16 && intTime > 17) ||
-                  (fileProvider.yom == 17 && intTime < 19)) {
+              if ((fileProvider.yom == 16 && now.isAfter(sunset)) ||
+                  (fileProvider.yom == 17 && now.isBefore(sunset))) {
+                swfestivity = true;
                 isHoliday(
                     'assets/pesaj.png', 'hemptytxt', 'pesaj2omer', 'hemptytxt');
               } else {
-                if ((fileProvider.yom == 17 && intTime > 17) ||
-                    (fileProvider.yom == 18 && intTime < 19)) {
+                if ((fileProvider.yom == 17 && now.isAfter(sunset)) ||
+                    (fileProvider.yom == 18 && now.isBefore(sunset))) {
+                  swfestivity = true;
                   isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj3omer',
                       'hemptytxt');
                 } else {
-                  if ((fileProvider.yom == 18 && intTime > 17) ||
-                      (fileProvider.yom == 19 && intTime < 19)) {
+                  if ((fileProvider.yom == 18 && now.isAfter(sunset)) ||
+                      (fileProvider.yom == 19 && now.isBefore(sunset))) {
+                    swfestivity = true;
                     isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj4omer',
                         'hemptytxt');
                   } else {
-                    if ((fileProvider.yom == 19 && intTime > 17) ||
-                        (fileProvider.yom == 20 && intTime < 19)) {
+                    if ((fileProvider.yom == 19 && now.isAfter(sunset)) ||
+                        (fileProvider.yom == 20 && now.isBefore(sunset))) {
+                      swfestivity = true;
                       isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj5omer',
                           'hemptytxt');
                     } else {
-                      if ((fileProvider.yom == 20 && intTime > 17) ||
-                          (fileProvider.yom == 21 && intTime < 19)) {
+                      if ((fileProvider.yom == 20 && now.isAfter(sunset)) ||
+                          (fileProvider.yom == 21 && now.isBefore(sunset))) {
+                        swfestivity = true;
                         isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj6omer',
                             'hemptytxt');
                       } else {
-                        if ((fileProvider.yom == 21 && intTime > 17) ||
-                            (fileProvider.yom == 22 && intTime < 19)) {
+                        if ((fileProvider.yom == 21 && now.isAfter(sunset)) ||
+                            (fileProvider.yom == 22 && now.isBefore(sunset))) {
+                          swfestivity = true;
                           isHoliday('assets/pesaj.png', 'hemptytxt',
                               'pesaj7omer', 'hemptytxt');
                         } else {
-                          if ((fileProvider.yom == 22 && intTime > 17) ||
-                              (fileProvider.yom == 23 && intTime < 19)) {
+                          if ((fileProvider.yom == 22 && now.isAfter(sunset)) ||
+                              (fileProvider.yom == 23 &&
+                                  now.isBefore(sunset))) {
+                            swfestivity = true;
                             isHoliday('assets/pesaj.png', 'hemptytxt',
                                 'pesaj8omer', 'hemptytxt');
                           }
@@ -842,12 +896,13 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
 //++++++++++++++++++++++ check for Omer +++++++++++++++++++++
-  void checkOmer() {
+  void checkOmer(DateTime now, DateTime sunset) {
     int omerday = 0;
     if (fileProvider.jodesh == "Nissan") {
       for (int day = 23; day < 31; day++) {
-        if (((fileProvider.yom == day && intTime > 17) ||
-            (fileProvider.yom == (day + 1) && intTime < 19))) {
+        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
+            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
+          swfestivity = true;
           omerday = day - 14;
           isHoliday('assets/emptyimage.png', 'hemptytxt',
               ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
@@ -856,7 +911,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Iyar") {
-      if ((fileProvider.yom == 1 && intTime < 17)) {
+      if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
+        swfestivity = true;
         omerday = 16;
         isHoliday('assets/emptyimage.png', 'hemptytxt',
             ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
@@ -865,8 +921,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     if (fileProvider.jodesh == "Iyar") {
       for (int day = 1; day < 17; day++) {
-        if (((fileProvider.yom == day && intTime > 17) ||
-            (fileProvider.yom == (day + 1) && intTime < 19))) {
+        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
+            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
+          swfestivity = true;
           omerday = day + 16;
           isHoliday('assets/emptyimage.png', 'hemptytxt',
               ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
@@ -875,8 +932,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Iyar") {
-      if (((fileProvider.yom == 17 && intTime > 17) ||
-          (fileProvider.yom == 18 && intTime < 19))) {
+      if (((fileProvider.yom == 17 && now.isAfter(sunset)) ||
+          (fileProvider.yom == 18 && now.isBefore(sunset)))) {
+        swfestivity = true;
         isHoliday(
             'assets/lagbaomer.png', 'hemptytxt', 'pesaj33omer', 'hemptytxt');
       }
@@ -884,8 +942,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     if (fileProvider.jodesh == "Iyar") {
       for (int day = 18; day < 30; day++) {
-        if (((fileProvider.yom == day && intTime > 17) ||
-            (fileProvider.yom == (day + 1) && intTime < 19))) {
+        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
+            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
+          swfestivity = true;
           omerday = day + 16;
           isHoliday('assets/emptyimage.png', 'hemptytxt',
               ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
@@ -894,7 +953,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Sivan") {
-      if ((fileProvider.yom == 1 && intTime < 17)) {
+      if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
+        swfestivity = true;
         omerday = 45;
         isHoliday('assets/emptyimage.png', 'hemptytxt',
             ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
@@ -903,8 +963,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     if (fileProvider.jodesh == "Sivan") {
       for (int day = 1; day < 5; day++) {
-        if (((fileProvider.yom == day && intTime > 17) ||
-            (fileProvider.yom == (day + 1) && intTime < 19))) {
+        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
+            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
+          swfestivity = true;
           omerday = day + 45;
           isHoliday('assets/emptyimage.png', 'hemptytxt',
               ('omerday' + ' ' + omerday.toString()), 'hemptytxt');
@@ -914,23 +975,26 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
 //++++++++++++++++++++++ check for Shavuot +++++++++++++++++++++
-  void checkShavuot() {
+  void checkShavuot(DateTime now, DateTime sunset) {
     if (fileProvider.jodesh == "Sivan") {
-      if ((fileProvider.yom == 5 && intTime > 17) ||
-          (fileProvider.yom == 6 && intTime < 19)) {
+      if ((fileProvider.yom == 5 && now.isAfter(sunset)) ||
+          (fileProvider.yom == 6 && now.isBefore(sunset))) {
+        swfestivity = true;
         isHoliday('assets/shavuot.png', 'hemptytxt', 'shavuot', 'hemptytxt');
       }
     }
   }
 
 // ++++++++++++++++ check for fast of 17 of tamuz **************************
-  void check17Tamuz() {
+  void check17Tamuz(DateTime now, DateTime sunrise, DateTime sunset) {
     if (fileProvider.jodesh == "Tamuz") {
-      if (fileProvider.yom == 17 && (intTime > 5 && intTime < 19)) {
+      if (fileProvider.yom == 17 && (intTime > 5 && now.isBefore(sunset))) {
         if (dayofweek == 6) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom17tamuz',
               'tzomshabat2');
         } else {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom17tamuz',
               'hemptytxt ');
         }
@@ -938,8 +1002,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     }
 
     if (fileProvider.jodesh == "Tamuz") {
-      if (fileProvider.yom == 18 && (intTime > 5 && intTime < 19)) {
+      if (fileProvider.yom == 18 &&
+          (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom17tamuz',
               'Yzomshabat2 ');
         } else {
@@ -950,23 +1016,35 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
 // ++++++++++++++++ check for fast of 9 of av **************************
-  void check9Beav() {
+  void check9Beav(DateTime now, DateTime sunset) {
     if (fileProvider.jodesh == "Av") {
-      if (fileProvider.yom == 8 && dayofweek == 5 && intTime > 17) {
+      if (fileProvider.yom == 8 && dayofweek == 5 && now.isAfter(sunset)) {
+        swtzom = true;
         todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
             'tzomshabat2');
       } else {
-        if (fileProvider.yom == 9 && dayofweek == 6 && intTime < 19) {
+        if (fileProvider.yom == 9 && dayofweek == 6 && now.isBefore(sunset)) {
+          swtzom = true;
           todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
               'tzom9beavshabat2');
         } else {
-          if ((fileProvider.yom == 9 && dayofweek == 6 && intTime > 17) ||
-              (fileProvider.yom == 10 && dayofweek == 7 && intTime < 19)) {
+          if ((fileProvider.yom == 9 &&
+                  dayofweek == 6 &&
+                  now.isAfter(sunset)) ||
+              (fileProvider.yom == 10 &&
+                  dayofweek == 7 &&
+                  now.isBefore(sunset))) {
+            swtzom = true;
             todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
                 'hemptytxt ');
           } else {
-            if ((fileProvider.yom == 8 && dayofweek != 5 && intTime > 17) ||
-                (fileProvider.yom == 9 && dayofweek != 6 && intTime < 19)) {
+            if ((fileProvider.yom == 8 &&
+                    dayofweek != 5 &&
+                    now.isAfter(sunset)) ||
+                (fileProvider.yom == 9 &&
+                    dayofweek != 6 &&
+                    now.isBefore(sunset))) {
+              swtzom = true;
               todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
                   'hemptytxt');
             } else {
@@ -981,23 +1059,29 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   //++++++++++ metodo que maneja los dias fectivos +++++++++++++++
   void isHoliday(String himage, String hline1, hline2, hline3) {
     print(' estoy isHoliday ' + himage + ' ' + hline2);
-   setState(() {
-     headerimage = himage;
+    print('Rosh Hashana dia 29 holidayline1' + holidayline1 + '===========');
+    setState(() {
+      headerimage = himage;
 //    holidayline1 = getTranslated(context, hline1);
 //    holidayline2 = getTranslated(context, hline2);
 //    holidayline3 = getTranslated(context, hline3);
-     holidayline1 = hline1;
-     holidayline2 = hline2;
-     holidayline3 = hline3;
-   });
+      holidayline1 = hline1;
+      holidayline2 = hline2;
+      holidayline3 = hline3;
+    });
   }
 
   //++++++++++ metodo que maneja los dias  NO fectivos +++++++++++++++
   void todayIsNotHoliday() {
-    headerImage = 'assets/maguendavidyellow.png';
-    holidayline1 = ' ';
-    holidayline2 = ' ';
-    holidayline3 = ' ';
+    if (!swfestivity && !swtzom) {
+      setState(() {
+        print('swfestiviti xxxxxxxxxxxxx' + swfestivity.toString());
+        headerImage = 'assets/maguendavidyellow.png';
+        holidayline1 = ' ';
+        holidayline2 = ' ';
+        holidayline3 = ' ';
+      });
+    }
   }
 
   //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
@@ -1017,6 +1101,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   // ***************  get geoposition ********************
   Future<Point> _getCurrentlocation() async {
     var completer = Completer<Point>();
+
     Point point;
     try {
       final Position position =
@@ -1029,6 +1114,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     } on Exception catch (e) {
       lat = 0;
       long = 0;
+      print('[DEBUG] falla de geolocation ' + e.toString());
       point = Point(0.0, 0.0);
       print("[ANDRES] no authorization granted to obtain the position ");
     }
@@ -1045,7 +1131,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     var completer = Completer<SunriseSunsetData>();
     try {
       final response =
-          await SunriseSunset.getResults(latitude: point.x, longitude: point.y);
+          await SunriseSunset.getResults(date: DateTime(2020,09,19,22),latitude: point.x, longitude: point.y);
 
       if (response.success) {
         print('Sunrise: ${response.data.sunrise}');
@@ -1075,32 +1161,27 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 }
 
-class MyFlexiableAppBar extends StatefulWidget {
-  String datehebrew;
-  String date;
-  String headerimage;
-  String holidayline1;
-  String holidayline2;
-  String holidayline3;
-
-  MyFlexiableAppBar(this.date, this.datehebrew, this.headerimage,
-      this.holidayline1, this.holidayline2, this.holidayline3);
-
-  @override
-  _MyFlexiableAppBarState createState() => _MyFlexiableAppBarState();
-}
-
-class _MyFlexiableAppBarState extends State<MyFlexiableAppBar> {
+class MyFlexiableAppBar extends StatelessWidget {
   final double appBarHeight = 60.0;
+
+  final String datehebrew;
+  final String date;
+  final String headerimage;
+  final String holidayline1;
+  final String holidayline2;
+  final String holidayline3;
+
+  const MyFlexiableAppBar(this.date, this.datehebrew, this.headerimage,
+      this.holidayline1, this.holidayline2, this.holidayline3);
 
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     print(' estoy  en MyFlexiableAppBar 1 tishrei ' +
-        widget.headerimage +
+        headerimage +
         ' ' +
-        widget.holidayline2);
+        holidayline2);
 
     return new Container(
       padding: new EdgeInsets.only(top: statusBarHeight),
@@ -1116,7 +1197,7 @@ class _MyFlexiableAppBarState extends State<MyFlexiableAppBar> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    child: Text(widget.holidayline1,
+                    child: Text('$holidayline1',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -1125,7 +1206,7 @@ class _MyFlexiableAppBarState extends State<MyFlexiableAppBar> {
                         )),
                   ),
                   Container(
-                    child: new Text(widget.holidayline2,
+                    child: new Text('$holidayline2',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -1134,7 +1215,7 @@ class _MyFlexiableAppBarState extends State<MyFlexiableAppBar> {
                         )),
                   ),
                   Container(
-                    child: new Text(widget.holidayline3,
+                    child: new Text('$holidayline3',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -1155,7 +1236,7 @@ class _MyFlexiableAppBarState extends State<MyFlexiableAppBar> {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text(widget.date,
+                      child: Text(date,
                           style: TextStyle(
                               color: Color.fromARGB(500, 13, 17, 50),
                               fontFamily: 'RobotoSlab',
@@ -1166,7 +1247,7 @@ class _MyFlexiableAppBarState extends State<MyFlexiableAppBar> {
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(widget.datehebrew,
+                      child: Text(datehebrew,
                           style: TextStyle(
                               color: Color.fromARGB(500, 13, 17, 50),
                               fontFamily: 'RobotoSlab',
@@ -1182,7 +1263,7 @@ class _MyFlexiableAppBarState extends State<MyFlexiableAppBar> {
       )),
       decoration: new BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(widget.headerimage),
+          image: AssetImage(headerimage),
           fit: BoxFit.scaleDown,
         ),
         color: Colors.amber,
