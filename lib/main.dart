@@ -14,6 +14,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Blessing.dart';
 import 'FileProvider.dart';
 import 'BlessingSectionHeader.dart';
+import 'TheFlexiableAppBar.dart';
 import 'localization/localization_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -41,6 +42,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   var fileProvider = FileProvider();
 
   DateTime date = DateTime.now();
+  DateTime dateUTC;
 
   String _deviceLocale;
 
@@ -160,7 +162,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         'assets/fondo_bendiciones.png', 'Nature'),
     MiscellaneousBlessing("Blessing_When_Hear_Good_News", "B_PDF_Good_News",
         'assets/fondo_bendiciones.png', 'Personnel'),
-    MiscellaneousBlessing("Blessing_When_Hear_Bad_News", "B_PDF_Bad_News",
+    MiscellaneousBlessing("Blessing_When_Hear_Bad_News", "B_PDF_Bad_news",
         'assets/fondo_bendiciones.png', 'Personnel'),
   ];
 
@@ -367,25 +369,86 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     var offsetInHours = DateTime.now().timeZoneOffset;
     var sunriseTime = daylight.add(offsetInHours);
     var sunsetTime = nighlight.add(offsetInHours);
+    var dateUTC = date.add(offsetInHours);
 //    var now = DateTime.now();
     print("Daylight " + daylight.toString());
     print("Offset GMT " + offsetInHours.toString());
     print("===== SUNRISE " + sunriseTime.toString());
     print(' estoy en checkholiday **********************');
 
-    checkRoshHashana(date, sunsetTime);
-    checkTzomGedalia(date, sunriseTime, sunsetTime);
-    checkYomKipur(date, sunriseTime, sunsetTime);
-    checksukkot(date, sunsetTime);
-    checkJanuca(date, sunsetTime);
-    check10Tevet(date, sunriseTime, sunsetTime);
-    checkTuBishvat();
-    checkPurim(date, sunriseTime, sunsetTime);
-    checkPassover(date, sunsetTime);
-    checkOmer(date, sunsetTime);
-    checkShavuot(date, sunsetTime);
-    check17Tamuz(date, sunriseTime, sunsetTime);
-    check9Beav(date, sunsetTime);
+    switch (fileProvider.jodesh) {
+      case "Elul":
+        checkRoshHashana(date, sunsetTime);
+        break;
+
+      case "Tishrei":
+        checkRoshHashana(date, sunsetTime);
+        checkTzomGedalia(date, sunriseTime, sunsetTime);
+        checkYomKipur(date, sunriseTime, sunsetTime);
+        checksukkot(date, sunsetTime);
+        break;
+
+      case "Tevet":
+        checkJanuca(date, sunsetTime);
+        check10Tevet(date, sunriseTime, sunsetTime);
+        break;
+
+      case "Kislev":
+        checkJanuca(date, sunsetTime);
+        break;
+
+      case "Shvat":
+        checkTuBishvat();
+        break;
+
+      case "Adar I":
+        checkPurim(date, sunriseTime, sunsetTime);
+        break;
+
+      case "Adar II":
+        checkPurim(date, sunriseTime, sunsetTime);
+        break;
+
+      case "Adar":
+        checkPurim(date, sunriseTime, sunsetTime);
+        break;
+
+      case "Nissan":
+        checkPassover(date, sunsetTime);
+        checkOmer(date, sunsetTime);
+        break;
+
+      case "Iyar":
+        checkOmer(date, sunsetTime);
+        break;
+
+      case "Sivan":
+        checkOmer(date, sunsetTime);
+        checkShavuot(date, sunsetTime);
+        break;
+
+      case "Tamuz":
+        check17Tamuz(date, sunriseTime, sunsetTime);
+        break;
+
+      case "Av":
+        check9Beav(date, sunsetTime);
+        break;
+    }
+
+    // checkRoshHashana(date, sunsetTime);
+    // checkTzomGedalia(date, sunriseTime, sunsetTime);
+    // checkYomKipur(date, sunriseTime, sunsetTime);
+    // checksukkot(date, sunsetTime);
+    // checkJanuca(date, sunsetTime);
+    // check10Tevet(date, sunriseTime, sunsetTime);
+    // checkTuBishvat();
+    // checkPurim(date, sunriseTime, sunsetTime);
+    // checkPassover(date, sunsetTime);
+    // checkOmer(date, sunsetTime);
+    // checkShavuot(date, sunsetTime);
+    // check17Tamuz(date, sunriseTime, sunsetTime);
+    // check9Beav(date, sunsetTime);
     swfestivity = false;
     swtzom = false;
   }
@@ -472,8 +535,14 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 // ++++++++++++++++ check for Sukkot **************************
   void checksukkot(DateTime now, DateTime sunset) {
+    print('now ' +
+        now.millisecondsSinceEpoch.toString() +
+        ' sunset ' +
+        sunset.millisecondsSinceEpoch.toString());
+
     if (fileProvider.jodesh == "Tishrei") {
-      if ((fileProvider.yom == 14 && now.isAfter(sunset)) ||
+      if ((fileProvider.yom == 14 &&
+              now.millisecondsSinceEpoch > sunset.millisecondsSinceEpoch) ||
           (fileProvider.yom > 14 && fileProvider.yom < 20) ||
           (fileProvider.yom == 20 && now.isBefore(sunset))) {
         swfestivity = true;
@@ -1059,7 +1128,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       headerimage = himage;
 //    holidayline1 = getTranslated(context, hline1);
 //    holidayline2 = getTranslated(context, hline2);
-//    holidayline3 = getTranslated(context, hline3);
+//      holidayline3 = getTranslated(context, hline3);
       holidayline1 = hline1;
       holidayline2 = hline2;
       holidayline3 = hline3;
@@ -1153,110 +1222,110 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 }
 
-class MyFlexiableAppBar extends StatelessWidget {
-  final double appBarHeight = 60.0;
-
-  final String datehebrew;
-  final String date;
-  final String headerimage;
-  final String holidayline1;
-  final String holidayline2;
-  final String holidayline3;
-
-  const MyFlexiableAppBar(this.date, this.datehebrew, this.headerimage,
-      this.holidayline1, this.holidayline2, this.holidayline3);
-
-  @override
-  Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
-
-    print(' estoy  en MyFlexiableAppBar ' + headerimage + ' ' + holidayline2);
-
-    return new Container(
-      padding: new EdgeInsets.only(top: statusBarHeight),
-      height: statusBarHeight + appBarHeight,
-      child: new Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: Text('$holidayline1',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: 'RobotoSlab',
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  Container(
-                    child: new Text('$holidayline2',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: 'RobotoSlab',
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  Container(
-                    child: new Text('$holidayline3',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: 'RobotoSlab',
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text(date,
-                          style: TextStyle(
-                              color: Color.fromARGB(500, 13, 17, 50),
-                              fontFamily: 'RobotoSlab',
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(datehebrew,
-                          style: TextStyle(
-                              color: Color.fromARGB(500, 13, 17, 50),
-                              fontFamily: 'RobotoSlab',
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      )),
-      decoration: new BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(headerimage),
-          fit: BoxFit.scaleDown,
-        ),
-        color: Colors.amber,
-      ),
-    );
-  }
-}
+// class MyFlexiableAppBar extends StatelessWidget {
+//   final double appBarHeight = 60.0;
+//
+//   final String datehebrew;
+//   final String date;
+//   final String headerimage;
+//   final String holidayline1;
+//   final String holidayline2;
+//   final String holidayline3;
+//
+//   const MyFlexiableAppBar(this.date, this.datehebrew, this.headerimage,
+//       this.holidayline1, this.holidayline2, this.holidayline3);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final double statusBarHeight = MediaQuery.of(context).padding.top;
+//
+//     print(' estoy  en MyFlexiableAppBar ' + headerimage + ' ' + holidayline2);
+//
+//     return new Container(
+//       padding: new EdgeInsets.only(top: statusBarHeight),
+//       height: statusBarHeight + appBarHeight,
+//       child: new Center(
+//           child: Column(
+//         mainAxisAlignment: MainAxisAlignment.end,
+//         children: <Widget>[
+//           Container(
+//             child: Padding(
+//               padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Container(
+//                     child: Text('$holidayline1',
+//                         style: TextStyle(
+//                           color: Colors.black,
+//                           fontSize: 20,
+//                           fontFamily: 'RobotoSlab',
+//                           fontWeight: FontWeight.bold,
+//                         )),
+//                   ),
+//                   Container(
+//                     child: new Text('$holidayline2',
+//                         style: const TextStyle(
+//                           color: Colors.black,
+//                           fontSize: 20,
+//                           fontFamily: 'RobotoSlab',
+//                           fontWeight: FontWeight.bold,
+//                         )),
+//                   ),
+//                   Container(
+//                     child: new Text('$holidayline3',
+//                         style: const TextStyle(
+//                           color: Colors.black,
+//                           fontSize: 20,
+//                           fontFamily: 'RobotoSlab',
+//                           fontWeight: FontWeight.bold,
+//                         )),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           Container(
+//             child: Padding(
+//               padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: <Widget>[
+//                   Container(
+//                     child: Padding(
+//                       padding: EdgeInsets.only(bottom: 10.0),
+//                       child: Text(date,
+//                           style: TextStyle(
+//                               color: Color.fromARGB(500, 13, 17, 50),
+//                               fontFamily: 'RobotoSlab',
+//                               fontSize: 16.0,
+//                               fontWeight: FontWeight.bold)),
+//                     ),
+//                   ),
+//                   Container(
+//                     child: Padding(
+//                       padding: const EdgeInsets.only(bottom: 10.0),
+//                       child: Text(datehebrew,
+//                           style: TextStyle(
+//                               color: Color.fromARGB(500, 13, 17, 50),
+//                               fontFamily: 'RobotoSlab',
+//                               fontSize: 16.0,
+//                               fontWeight: FontWeight.bold)),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ],
+//       )),
+//       decoration: new BoxDecoration(
+//         image: DecorationImage(
+//           image: AssetImage(headerimage),
+//           fit: BoxFit.scaleDown,
+//         ),
+//         color: Colors.amber,
+//       ),
+//     );
+//   }
+// }
