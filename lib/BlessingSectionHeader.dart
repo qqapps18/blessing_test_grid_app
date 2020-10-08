@@ -31,6 +31,21 @@ class DelegateHeader extends SliverPersistentHeaderDelegate {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.indigo),
           color: Colors.amberAccent,
+          // gradient: LinearGradient(
+          //   begin: Alignment.centerLeft,
+          //   end: Alignment.centerRight,
+          //
+          //   List: <Color> [
+          //     Colors.white,
+          //         Colors.blue[900],
+          //         Colors.white,
+          //         Colors.white,
+          //         Colors.blue[900],
+          //         Colors.white,
+          //   ],
+          //
+          // ),
+
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
@@ -42,7 +57,8 @@ class DelegateHeader extends SliverPersistentHeaderDelegate {
               Colors.blue[900],
               Colors.white,
             ],
-          )),
+          )
+      ),
       child: Center(
         child: Text(
           headerTitle,

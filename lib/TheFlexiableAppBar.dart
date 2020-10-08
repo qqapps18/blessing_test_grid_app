@@ -3,19 +3,6 @@ import 'package:flutter/cupertino.dart';
 
 import 'localization/localization_constants.dart';
 
-
-//class TheFlexiableAppBar {
-//   final String datehebrew;
-//   final String date;
-//   final String headerimage;
-//   final String holidayline1;
-//   final String holidayline2;
-//   final String holidayline3;
-//
-//   const TheFlexiableAppBar(this.datehebrew, this.date, this.headerimage,
-//       this.holidayline1, this.holidayline2, this.holidayline3);
-// }
-
 class MyFlexiableAppBar extends StatelessWidget {
   final double appBarHeight = 60.0;
 
@@ -58,7 +45,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                             )),
                       ),
                       Container(
-                        child: Text(getTranslated(context, holidayline2),
+                        child: Text('$holidayline2',
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 20,
