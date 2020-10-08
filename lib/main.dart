@@ -72,8 +72,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     fileProvider
         .getDocuments()
         .then((file) => _getCurrentlocation())
-        .then((point) => _getSunriseSunset(point))
-        .then((sunrisedata) => checkHoliday(sunrisedata));
+        .then((point) => _getSunriseSunset(point));
+//        .then((sunrisedata) => checkHoliday(sunrisedata));
     dayofweek = date.weekday;
     intTimeString =
         DateFormat.H(_deviceLocale).format(DateTime.now().toLocal());
@@ -199,13 +199,13 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                     pinned: true,
                     expandedHeight: 180.0,
                     flexibleSpace: FlexibleSpaceBar(
-                      background: MyFlexiableAppBar(
-                        DateFormat.yMMMd().format(date),
-                        fileProvider.datehebrew,
-                        headerIsHolliday.headerimage,
-                        headerIsHolliday.holidayline1,
-                        headerIsHolliday.holidayline2,
-                        headerIsHolliday.holidayline3,
+                      background: HeaderIsHolliday(
+//                        DateFormat.yMMMd().format(date),
+//                        fileProvider.datehebrew,
+//                        headerIsHolliday.headerimage,
+//                        headerIsHolliday.holidayline1,
+//                        headerIsHolliday.holidayline2,
+//                        headerIsHolliday.holidayline3,
                       ),
                     ),
                   ),
@@ -354,870 +354,885 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
   }
 
-  void checkHoliday(SunriseSunsetData data) {
-    print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
-
-    // variables para el calculo del sunrise y sunset
-    // daylight - hora local del amanecer en el meridiano 0
-    // nighlight - hora local del atardecer en el meridiano 0
-    // offsetInHours - horas de diferencia con el meridiano 0
-    //                 que se sumaran para obtener la hora local correcta
-    // sunriseTime - hora local del amanecer
-    // sunsetTime - hora local del atardecer
-    // now - la hora actual
-
-    var daylight = data.civilTwilightBegin;
-    var nighlight = data.civilTwilightEnd;
-    var offsetInHours = DateTime.now().timeZoneOffset;
-    var sunriseTime = daylight.add(offsetInHours);
-    var sunsetTime = nighlight.add(offsetInHours);
-    var dateUTC = date.add(offsetInHours);
-//    var now = DateTime.now();
-    print("Daylight " + daylight.toString());
-    print("Offset GMT " + offsetInHours.toString());
-    print("===== SUNRISE " + sunriseTime.toString());
-    print(' estoy en checkholiday **********************');
-
-    switch (fileProvider.jodesh) {
-      case "Elul":
-        checkRoshHashana(date, sunsetTime);
-        break;
-
-      case "Tishrei":
-        checkRoshHashana(date, sunsetTime);
-        checkTzomGedalia(date, sunriseTime, sunsetTime);
-        checkYomKipur(date, sunriseTime, sunsetTime);
-        checksukkot(date, sunsetTime);
-        break;
-
-      case "Tevet":
-        checkJanuca(date, sunsetTime);
-        check10Tevet(date, sunriseTime, sunsetTime);
-        break;
-
-      case "Kislev":
-        checkJanuca(date, sunsetTime);
-        break;
-
-      case "Shvat":
-        checkTuBishvat();
-        break;
-
-      case "Adar I":
-        checkPurim(date, sunriseTime, sunsetTime);
-        break;
-
-      case "Adar II":
-        checkPurim(date, sunriseTime, sunsetTime);
-        break;
-
-      case "Adar":
-        checkPurim(date, sunriseTime, sunsetTime);
-        break;
-
-      case "Nissan":
-        checkPassover(date, sunsetTime);
-        checkOmer(date, sunsetTime);
-        break;
-
-      case "Iyar":
-        checkOmer(date, sunsetTime);
-        break;
-
-      case "Sivan":
-        checkOmer(date, sunsetTime);
-        checkShavuot(date, sunsetTime);
-        break;
-
-      case "Tamuz":
-        check17Tamuz(date, sunriseTime, sunsetTime);
-        break;
-
-      case "Av":
-        check9Beav(date, sunsetTime);
-        break;
-    }
-
-    // checkRoshHashana(date, sunsetTime);
-    // checkTzomGedalia(date, sunriseTime, sunsetTime);
-    // checkYomKipur(date, sunriseTime, sunsetTime);
-    // checksukkot(date, sunsetTime);
-    // checkJanuca(date, sunsetTime);
-    // check10Tevet(date, sunriseTime, sunsetTime);
-    // checkTuBishvat();
-    // checkPurim(date, sunriseTime, sunsetTime);
-    // checkPassover(date, sunsetTime);
-    // checkOmer(date, sunsetTime);
-    // checkShavuot(date, sunsetTime);
-    // check17Tamuz(date, sunriseTime, sunsetTime);
-    // check9Beav(date, sunsetTime);
-    swfestivity = false;
-    swtzom = false;
-  }
+//  void checkHoliday(SunriseSunsetData data) {
+//    print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
+//
+//    // variables para el calculo del sunrise y sunset
+//    // daylight - hora local del amanecer en el meridiano 0
+//    // nighlight - hora local del atardecer en el meridiano 0
+//    // offsetInHours - horas de diferencia con el meridiano 0
+//    //                 que se sumaran para obtener la hora local correcta
+//    // sunriseTime - hora local del amanecer
+//    // sunsetTime - hora local del atardecer
+//    // now - la hora actual
+//
+//    var daylight = data.civilTwilightBegin;
+//    var nighlight = data.civilTwilightEnd;
+//    var offsetInHours = DateTime.now().timeZoneOffset;
+//    var sunriseTime = daylight.add(offsetInHours);
+//    var sunsetTime = nighlight.add(offsetInHours);
+//    var dateUTC = date.add(offsetInHours);
+////    var now = DateTime.now();
+//    print("Daylight " + daylight.toString());
+//    print("Offset GMT " + offsetInHours.toString());
+//    print("===== SUNRISE " + sunriseTime.toString());
+//    print(' estoy en checkholiday **********************');
+//
+//    switch (fileProvider.jodesh) {
+//      case "Elul":
+//        checkRoshHashana(date, sunsetTime);
+//        break;
+//
+//      case "Tishrei":
+//        checkRoshHashana(date, sunsetTime);
+//        checkTzomGedalia(date, sunriseTime, sunsetTime);
+//        checkYomKipur(date, sunriseTime, sunsetTime);
+//        checksukkot(date, sunsetTime);
+//        break;
+//
+//      case "Tevet":
+//        checkJanuca(date, sunsetTime);
+//        check10Tevet(date, sunriseTime, sunsetTime);
+//        break;
+//
+//      case "Kislev":
+//        checkJanuca(date, sunsetTime);
+//        break;
+//
+//      case "Shvat":
+//        checkTuBishvat();
+//        break;
+//
+//      case "Adar I":
+//        checkPurim(date, sunriseTime, sunsetTime);
+//        break;
+//
+//      case "Adar II":
+//        checkPurim(date, sunriseTime, sunsetTime);
+//        break;
+//
+//      case "Adar":
+//        checkPurim(date, sunriseTime, sunsetTime);
+//        break;
+//
+//      case "Nissan":
+//        checkPassover(date, sunsetTime);
+//        checkOmer(date, sunsetTime);
+//        break;
+//
+//      case "Iyar":
+//        checkOmer(date, sunsetTime);
+//        break;
+//
+//      case "Sivan":
+//        checkOmer(date, sunsetTime);
+//        checkShavuot(date, sunsetTime);
+//        break;
+//
+//      case "Tamuz":
+//        check17Tamuz(date, sunriseTime, sunsetTime);
+//        break;
+//
+//      case "Av":
+//        check9Beav(date, sunsetTime);
+//        break;
+//    }
+//
+//    // checkRoshHashana(date, sunsetTime);
+//    // checkTzomGedalia(date, sunriseTime, sunsetTime);
+//    // checkYomKipur(date, sunriseTime, sunsetTime);
+//    // checksukkot(date, sunsetTime);
+//    // checkJanuca(date, sunsetTime);
+//    // check10Tevet(date, sunriseTime, sunsetTime);
+//    // checkTuBishvat();
+//    // checkPurim(date, sunriseTime, sunsetTime);
+//    // checkPassover(date, sunsetTime);
+//    // checkOmer(date, sunsetTime);
+//    // checkShavuot(date, sunsetTime);
+//    // check17Tamuz(date, sunriseTime, sunsetTime);
+//    // check9Beav(date, sunsetTime);
+//    swfestivity = false;
+//    swtzom = false;
+//  }
 
 // ++++++++++++++++ check for Rosh Hashana **************************
-  void checkRoshHashana(DateTime now, DateTime sunset) {
-    print('[DEBUG] estoy en checkRoshHashana **********************');
-    print('[DEBUG] mes ' + fileProvider.jodesh);
-    print('[DEBUG] dia ' + fileProvider.yom.toString());
-    print('[DEBUG] año ' + fileProvider.shana.toString());
-    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
-    print('[DEBUG] dia de la semana ' + dayofweek.toString());
-
-    // aqui chequeo la fecha para ver si es año nuevo ***************
-    if (fileProvider.jodesh == "Elul") {
-      if (fileProvider.yom == 29 && now.isAfter(sunset)) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/roshhashana.png', 'hemptytxt',
-            'shana_tova', 'hemptytxt ', swfestivity, swtzom);
-      } else {
-        headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-            'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-      }
-    }
-
-    if (fileProvider.jodesh == "Tishrei") {
-      if (fileProvider.yom == 1 ||
-          (fileProvider.yom == 2 && now.isBefore(sunset))) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/roshhashana.png', 'hemptytxt',
-            'shana_tova', 'hemptytxt', swfestivity, swtzom);
-      } else {
-        headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-            'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-      }
-    }
-  }
-
-//por default para Fluter el primer dia de la semana es el lunes
-// por lo que el sabado es el dia 6
-// ++++++++++++++++ check for Tzom Gedalia **************************
-
-  void checkTzomGedalia(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.jodesh == "Tishrei") {
-      if (fileProvider.yom == 3 &&
-          (now.isAfter(sunrise) && now.isBefore(sunset))) {
-        if (dayofweek == 6) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzomGedalia',
-              'tzomshabat2');
-        } else {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomGedalia',
-              'hemptytxt ');
-        }
-      }
-    }
-
-    if (fileProvider.jodesh == "Tishrei") {
-      if (fileProvider.yom == 4 &&
-          (now.isAfter(sunrise) && now.isBefore(sunset))) {
-        if (dayofweek == 7) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzomGedalia',
-              'Yzomshabat2 ');
-        } else {
-          headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-              'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-        }
-      }
-    }
-  }
-
-// ++++++++++++++++ check for Yom Kipur **************************
-  void checkYomKipur(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.jodesh == "Tishrei") {
-      if ((fileProvider.yom == 9 && now.isAfter(sunset)) ||
-          (fileProvider.yom == 10 && now.isBefore(sunset))) {
-        swtzom = true;
-        todayIsTzom(
-            'assets/emptyimage.png', 'hemptytxt', 'yomkipur', 'hemptytxt');
-      } else {
-        headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-            'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-      }
-    }
-  }
-
-// ++++++++++++++++ check for Sukkot **************************
-  void checksukkot(DateTime now, DateTime sunset) {
-    print('now ' +
-        now.millisecondsSinceEpoch.toString() +
-        ' sunset ' +
-        sunset.millisecondsSinceEpoch.toString());
-
-    if (fileProvider.jodesh == "Tishrei") {
-      if ((fileProvider.yom == 14 &&
-              now.millisecondsSinceEpoch > sunset.millisecondsSinceEpoch) ||
-          (fileProvider.yom > 14 && fileProvider.yom < 20) ||
-          (fileProvider.yom == 20 && now.isBefore(sunset))) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/sukkot.png', 'hemptytxt', 'sukkot',
-            'hemptytxt', swfestivity, swtzom);
-      } else {
-        if ((fileProvider.yom == 20 && now.isAfter(sunset)) ||
-            (fileProvider.yom == 21 && now.isBefore(sunset))) {
-          swfestivity = true;
-          headerIsHolliday.isHoliday('assets/sukkot.png', 'hemptytxt',
-              'hoshanaraba', 'hemptytxt', swfestivity, swtzom);
-        } else {
-          if ((fileProvider.yom == 21 && now.isBefore(sunset)) ||
-              (fileProvider.yom == 22 && now.isAfter(sunset))) {
-            swfestivity = true;
-            headerIsHolliday.isHoliday('assets/sukkot.png', 'hemptytxt',
-                'sheminiatzeret', 'hemptytxt', swfestivity, swtzom);
-          } else {
-            if ((fileProvider.yom == 22 && now.isBefore(sunset)) ||
-                (fileProvider.yom == 23 && now.isAfter(sunset))) {
-              swfestivity = true;
-              headerIsHolliday.isHoliday('assets/sinchattorah.png', 'hemptytxt',
-                  'sinchattorah', 'hemptytxt', swfestivity, swtzom);
-            } else {
-              headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-                  'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // ++++++++++++++++ check for Januca **************************
-
-  void checkJanuca(DateTime now, DateTime sunset) {
-    int endmonth = 0;
-
-    if (fileProvider.jodesh == "Tevet") {
-      if ((fileProvider.yom == 1 && fileProvider.yesterdayyom == 29) ||
-          (fileProvider.yom == 2 && fileProvider.daybeforeyom == 29)) {
-        endmonth = 1;
-      } else {
-        if ((fileProvider.yom == 1 && fileProvider.daybeforeyom == 30) ||
-            (fileProvider.yom == 2 && fileProvider.daybeforeyom == 30)) {
-          endmonth = 2;
-        }
-      }
-    }
-
-    if (fileProvider.jodesh == "Kislev") {
-      if ((fileProvider.yom == 24 && now.isAfter(sunset)) ||
-          (fileProvider.yom == 25 && now.isBefore(sunset))) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/januquilladia1.png', 'hemptytxt',
-            'happyjanuca', 'hemptytxt', swfestivity, swtzom);
-      } else {
-        if ((fileProvider.yom == 24 && now.isAfter(sunset)) ||
-            (fileProvider.yom == 25 && now.isBefore(sunset))) {
-          swfestivity = true;
-          headerIsHolliday.isHoliday('assets/januquilladia2.png', 'hemptytxt',
-              'happyjanuca', 'hemptytxt', swfestivity, swtzom);
-        } else {
-          if ((fileProvider.yom == 26 && now.isAfter(sunset)) ||
-              (fileProvider.yom == 27 && now.isBefore(sunset))) {
-            swfestivity = true;
-            headerIsHolliday.isHoliday('assets/januquilladia3.png', 'hemptytxt',
-                'happyjanuca', 'hemptytxt', swfestivity, swtzom);
-          } else {
-            if ((fileProvider.yom == 27 && now.isAfter(sunset)) ||
-                (fileProvider.yom == 28 && now.isBefore(sunset))) {
-              swfestivity = true;
-              headerIsHolliday.isHoliday('assets/januquilladia4.png',
-                  'hemptytxt', 'happyjanuca', 'hemptytxt', swfestivity, swtzom);
-            } else {
-              if ((fileProvider.yom == 28 && now.isAfter(sunset)) ||
-                  (fileProvider.yom == 29 && now.isBefore(sunset))) {
-                swfestivity = true;
-                headerIsHolliday.isHoliday(
-                    'assets/januquilladia5.png',
-                    'hemptytxt',
-                    'happyjanuca',
-                    'hemptytxt',
-                    swfestivity,
-                    swtzom);
-              } else {
-                if ((fileProvider.yom == 29 && now.isAfter(sunset)) ||
-                    (fileProvider.yom == 30 && now.isBefore(sunset))) {
-                  swfestivity = true;
-                  headerIsHolliday.isHoliday(
-                      'assets/januquilladia6.png',
-                      'hemptytxt',
-                      'happyjanuca',
-                      'hemptytxt',
-                      swfestivity,
-                      swtzom);
-                } else {
-                  if (fileProvider.yom == 30 && now.isAfter(sunset)) {
-                    swfestivity = true;
-                    headerIsHolliday.isHoliday(
-                        'assets/januquilladia7.png',
-                        'hemptytxt',
-                        'happyjanuca',
-                        'hemptytxt',
-                        swfestivity,
-                        swtzom);
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    if (fileProvider.jodesh == "Tevet") {
-      if (fileProvider.yom == 1 && endmonth == 1 && now.isBefore(sunset)) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/januquilladia6.png', 'hemptytxt',
-            'happyjanuca', 'hemptytxt', swfestivity, swtzom);
-      } else {
-        if ((fileProvider.yom == 1 && endmonth == 1 && now.isAfter(sunset)) ||
-            (fileProvider.yom == 2 && endmonth == 1 && now.isBefore(sunset))) {
-          swfestivity = true;
-          headerIsHolliday.isHoliday('assets/januquilladia7.png', 'hemptytxt',
-              'happyjanuca', 'hemptytxt', swfestivity, swtzom);
-        } else {
-          if ((fileProvider.yom == 2 && endmonth == 1 && now.isAfter(sunset)) ||
-              (fileProvider.yom == 3 &&
-                  endmonth == 1 &&
-                  now.isBefore(sunset))) {
-            swfestivity = true;
-            headerIsHolliday.isHoliday('assets/januquillacompleta.png',
-                'hemptytxt', 'happyjanuca', 'hemptytxt', swfestivity, swtzom);
-          } else {
-            if (fileProvider.yom == 1 && endmonth == 2 && now.isAfter(sunset)) {
-              swfestivity = true;
-              headerIsHolliday.isHoliday('assets/januquilladia7.png',
-                  'hemptytxt', 'happyjanuca', 'hemptytxt', swfestivity, swtzom);
-            } else {
-              if ((fileProvider.yom == 1 &&
-                      endmonth == 2 &&
-                      now.isAfter(sunset)) ||
-                  (fileProvider.yom == 2 &&
-                      endmonth == 2 &&
-                      now.isBefore(sunset))) {
-                swfestivity = true;
-                headerIsHolliday.isHoliday(
-                    'assets/januquillacompleta.png',
-                    'hemptytxt',
-                    'happyjanuca',
-                    'hemptytxt',
-                    swfestivity,
-                    swtzom);
-              } else {
-                headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-                    'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-//por default para Fluter el primer dia de la semana es el lunes
-// por lo que el sabado es el dia 6
-// ++++++++++++++++ check for Tzom 10 of TEVET **************************
-
-  void check10Tevet(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.jodesh == "Tevet") {
-      if (fileProvider.yom == 10 &&
-          (now.isAfter(sunrise) && now.isBefore(sunset))) {
-        if (dayofweek == 6) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom10Tevet',
-              'tzomshabat2');
-        } else {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom10Tevet',
-              'hemptytxt ');
-        }
-      }
-    }
-
-    if (fileProvider.jodesh == "Tevet") {
-      if (fileProvider.yom == 11 &&
-          (now.isAfter(sunrise) && now.isBefore(sunset))) {
-        if (dayofweek == 7) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom10Tevet',
-              'Yzomshabat2 ');
-        } else {
-          headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-              'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-        }
-      }
-    }
-  }
-
-  // ++++++++++++++++ check for Tu Bishvat **************************
-
-  void checkTuBishvat() {
-    if (fileProvider.jodesh == "Shvat") {
-      if (fileProvider.yom == 15) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/tubishvat.png', 'hemptytxt',
-            'tubishvat', 'hemptytxt', swfestivity, swtzom);
-      } else {
-        headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-            'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-      }
-    }
-  }
-
-  // *************** Check for Purim ++++++++++++++++++++++++++++++++
-
-  void checkPurim(DateTime now, DateTime sunrise, DateTime sunset) {
-    print("[PURIM]  istzomesther entrando " + istzomesther.toString());
-
-    if (fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar I") {
-        if (fileProvider.yom == 14) {
-          swfestivity = true;
-          headerIsHolliday.isHoliday('assets/tpurimkatan.png', 'hemptytxt',
-              'purimkatan', 'hemptytxt', swfestivity, swtzom);
-        } else {
-          if (fileProvider.yom == 15) {
-            swfestivity = true;
-            headerIsHolliday.isHoliday('assets/purimkatan.png', 'hemptytxt',
-                'sushanpurimkatan', 'hemptytxt', swfestivity, swtzom);
-          } else {
-            headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-                'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-          }
-        }
-      }
-    }
-
-    if (fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar II") {
-        todayTzomEsther(now, sunrise, sunset);
-        print("[PURIM]  istzomesther regresando1 " + istzomesther.toString());
-
-        if (istzomesther == 0) {
-          if (fileProvider.yom == 13 &&
-              (now.isAfter(sunrise) && now.isBefore(sunset))) {
-            swtzom = true;
-            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
-                'hemptytxt');
-          } else {
-            if (fileProvider.yom == 14) {
-              swfestivity = true;
-              headerIsHolliday.isHoliday('assets/purimnormal.png', 'hemptytxt',
-                  'purim', 'hemptytxt', swfestivity, swtzom);
-            } else {
-              if (fileProvider.yom == 15) {
-                swfestivity = true;
-                headerIsHolliday.isHoliday(
-                    'assets/purimnormal.png',
-                    'hemptytxt',
-                    'sushanpurim',
-                    'hemptytxt',
-                    swfestivity,
-                    swtzom);
-              } else {
-                headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-                    'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-              }
-            }
-          }
-        } else {
-          if (istzomesther == 1) {
-            if (fileProvider.yom == 13 &&
-                (now.isAfter(sunrise) && now.isBefore(sunset))) {
-              if (dayofweek == 6) {
-                swtzom = true;
-                todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
-                    'tzomesthershabat', 'tzomesthershabatadarii');
-                istzomesther = 0;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    if (!fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar") {
-        todayTzomEsther(now, sunrise, sunset);
-        print("[PURIM]  istzomesther regresando2 " + istzomesther.toString());
-
-        if (istzomesther == 0) {
-          if (fileProvider.yom == 13 &&
-              (now.isAfter(sunrise) && now.isBefore(sunset))) {
-            swtzom = true;
-            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
-                'hemptytxt');
-          } else {
-            if (fileProvider.yom == 14) {
-              swfestivity = true;
-              headerIsHolliday.isHoliday('assets/purimnormal.png', 'hemptytxt',
-                  'purim', 'hemptytxt', swfestivity, swtzom);
-            } else {
-              if (fileProvider.yom == 15) {
-                swfestivity = true;
-                headerIsHolliday.isHoliday(
-                    'assets/purimnormal.png',
-                    'hemptytxt',
-                    'sushanpurim',
-                    'hemptytxt',
-                    swfestivity,
-                    swtzom);
-              } else {
-                headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-                    'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-              }
-            }
-          }
-        }
-        if (istzomesther == 1) {
-          if (fileProvider.yom == 13 &&
-              (now.isAfter(sunrise) && now.isBefore(sunset))) {
-            swtzom = true;
-            if (dayofweek == 6) {
-              todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
-                  'tzomesthershabat', 'tzomesthershabatadar');
-            }
-          }
-        }
-      }
-    }
-  }
-
-  //++++++++++++++++++++++ check fot Tzom Esther +++++++++++++++++++++
-
-  void todayTzomEsther(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar II") {
-        if (fileProvider.yom == 11 &&
-            dayofweek == 4 &&
-            (now.isAfter(sunrise) && now.isBefore(sunset))) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomEsther',
-              'tzomestheron11adarii', 'hemptytxt');
-          istzomesther = 1;
-        } else {
-          if (fileProvider.yom == 13 &&
-              dayofweek == 7 &&
-              (now.isAfter(sunrise) && now.isBefore(sunset))) {
-            istzomesther = 1;
-          }
-        }
-      }
-    }
-
-    if (!fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar") {
-        if (fileProvider.yom == 11 &&
-            dayofweek == 4 &&
-            (now.isAfter(sunrise) && now.isBefore(sunset))) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomEsther',
-              'tzomestheron11adar', 'hemptytxt');
-          istzomesther = 1;
-        } else {
-          if (fileProvider.yom == 13 &&
-              dayofweek == 7 &&
-              (now.isAfter(sunrise) && now.isBefore(sunset))) {
-            istzomesther = 1;
-          }
-        }
-      }
-    }
-  }
-
-  //++++++++++++++++++++++ check for Passover +++++++++++++++++++++
-  void checkPassover(DateTime now, DateTime sunset) {
-    if (fileProvider.jodesh == "Nissan") {
-      if (fileProvider.yom == 14 && now.isAfter(sunset)) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/pesaj.png', 'hemptytxt',
-            'pesaje1seder', 'hemptytxt', swfestivity, swtzom);
-      } else {
-        if (fileProvider.yom == 15 && now.isBefore(sunset)) {
-          swfestivity = true;
-          headerIsHolliday.isHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj',
-              'hemptytxt', swfestivity, swtzom);
-        } else {
-          if (fileProvider.yom == 15 && now.isAfter(sunset)) {
-            swfestivity = true;
-            headerIsHolliday.isHoliday('assets/pesaj.png', 'hemptytxt',
-                'pesaj2seder', 'hemptytxt', swfestivity, swtzom);
-          } else {
-            if (fileProvider.yom == 16 && now.isBefore(sunset)) {
-              swfestivity = true;
-              headerIsHolliday.isHoliday('assets/pesaj.png', 'hemptytxt',
-                  'pesaj1omer', 'hemptytxt', swfestivity, swtzom);
-            } else {
-              if ((fileProvider.yom == 16 && now.isAfter(sunset)) ||
-                  (fileProvider.yom == 17 && now.isBefore(sunset))) {
-                swfestivity = true;
-                headerIsHolliday.isHoliday('assets/pesaj.png', 'hemptytxt',
-                    'pesaj2omer', 'hemptytxt', swfestivity, swtzom);
-              } else {
-                if ((fileProvider.yom == 17 && now.isAfter(sunset)) ||
-                    (fileProvider.yom == 18 && now.isBefore(sunset))) {
-                  swfestivity = true;
-                  headerIsHolliday.isHoliday('assets/pesaj.png', 'hemptytxt',
-                      'pesaj3omer', 'hemptytxt', swfestivity, swtzom);
-                } else {
-                  if ((fileProvider.yom == 18 && now.isAfter(sunset)) ||
-                      (fileProvider.yom == 19 && now.isBefore(sunset))) {
-                    swfestivity = true;
-                    headerIsHolliday.isHoliday('assets/pesaj.png', 'hemptytxt',
-                        'pesaj4omer', 'hemptytxt', swfestivity, swtzom);
-                  } else {
-                    if ((fileProvider.yom == 19 && now.isAfter(sunset)) ||
-                        (fileProvider.yom == 20 && now.isBefore(sunset))) {
-                      swfestivity = true;
-                      headerIsHolliday.isHoliday(
-                          'assets/pesaj.png',
-                          'hemptytxt',
-                          'pesaj5omer',
-                          'hemptytxt',
-                          swfestivity,
-                          swtzom);
-                    } else {
-                      if ((fileProvider.yom == 20 && now.isAfter(sunset)) ||
-                          (fileProvider.yom == 21 && now.isBefore(sunset))) {
-                        swfestivity = true;
-                        headerIsHolliday.isHoliday(
-                            'assets/pesaj.png',
-                            'hemptytxt',
-                            'pesaj6omer',
-                            'hemptytxt',
-                            swfestivity,
-                            swtzom);
-                      } else {
-                        if ((fileProvider.yom == 21 && now.isAfter(sunset)) ||
-                            (fileProvider.yom == 22 && now.isBefore(sunset))) {
-                          swfestivity = true;
-                          headerIsHolliday.isHoliday(
-                              'assets/pesaj.png',
-                              'hemptytxt',
-                              'pesaj7omer',
-                              'hemptytxt',
-                              swfestivity,
-                              swtzom);
-                        } else {
-                          if ((fileProvider.yom == 22 && now.isAfter(sunset)) ||
-                              (fileProvider.yom == 23 &&
-                                  now.isBefore(sunset))) {
-                            swfestivity = true;
-                            headerIsHolliday.isHoliday(
-                                'assets/pesaj.png',
-                                'hemptytxt',
-                                'pesaj8omer',
-                                'hemptytxt',
-                                swfestivity,
-                                swtzom);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-//++++++++++++++++++++++ check for Omer +++++++++++++++++++++
-  void checkOmer(DateTime now, DateTime sunset) {
-    int omerday = 0;
-    if (fileProvider.jodesh == "Nissan") {
-      for (int day = 23; day < 31; day++) {
-        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
-            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
-          swfestivity = true;
-          omerday = day - 14;
-          headerIsHolliday.isHoliday(
-              'assets/emptyimage.png',
-              'hemptytxt',
-              ('omerday' + ' ' + omerday.toString()),
-              'hemptytxt',
-              swfestivity,
-              swtzom);
-        }
-      }
-    }
-
-    if (fileProvider.jodesh == "Iyar") {
-      if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
-        swfestivity = true;
-        omerday = 16;
-        headerIsHolliday.isHoliday(
-            'assets/emptyimage.png',
-            'hemptytxt',
-            ('omerday' + ' ' + omerday.toString()),
-            'hemptytxt',
-            swfestivity,
-            swtzom);
-      }
-    }
-
-    if (fileProvider.jodesh == "Iyar") {
-      for (int day = 1; day < 17; day++) {
-        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
-            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
-          swfestivity = true;
-          omerday = day + 16;
-          headerIsHolliday.isHoliday(
-              'assets/emptyimage.png',
-              'hemptytxt',
-              ('omerday' + ' ' + omerday.toString()),
-              'hemptytxt',
-              swfestivity,
-              swtzom);
-        }
-      }
-    }
-
-    if (fileProvider.jodesh == "Iyar") {
-      if (((fileProvider.yom == 17 && now.isAfter(sunset)) ||
-          (fileProvider.yom == 18 && now.isBefore(sunset)))) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/lagbaomer.png', 'hemptytxt',
-            'pesaj33omer', 'hemptytxt', swfestivity, swtzom);
-      }
-    }
-
-    if (fileProvider.jodesh == "Iyar") {
-      for (int day = 18; day < 30; day++) {
-        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
-            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
-          swfestivity = true;
-          omerday = day + 16;
-          headerIsHolliday.isHoliday(
-              'assets/emptyimage.png',
-              'hemptytxt',
-              ('omerday' + ' ' + omerday.toString()),
-              'hemptytxt',
-              swfestivity,
-              swtzom);
-        }
-      }
-    }
-
-    if (fileProvider.jodesh == "Sivan") {
-      if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
-        swfestivity = true;
-        omerday = 45;
-        headerIsHolliday.isHoliday(
-            'assets/emptyimage.png',
-            'hemptytxt',
-            ('omerday' + ' ' + omerday.toString()),
-            'hemptytxt',
-            swfestivity,
-            swtzom);
-      }
-    }
-
-    if (fileProvider.jodesh == "Sivan") {
-      for (int day = 1; day < 5; day++) {
-        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
-            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
-          swfestivity = true;
-          omerday = day + 45;
-          headerIsHolliday.isHoliday(
-              'assets/emptyimage.png',
-              'hemptytxt',
-              ('omerday' + ' ' + omerday.toString()),
-              'hemptytxt',
-              swfestivity,
-              swtzom);
-        }
-      }
-    }
-  }
-
-//++++++++++++++++++++++ check for Shavuot +++++++++++++++++++++
-  void checkShavuot(DateTime now, DateTime sunset) {
-    if (fileProvider.jodesh == "Sivan") {
-      if ((fileProvider.yom == 5 && now.isAfter(sunset)) ||
-          (fileProvider.yom == 6 && now.isBefore(sunset))) {
-        swfestivity = true;
-        headerIsHolliday.isHoliday('assets/shavuot.png', 'hemptytxt', 'shavuot',
-            'hemptytxt', swfestivity, swtzom);
-      }
-    }
-  }
-
-// ++++++++++++++++ check for fast of 17 of tamuz **************************
-  void check17Tamuz(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.jodesh == "Tamuz") {
-      if (fileProvider.yom == 17 &&
-          (now.isAfter(sunrise) && now.isBefore(sunset))) {
-        if (dayofweek == 6) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom17tamuz',
-              'tzomshabat2');
-        } else {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom17tamuz',
-              'hemptytxt ');
-        }
-      }
-    }
-
-    if (fileProvider.jodesh == "Tamuz") {
-      if (fileProvider.yom == 18 &&
-          (now.isAfter(sunrise) && now.isBefore(sunset))) {
-        if (dayofweek == 7) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom17tamuz',
-              'Yzomshabat2 ');
-        } else {
-          headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-              'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-        }
-      }
-    }
-  }
-
-// ++++++++++++++++ check for fast of 9 of av **************************
-  void check9Beav(DateTime now, DateTime sunset) {
-    if (fileProvider.jodesh == "Av") {
-      if (fileProvider.yom == 8 && dayofweek == 5 && now.isAfter(sunset)) {
-        swtzom = true;
-        todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
-            'tzomshabat2');
-      } else {
-        if (fileProvider.yom == 9 && dayofweek == 6 && now.isBefore(sunset)) {
-          swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
-              'tzom9beavshabat2');
-        } else {
-          if ((fileProvider.yom == 9 &&
-                  dayofweek == 6 &&
-                  now.isAfter(sunset)) ||
-              (fileProvider.yom == 10 &&
-                  dayofweek == 7 &&
-                  now.isBefore(sunset))) {
-            swtzom = true;
-            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
-                'hemptytxt ');
-          } else {
-            if ((fileProvider.yom == 8 &&
-                    dayofweek != 5 &&
-                    now.isAfter(sunset)) ||
-                (fileProvider.yom == 9 &&
-                    dayofweek != 6 &&
-                    now.isBefore(sunset))) {
-              swtzom = true;
-              todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
-                  'hemptytxt');
-            } else {
-              headerIsHolliday.todayIsNotHoliday('assets/maguendavidyellow.png',
-                  'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
-            }
-          }
-        }
-      }
-    }
-  }
+//  void checkRoshHashana(DateTime now, DateTime sunset) {
+//    print('[DEBUG] estoy en checkRoshHashana **********************');
+//    print('[DEBUG] mes ' + fileProvider.jodesh);
+//    print('[DEBUG] dia ' + fileProvider.yom.toString());
+//    print('[DEBUG] año ' + fileProvider.shana.toString());
+//    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
+//    print('[DEBUG] dia de la semana ' + dayofweek.toString());
+//
+//    // aqui chequeo la fecha para ver si es año nuevo ***************
+//    if (fileProvider.jodesh == "Elul") {
+//      if (fileProvider.yom == 29 && now.isAfter(sunset)) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/roshhashana.png', 'hemptytxt',
+//            'shana_tova', 'hemptytxt ', swfestivity, swtzom);
+//      } else {
+//        headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//            'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Tishrei") {
+//      if (fileProvider.yom == 1 ||
+//          (fileProvider.yom == 2 && now.isBefore(sunset))) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/roshhashana.png', 'hemptytxt',
+//            'shana_tova', 'hemptytxt', swfestivity, swtzom);
+//      } else {
+//        headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//            'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//      }
+//    }
+//  }
+//
+////por default para Fluter el primer dia de la semana es el lunes
+//// por lo que el sabado es el dia 6
+//// ++++++++++++++++ check for Tzom Gedalia **************************
+//
+//  void checkTzomGedalia(DateTime now, DateTime sunrise, DateTime sunset) {
+//    if (fileProvider.jodesh == "Tishrei") {
+//      if (fileProvider.yom == 3 &&
+//          (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//        if (dayofweek == 6) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzomGedalia',
+//              'tzomshabat2');
+//        } else {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomGedalia',
+//              'hemptytxt ');
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Tishrei") {
+//      if (fileProvider.yom == 4 &&
+//          (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//        if (dayofweek == 7) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzomGedalia',
+//              'Yzomshabat2 ');
+//        } else {
+//          headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//              'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//        }
+//      }
+//    }
+//  }
+//
+//// ++++++++++++++++ check for Yom Kipur **************************
+//  void checkYomKipur(DateTime now, DateTime sunrise, DateTime sunset) {
+//    if (fileProvider.jodesh == "Tishrei") {
+//      if ((fileProvider.yom == 9 && now.isAfter(sunset)) ||
+//          (fileProvider.yom == 10 && now.isBefore(sunset))) {
+//        swtzom = true;
+//        todayIsTzom(
+//            'assets/emptyimage.png', 'hemptytxt', 'yomkipur', 'hemptytxt');
+//      } else {
+//        headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//            'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//      }
+//    }
+//  }
+//
+//// ++++++++++++++++ check for Sukkot **************************
+//  void checksukkot(DateTime now, DateTime sunset) {
+//    print('now ' +
+//        now.millisecondsSinceEpoch.toString() +
+//        ' sunset ' +
+//        sunset.millisecondsSinceEpoch.toString());
+//
+//    if (fileProvider.jodesh == "Tishrei") {
+//      if ((fileProvider.yom == 14 &&
+//              now.millisecondsSinceEpoch > sunset.millisecondsSinceEpoch) ||
+//          (fileProvider.yom > 14 && fileProvider.yom < 20) ||
+//          (fileProvider.yom == 20 && now.isBefore(sunset))) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/sukkot.png', 'hemptytxt', 'sukkot',
+//            'hemptytxt', swfestivity, swtzom);
+//      } else {
+//        if ((fileProvider.yom == 20 && now.isAfter(sunset)) ||
+//            (fileProvider.yom == 21 && now.isBefore(sunset))) {
+//          swfestivity = true;
+//          headerIsHolliday.updateHoliday('assets/sukkot.png', 'hemptytxt',
+//              'hoshanaraba', 'hemptytxt', swfestivity, swtzom);
+//        } else {
+//          if ((fileProvider.yom == 21 && now.isBefore(sunset)) ||
+//              (fileProvider.yom == 22 && now.isAfter(sunset))) {
+//            swfestivity = true;
+//            headerIsHolliday.updateHoliday('assets/sukkot.png', 'hemptytxt',
+//                'sheminiatzeret', 'hemptytxt', swfestivity, swtzom);
+//          } else {
+//            if ((fileProvider.yom == 22 && now.isBefore(sunset)) ||
+//                (fileProvider.yom == 23 && now.isAfter(sunset))) {
+//              swfestivity = true;
+//              headerIsHolliday.updateHoliday('assets/sinchattorah.png', 'hemptytxt',
+//                  'sinchattorah', 'hemptytxt', swfestivity, swtzom);
+//            } else {
+//              headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//                  'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  // ++++++++++++++++ check for Januca **************************
+//
+//  void checkJanuca(DateTime now, DateTime sunset) {
+//    int endmonth = 0;
+//
+//    if (fileProvider.jodesh == "Tevet") {
+//      if ((fileProvider.yom == 1 && fileProvider.yesterdayyom == 29) ||
+//          (fileProvider.yom == 2 && fileProvider.daybeforeyom == 29)) {
+//        endmonth = 1;
+//      } else {
+//        if ((fileProvider.yom == 1 && fileProvider.daybeforeyom == 30) ||
+//            (fileProvider.yom == 2 && fileProvider.daybeforeyom == 30)) {
+//          endmonth = 2;
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Kislev") {
+//      if ((fileProvider.yom == 24 && now.isAfter(sunset)) ||
+//          (fileProvider.yom == 25 && now.isBefore(sunset))) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/januquilladia1.png', 'hemptytxt',
+//            'happyjanuca', 'hemptytxt', swfestivity, swtzom);
+//      } else {
+//        if ((fileProvider.yom == 24 && now.isAfter(sunset)) ||
+//            (fileProvider.yom == 25 && now.isBefore(sunset))) {
+//          swfestivity = true;
+//          headerIsHolliday.updateHoliday('assets/januquilladia2.png', 'hemptytxt',
+//              'happyjanuca', 'hemptytxt', swfestivity, swtzom);
+//        } else {
+//          if ((fileProvider.yom == 26 && now.isAfter(sunset)) ||
+//              (fileProvider.yom == 27 && now.isBefore(sunset))) {
+//            swfestivity = true;
+//            headerIsHolliday.updateHoliday('assets/januquilladia3.png', 'hemptytxt',
+//                'happyjanuca', 'hemptytxt', swfestivity, swtzom);
+//          } else {
+//            if ((fileProvider.yom == 27 && now.isAfter(sunset)) ||
+//                (fileProvider.yom == 28 && now.isBefore(sunset))) {
+//              swfestivity = true;
+//              headerIsHolliday.updateHoliday('assets/januquilladia4.png',
+//                  'hemptytxt', 'happyjanuca', 'hemptytxt', swfestivity, swtzom);
+//            } else {
+//              if ((fileProvider.yom == 28 && now.isAfter(sunset)) ||
+//                  (fileProvider.yom == 29 && now.isBefore(sunset))) {
+//                swfestivity = true;
+//                headerIsHolliday.updateHoliday(
+//                    'assets/januquilladia5.png',
+//                    'hemptytxt',
+//                    'happyjanuca',
+//                    'hemptytxt',
+//                    swfestivity,
+//                    swtzom);
+//              } else {
+//                if ((fileProvider.yom == 29 && now.isAfter(sunset)) ||
+//                    (fileProvider.yom == 30 && now.isBefore(sunset))) {
+//                  swfestivity = true;
+//                  headerIsHolliday.updateHoliday(
+//                      'assets/januquilladia6.png',
+//                      'hemptytxt',
+//                      'happyjanuca',
+//                      'hemptytxt',
+//                      swfestivity,
+//                      swtzom);
+//                } else {
+//                  if (fileProvider.yom == 30 && now.isAfter(sunset)) {
+//                    swfestivity = true;
+//                    headerIsHolliday.updateHoliday(
+//                        'assets/januquilladia7.png',
+//                        'hemptytxt',
+//                        'happyjanuca',
+//                        'hemptytxt',
+//                        swfestivity,
+//                        swtzom);
+//                  }
+//                }
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Tevet") {
+//      if (fileProvider.yom == 1 && endmonth == 1 && now.isBefore(sunset)) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/januquilladia6.png', 'hemptytxt',
+//            'happyjanuca', 'hemptytxt', swfestivity, swtzom);
+//      } else {
+//        if ((fileProvider.yom == 1 && endmonth == 1 && now.isAfter(sunset)) ||
+//            (fileProvider.yom == 2 && endmonth == 1 && now.isBefore(sunset))) {
+//          swfestivity = true;
+//          headerIsHolliday.updateHoliday('assets/januquilladia7.png', 'hemptytxt',
+//              'happyjanuca', 'hemptytxt', swfestivity, swtzom);
+//        } else {
+//          if ((fileProvider.yom == 2 && endmonth == 1 && now.isAfter(sunset)) ||
+//              (fileProvider.yom == 3 &&
+//                  endmonth == 1 &&
+//                  now.isBefore(sunset))) {
+//            swfestivity = true;
+//            headerIsHolliday.updateHoliday('assets/januquillacompleta.png',
+//                'hemptytxt', 'happyjanuca', 'hemptytxt', swfestivity, swtzom);
+//          } else {
+//            if (fileProvider.yom == 1 && endmonth == 2 && now.isAfter(sunset)) {
+//              swfestivity = true;
+//              headerIsHolliday.updateHoliday('assets/januquilladia7.png',
+//                  'hemptytxt', 'happyjanuca', 'hemptytxt', swfestivity, swtzom);
+//            } else {
+//              if ((fileProvider.yom == 1 &&
+//                      endmonth == 2 &&
+//                      now.isAfter(sunset)) ||
+//                  (fileProvider.yom == 2 &&
+//                      endmonth == 2 &&
+//                      now.isBefore(sunset))) {
+//                swfestivity = true;
+//                headerIsHolliday.updateHoliday(
+//                    'assets/januquillacompleta.png',
+//                    'hemptytxt',
+//                    'happyjanuca',
+//                    'hemptytxt',
+//                    swfestivity,
+//                    swtzom);
+//              } else {
+//                headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//                    'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+////por default para Fluter el primer dia de la semana es el lunes
+//// por lo que el sabado es el dia 6
+//// ++++++++++++++++ check for Tzom 10 of TEVET **************************
+//
+//  void check10Tevet(DateTime now, DateTime sunrise, DateTime sunset) {
+//    if (fileProvider.jodesh == "Tevet") {
+//      if (fileProvider.yom == 10 &&
+//          (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//        if (dayofweek == 6) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom10Tevet',
+//              'tzomshabat2');
+//        } else {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom10Tevet',
+//              'hemptytxt ');
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Tevet") {
+//      if (fileProvider.yom == 11 &&
+//          (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//        if (dayofweek == 7) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom10Tevet',
+//              'Yzomshabat2 ');
+//        } else {
+//          headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//              'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//        }
+//      }
+//    }
+//  }
+//
+//  // ++++++++++++++++ check for Tu Bishvat **************************
+//
+//  void checkTuBishvat() {
+//    if (fileProvider.jodesh == "Shvat") {
+//      if (fileProvider.yom == 15) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/tubishvat.png', 'hemptytxt',
+//            'tubishvat', 'hemptytxt', swfestivity, swtzom);
+//      } else {
+//        headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//            'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//      }
+//    }
+//  }
+//
+//  // *************** Check for Purim ++++++++++++++++++++++++++++++++
+//
+//  void checkPurim(DateTime now, DateTime sunrise, DateTime sunset) {
+//    print("[PURIM]  istzomesther entrando " + istzomesther.toString());
+//
+//    if (fileProvider.isleapyear) {
+//      if (fileProvider.jodesh == "Adar I") {
+//        if (fileProvider.yom == 14) {
+//          swfestivity = true;
+//          headerIsHolliday.updateHoliday('assets/tpurimkatan.png', 'hemptytxt',
+//              'purimkatan', 'hemptytxt', swfestivity, swtzom);
+//        } else {
+//          if (fileProvider.yom == 15) {
+//            swfestivity = true;
+//            headerIsHolliday.updateHoliday('assets/purimkatan.png', 'hemptytxt',
+//                'sushanpurimkatan', 'hemptytxt', swfestivity, swtzom);
+//          } else {
+//            headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//                'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//          }
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.isleapyear) {
+//      if (fileProvider.jodesh == "Adar II") {
+//        todayTzomEsther(now, sunrise, sunset);
+//        print("[PURIM]  istzomesther regresando1 " + istzomesther.toString());
+//
+//        if (istzomesther == 0) {
+//          if (fileProvider.yom == 13 &&
+//              (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//            swtzom = true;
+//            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
+//                'hemptytxt');
+//          } else {
+//            if (fileProvider.yom == 14) {
+//              swfestivity = true;
+//              headerIsHolliday.updateHoliday('assets/purimnormal.png', 'hemptytxt',
+//                  'purim', 'hemptytxt', swfestivity, swtzom);
+//            } else {
+//              if (fileProvider.yom == 15) {
+//                swfestivity = true;
+//                headerIsHolliday.updateHoliday(
+//                    'assets/purimnormal.png',
+//                    'hemptytxt',
+//                    'sushanpurim',
+//                    'hemptytxt',
+//                    swfestivity,
+//                    swtzom);
+//              } else {
+//                headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//                    'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//              }
+//            }
+//          }
+//        } else {
+//          if (istzomesther == 1) {
+//            if (fileProvider.yom == 13 &&
+//                (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//              if (dayofweek == 6) {
+//                swtzom = true;
+//                todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
+//                    'tzomesthershabat', 'tzomesthershabatadarii');
+//                istzomesther = 0;
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+//
+//    if (!fileProvider.isleapyear) {
+//      if (fileProvider.jodesh == "Adar") {
+//        todayTzomEsther(now, sunrise, sunset);
+//        print("[PURIM]  istzomesther regresando2 " + istzomesther.toString());
+//
+//        if (istzomesther == 0) {
+//          if (fileProvider.yom == 13 &&
+//              (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//            swtzom = true;
+//            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
+//                'hemptytxt');
+//          } else {
+//            if (fileProvider.yom == 14) {
+//              swfestivity = true;
+//              headerIsHolliday.updateHoliday('assets/purimnormal.png', 'hemptytxt',
+//                  'purim', 'hemptytxt', swfestivity, swtzom);
+//            } else {
+//              if (fileProvider.yom == 15) {
+//                swfestivity = true;
+//                headerIsHolliday.updateHoliday(
+//                    'assets/purimnormal.png',
+//                    'hemptytxt',
+//                    'sushanpurim',
+//                    'hemptytxt',
+//                    swfestivity,
+//                    swtzom);
+//              } else {
+//                headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//                    'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//              }
+//            }
+//          }
+//        }
+//        if (istzomesther == 1) {
+//          if (fileProvider.yom == 13 &&
+//              (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//            swtzom = true;
+//            if (dayofweek == 6) {
+//              todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
+//                  'tzomesthershabat', 'tzomesthershabatadar');
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  //++++++++++++++++++++++ check fot Tzom Esther +++++++++++++++++++++
+//
+//  void todayTzomEsther(DateTime now, DateTime sunrise, DateTime sunset) {
+//    if (fileProvider.isleapyear) {
+//      if (fileProvider.jodesh == "Adar II") {
+//        if (fileProvider.yom == 11 &&
+//            dayofweek == 4 &&
+//            (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'tzomEsther',
+//              'tzomestheron11adarii', 'hemptytxt');
+//          istzomesther = 1;
+//        } else {
+//          if (fileProvider.yom == 13 &&
+//              dayofweek == 7 &&
+//              (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//            istzomesther = 1;
+//          }
+//        }
+//      }
+//    }
+//
+//    if (!fileProvider.isleapyear) {
+//      if (fileProvider.jodesh == "Adar") {
+//        if (fileProvider.yom == 11 &&
+//            dayofweek == 4 &&
+//            (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'tzomEsther',
+//              'tzomestheron11adar', 'hemptytxt');
+//          istzomesther = 1;
+//        } else {
+//          if (fileProvider.yom == 13 &&
+//              dayofweek == 7 &&
+//              (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//            istzomesther = 1;
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  //++++++++++++++++++++++ check for Passover +++++++++++++++++++++
+//  void checkPassover(DateTime now, DateTime sunset) {
+//    if (fileProvider.jodesh == "Nissan") {
+//      if (fileProvider.yom == 14 && now.isAfter(sunset)) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/pesaj.png', 'hemptytxt',
+//            'pesaje1seder', 'hemptytxt', swfestivity, swtzom);
+//      } else {
+//        if (fileProvider.yom == 15 && now.isBefore(sunset)) {
+//          swfestivity = true;
+//          headerIsHolliday.updateHoliday('assets/pesaj.png', 'hemptytxt', 'pesaj',
+//              'hemptytxt', swfestivity, swtzom);
+//        } else {
+//          if (fileProvider.yom == 15 && now.isAfter(sunset)) {
+//            swfestivity = true;
+//            headerIsHolliday.updateHoliday('assets/pesaj.png', 'hemptytxt',
+//                'pesaj2seder', 'hemptytxt', swfestivity, swtzom);
+//          } else {
+//            if (fileProvider.yom == 16 && now.isBefore(sunset)) {
+//              swfestivity = true;
+//              headerIsHolliday.updateHoliday('assets/pesaj.png', 'hemptytxt',
+//                  'pesaj1omer', 'hemptytxt', swfestivity, swtzom);
+//            } else {
+//              if ((fileProvider.yom == 16 && now.isAfter(sunset)) ||
+//                  (fileProvider.yom == 17 && now.isBefore(sunset))) {
+//                swfestivity = true;
+//                headerIsHolliday.updateHoliday('assets/pesaj.png', 'hemptytxt',
+//                    'pesaj2omer', 'hemptytxt', swfestivity, swtzom);
+//              } else {
+//                if ((fileProvider.yom == 17 && now.isAfter(sunset)) ||
+//                    (fileProvider.yom == 18 && now.isBefore(sunset))) {
+//                  swfestivity = true;
+//                  headerIsHolliday.updateHoliday('assets/pesaj.png', 'hemptytxt',
+//                      'pesaj3omer', 'hemptytxt', swfestivity, swtzom);
+//                } else {
+//                  if ((fileProvider.yom == 18 && now.isAfter(sunset)) ||
+//                      (fileProvider.yom == 19 && now.isBefore(sunset))) {
+//                    swfestivity = true;
+//                    headerIsHolliday.updateHoliday('assets/pesaj.png', 'hemptytxt',
+//                        'pesaj4omer', 'hemptytxt', swfestivity, swtzom);
+//                  } else {
+//                    if ((fileProvider.yom == 19 && now.isAfter(sunset)) ||
+//                        (fileProvider.yom == 20 && now.isBefore(sunset))) {
+//                      swfestivity = true;
+//                      headerIsHolliday.updateHoliday(
+//                          'assets/pesaj.png',
+//                          'hemptytxt',
+//                          'pesaj5omer',
+//                          'hemptytxt',
+//                          swfestivity,
+//                          swtzom);
+//                    } else {
+//                      if ((fileProvider.yom == 20 && now.isAfter(sunset)) ||
+//                          (fileProvider.yom == 21 && now.isBefore(sunset))) {
+//                        swfestivity = true;
+//                        headerIsHolliday.updateHoliday(
+//                            'assets/pesaj.png',
+//                            'hemptytxt',
+//                            'pesaj6omer',
+//                            'hemptytxt',
+//                            swfestivity,
+//                            swtzom);
+//                      } else {
+//                        if ((fileProvider.yom == 21 && now.isAfter(sunset)) ||
+//                            (fileProvider.yom == 22 && now.isBefore(sunset))) {
+//                          swfestivity = true;
+//                          headerIsHolliday.updateHoliday(
+//                              'assets/pesaj.png',
+//                              'hemptytxt',
+//                              'pesaj7omer',
+//                              'hemptytxt',
+//                              swfestivity,
+//                              swtzom);
+//                        } else {
+//                          if ((fileProvider.yom == 22 && now.isAfter(sunset)) ||
+//                              (fileProvider.yom == 23 &&
+//                                  now.isBefore(sunset))) {
+//                            swfestivity = true;
+//                            headerIsHolliday.updateHoliday(
+//                                'assets/pesaj.png',
+//                                'hemptytxt',
+//                                'pesaj8omer',
+//                                'hemptytxt',
+//                                swfestivity,
+//                                swtzom);
+//                          }
+//                        }
+//                      }
+//                    }
+//                  }
+//                }
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+////++++++++++++++++++++++ check for Omer +++++++++++++++++++++
+//  void checkOmer(DateTime now, DateTime sunset) {
+//    int omerday = 0;
+//    if (fileProvider.jodesh == "Nissan") {
+//      for (int day = 23; day < 31; day++) {
+//        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
+//            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
+//          swfestivity = true;
+//          omerday = day - 14;
+//          headerIsHolliday.updateHoliday(
+//              'assets/emptyimage.png',
+//              'hemptytxt',
+//              ('omerday' + ' ' + omerday.toString()),
+//              'hemptytxt',
+//              swfestivity,
+//              swtzom);
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Iyar") {
+//      if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
+//        swfestivity = true;
+//        omerday = 16;
+//        headerIsHolliday.updateHoliday(
+//            'assets/emptyimage.png',
+//            'hemptytxt',
+//            ('omerday' + ' ' + omerday.toString()),
+//            'hemptytxt',
+//            swfestivity,
+//            swtzom);
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Iyar") {
+//      for (int day = 1; day < 17; day++) {
+//        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
+//            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
+//          swfestivity = true;
+//          omerday = day + 16;
+//          headerIsHolliday.updateHoliday(
+//              'assets/emptyimage.png',
+//              'hemptytxt',
+//              ('omerday' + ' ' + omerday.toString()),
+//              'hemptytxt',
+//              swfestivity,
+//              swtzom);
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Iyar") {
+//      if (((fileProvider.yom == 17 && now.isAfter(sunset)) ||
+//          (fileProvider.yom == 18 && now.isBefore(sunset)))) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/lagbaomer.png', 'hemptytxt',
+//            'pesaj33omer', 'hemptytxt', swfestivity, swtzom);
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Iyar") {
+//      for (int day = 18; day < 30; day++) {
+//        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
+//            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
+//          swfestivity = true;
+//          omerday = day + 16;
+//          headerIsHolliday.updateHoliday(
+//              'assets/emptyimage.png',
+//              'hemptytxt',
+//              ('omerday' + ' ' + omerday.toString()),
+//              'hemptytxt',
+//              swfestivity,
+//              swtzom);
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Sivan") {
+//      if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
+//        swfestivity = true;
+//        omerday = 45;
+//        headerIsHolliday.updateHoliday(
+//            'assets/emptyimage.png',
+//            'hemptytxt',
+//            ('omerday' + ' ' + omerday.toString()),
+//            'hemptytxt',
+//            swfestivity,
+//            swtzom);
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Sivan") {
+//      for (int day = 1; day < 5; day++) {
+//        if (((fileProvider.yom == day && now.isAfter(sunset)) ||
+//            (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
+//          swfestivity = true;
+//          omerday = day + 45;
+//          headerIsHolliday.updateHoliday(
+//              'assets/emptyimage.png',
+//              'hemptytxt',
+//              ('omerday' + ' ' + omerday.toString()),
+//              'hemptytxt',
+//              swfestivity,
+//              swtzom);
+//        }
+//      }
+//    }
+//  }
+//
+////++++++++++++++++++++++ check for Shavuot +++++++++++++++++++++
+//  void checkShavuot(DateTime now, DateTime sunset) {
+//    if (fileProvider.jodesh == "Sivan") {
+//      if ((fileProvider.yom == 5 && now.isAfter(sunset)) ||
+//          (fileProvider.yom == 6 && now.isBefore(sunset))) {
+//        swfestivity = true;
+//        headerIsHolliday.updateHoliday('assets/shavuot.png', 'hemptytxt', 'shavuot',
+//            'hemptytxt', swfestivity, swtzom);
+//      }
+//    }
+//  }
+//
+//// ++++++++++++++++ check for fast of 17 of tamuz **************************
+//  void check17Tamuz(DateTime now, DateTime sunrise, DateTime sunset) {
+//    if (fileProvider.jodesh == "Tamuz") {
+//      if (fileProvider.yom == 17 &&
+//          (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//        if (dayofweek == 6) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom17tamuz',
+//              'tzomshabat2');
+//        } else {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom17tamuz',
+//              'hemptytxt ');
+//        }
+//      }
+//    }
+//
+//    if (fileProvider.jodesh == "Tamuz") {
+//      if (fileProvider.yom == 18 &&
+//          (now.isAfter(sunrise) && now.isBefore(sunset))) {
+//        if (dayofweek == 7) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom17tamuz',
+//              'Yzomshabat2 ');
+//        } else {
+//          headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//              'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//        }
+//      }
+//    }
+//  }
+//
+//// ++++++++++++++++ check for fast of 9 of av **************************
+//  void check9Beav(DateTime now, DateTime sunset) {
+//    if (fileProvider.jodesh == "Av") {
+//      if (fileProvider.yom == 8 && dayofweek == 5 && now.isAfter(sunset)) {
+//        swtzom = true;
+//        todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
+//            'tzomshabat2');
+//      } else {
+//        if (fileProvider.yom == 9 && dayofweek == 6 && now.isBefore(sunset)) {
+//          swtzom = true;
+//          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
+//              'tzom9beavshabat2');
+//        } else {
+//          if ((fileProvider.yom == 9 &&
+//                  dayofweek == 6 &&
+//                  now.isAfter(sunset)) ||
+//              (fileProvider.yom == 10 &&
+//                  dayofweek == 7 &&
+//                  now.isBefore(sunset))) {
+//            swtzom = true;
+//            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
+//                'hemptytxt ');
+//          } else {
+//            if ((fileProvider.yom == 8 &&
+//                    dayofweek != 5 &&
+//                    now.isAfter(sunset)) ||
+//                (fileProvider.yom == 9 &&
+//                    dayofweek != 6 &&
+//                    now.isBefore(sunset))) {
+//              swtzom = true;
+//              todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
+//                  'hemptytxt');
+//            } else {
+//              headerIsHolliday.updateHoliday('assets/maguendavidyellow.png',
+//                  'hemptytxt', 'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
+//  void todayIsTzom(String himage, String hline1, hline2, hline3) {
+//    print(' estoy todayIsTzom ' + himage + ' ' + hline2);
+//
+//    setState(() {
+//      headerimage = himage;
+////    holidayline1 = getTranslated(context, hline1);
+////    holidayline2 = getTranslated(context, hline2);
+////    holidayline3 = getTranslated(context, hline3);
+//      holidayline1 = hline1;
+//      holidayline2 = hline2;
+//      holidayline3 = hline3;
+//    });
+//  }
 
   //++++++++++ metodo que maneja los dias fectivos +++++++++++++++
 //   void headerIsHolliday.isHoliday(String himage, String hline1, hline2, hline3) {
@@ -1248,21 +1263,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   //     });
   //   }
   // }
-
-  //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
-  void todayIsTzom(String himage, String hline1, hline2, hline3) {
-    print(' estoy todayIsTzom ' + himage + ' ' + hline2);
-
-    setState(() {
-      headerimage = himage;
-//    holidayline1 = getTranslated(context, hline1);
-//    holidayline2 = getTranslated(context, hline2);
-//    holidayline3 = getTranslated(context, hline3);
-      holidayline1 = hline1;
-      holidayline2 = hline2;
-      holidayline3 = hline3;
-    });
-  }
 
   // ***************  get geoposition ********************
   Future<Point> _getCurrentlocation() async {
