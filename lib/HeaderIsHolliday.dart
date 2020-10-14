@@ -4,8 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sunrise_sunset/sunrise_sunset.dart';
+import 'package:intl/intl.dart';
 
 import 'FileProvider.dart';
+import 'localization/localization_constants.dart';
 
 class HeaderIsHolliday extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class HeaderIsHolliday extends StatefulWidget {
 }
 
 class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
+
   String headerimage = 'assets/maguendavidyellow.png';
   String holidayline1 = '';
   String holidayline2 = '';
@@ -26,6 +29,10 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   double lat = 0;
   double long = 0;
   int istzomesther = 0;
+
+
+
+  DateTime dateUTC;
 
   @override
   void initState() {
@@ -94,7 +101,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text('$date',
+                      child: Text(DateFormat.yMMMd().format(date),
                           style: TextStyle(
                               color: Color.fromARGB(500, 13, 17, 50),
                               fontFamily: 'RobotoSlab',
@@ -105,7 +112,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text('$datehebrew',
+                      child: Text(fileProvider.datehebrew,
                           style: TextStyle(
                               color: Color.fromARGB(500, 13, 17, 50),
                               fontFamily: 'RobotoSlab',
@@ -248,7 +255,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
         updateHoliday('assets/roshhashana.png', 'hemptytxt', 'shana_tova',
             'hemptytxt ', swfestivity, swtzom);
       } else {
-        updateHoliday('assets/maguendavidyellow.png', 'hemptytxt', 'hemptytxt',
+        todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt', 'hemptytxt',
             'hemptytxt ', swfestivity, swtzom);
       }
     }
@@ -260,7 +267,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
         updateHoliday('assets/roshhashana.png', 'hemptytxt', 'shana_tova',
             'hemptytxt', swfestivity, swtzom);
       } else {
-        updateHoliday('assets/maguendavidyellow.png', 'hemptytxt', 'hemptytxt',
+        todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt', 'hemptytxt',
             'hemptytxt ', swfestivity, swtzom);
       }
     }
@@ -276,12 +283,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzomGedalia',
-              'tzomshabat2');
+          updateHoliday('assets/emptyimage.png', 'tzomshabat1', 'tzomGedalia',
+              'tzomshabat2', swfestivity, swtzom);
         } else {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomGedalia',
-              'hemptytxt ');
+          updateHoliday('assets/emptyimage.png', 'hemptytxt', 'tzomGedalia',
+              'hemptytxt', swfestivity, swtzom);
         }
       }
     }
@@ -291,10 +298,10 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzomGedalia',
-              'Yzomshabat2 ');
+          updateHoliday('assets/emptyimage.png', 'Yzomshabat1', 'tzomGedalia',
+              'Yzomshabat2', swfestivity, swtzom);
         } else {
-          updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+          todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
               'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
         }
       }
@@ -307,10 +314,10 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       if ((fileProvider.yom == 9 && now.isAfter(sunset)) ||
           (fileProvider.yom == 10 && now.isBefore(sunset))) {
         swtzom = true;
-        todayIsTzom(
-            'assets/emptyimage.png', 'hemptytxt', 'yomkipur', 'hemptytxt');
+        updateHoliday(
+            'assets/emptyimage.png', 'hemptytxt', 'yomkipur', 'hemptytxt', swfestivity, swtzom);
       } else {
-        updateHoliday('assets/maguendavidyellow.png', 'hemptytxt', 'hemptytxt',
+        todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt', 'hemptytxt',
             'hemptytxt ', swfestivity, swtzom);
       }
     }
@@ -350,7 +357,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
               updateHoliday('assets/sinchattorah.png', 'hemptytxt',
                   'sinchattorah', 'hemptytxt', swfestivity, swtzom);
             } else {
-              updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+              todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
                   'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
             }
           }
@@ -461,7 +468,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
                 updateHoliday('assets/januquillacompleta.png', 'hemptytxt',
                     'happyjanuca', 'hemptytxt', swfestivity, swtzom);
               } else {
-                updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+                todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
                     'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
               }
             }
@@ -481,12 +488,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom10Tevet',
-              'tzomshabat2');
+          updateHoliday('assets/emptyimage.png', 'tzomshabat1', 'tzom10Tevet',
+              'tzomshabat2', swfestivity, swtzom);
         } else {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom10Tevet',
-              'hemptytxt ');
+          updateHoliday('assets/emptyimage.png', 'hemptytxt', 'tzom10Tevet',
+              'hemptytxt', swfestivity, swtzom);
         }
       }
     }
@@ -496,10 +503,10 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom10Tevet',
-              'Yzomshabat2 ');
+          updateHoliday('assets/emptyimage.png', 'Yzomshabat1', 'tzom10Tevet',
+              'Yzomshabat2', swfestivity, swtzom);
         } else {
-          updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+          todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
               'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
         }
       }
@@ -515,7 +522,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
         updateHoliday('assets/tubishvat.png', 'hemptytxt', 'tubishvat',
             'hemptytxt', swfestivity, swtzom);
       } else {
-        updateHoliday('assets/maguendavidyellow.png', 'hemptytxt', 'hemptytxt',
+        todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt', 'hemptytxt',
             'hemptytxt ', swfestivity, swtzom);
       }
     }
@@ -536,8 +543,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             updateHoliday('assets/purimkatan.png', 'hemptytxt',
                 'sushanpurimkatan', 'hemptytxt', swfestivity, swtzom);
           } else {
-            updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
-                'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
+            todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+                'hemptytxt', 'hemptytxt', swfestivity, swtzom);
           }
         }
       }
@@ -552,8 +559,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           if (fileProvider.yom == 13 &&
               (now.isAfter(sunrise) && now.isBefore(sunset))) {
             swtzom = true;
-            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
-                'hemptytxt');
+            updateHoliday('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
+                'hemptytxt', swfestivity, swtzom);
           } else {
             if (fileProvider.yom == 14) {
               swfestivity = true;
@@ -565,7 +572,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
                 updateHoliday('assets/purimnormal.png', 'hemptytxt',
                     'sushanpurim', 'hemptytxt', swfestivity, swtzom);
               } else {
-                updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+                todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
                     'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
               }
             }
@@ -576,8 +583,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
                 (now.isAfter(sunrise) && now.isBefore(sunset))) {
               if (dayofweek == 6) {
                 swtzom = true;
-                todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
-                    'tzomesthershabat', 'tzomesthershabatadarii');
+                updateHoliday('assets/emptyimage.png', 'tzomshabat1',
+                    'tzomesthershabat', 'tzomesthershabatadarii', swfestivity, swtzom);
                 istzomesther = 0;
               }
             }
@@ -595,8 +602,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           if (fileProvider.yom == 13 &&
               (now.isAfter(sunrise) && now.isBefore(sunset))) {
             swtzom = true;
-            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
-                'hemptytxt');
+            updateHoliday('assets/emptyimage.png', 'hemptytxt', 'tzomEsther',
+                'hemptytxt', swfestivity, swtzom);
           } else {
             if (fileProvider.yom == 14) {
               swfestivity = true;
@@ -608,7 +615,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
                 updateHoliday('assets/purimnormal.png', 'hemptytxt',
                     'sushanpurim', 'hemptytxt', swfestivity, swtzom);
               } else {
-                updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+                todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
                     'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
               }
             }
@@ -619,8 +626,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
               (now.isAfter(sunrise) && now.isBefore(sunset))) {
             swtzom = true;
             if (dayofweek == 6) {
-              todayIsTzom('assets/emptyimage.png', 'tzomshabat1',
-                  'tzomesthershabat', 'tzomesthershabatadar');
+              updateHoliday('assets/emptyimage.png', 'tzomshabat1',
+                  'tzomesthershabat', 'tzomesthershabatadar', swfestivity, swtzom);
             }
           }
         }
@@ -637,8 +644,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             dayofweek == 4 &&
             (now.isAfter(sunrise) && now.isBefore(sunset))) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomEsther',
-              'tzomestheron11adarii', 'hemptytxt');
+          updateHoliday('assets/emptyimage.png', 'tzomEsther',
+              'tzomestheron11adarii', 'hemptytxt', swfestivity, swtzom);
           istzomesther = 1;
         } else {
           if (fileProvider.yom == 13 &&
@@ -656,8 +663,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             dayofweek == 4 &&
             (now.isAfter(sunrise) && now.isBefore(sunset))) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomEsther',
-              'tzomestheron11adar', 'hemptytxt');
+          updateHoliday('assets/emptyimage.png', 'tzomEsther',
+              'tzomestheron11adar', 'hemptytxt', swfestivity, swtzom);
           istzomesther = 1;
         } else {
           if (fileProvider.yom == 13 &&
@@ -877,12 +884,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom17tamuz',
-              'tzomshabat2');
+          updateHoliday('assets/emptyimage.png', 'tzomshabat1', 'tzom17tamuz',
+              'tzomshabat2',swfestivity, swtzom);
         } else {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom17tamuz',
-              'hemptytxt ');
+          updateHoliday('assets/emptyimage.png', 'hemptytxt', 'tzom17tamuz',
+              'hemptytxt',swfestivity, swtzom);
         }
       }
     }
@@ -892,10 +899,10 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'Yzomshabat1', 'tzom17tamuz',
-              'Yzomshabat2 ');
+          updateHoliday('assets/emptyimage.png', 'Yzomshabat1', 'tzom17tamuz',
+              'Yzomshabat2',swfestivity, swtzom);
         } else {
-          updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+          todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
               'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
         }
       }
@@ -907,13 +914,13 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     if (fileProvider.jodesh == "Av") {
       if (fileProvider.yom == 8 && dayofweek == 5 && now.isAfter(sunset)) {
         swtzom = true;
-        todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
-            'tzomshabat2');
+        updateHoliday('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
+            'tzomshabat2',swfestivity, swtzom);
       } else {
         if (fileProvider.yom == 9 && dayofweek == 6 && now.isBefore(sunset)) {
           swtzom = true;
-          todayIsTzom('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
-              'tzom9beavshabat2');
+          updateHoliday('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',
+              'tzom9beavshabat2',swfestivity, swtzom);
         } else {
           if ((fileProvider.yom == 9 &&
                   dayofweek == 6 &&
@@ -922,8 +929,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
                   dayofweek == 7 &&
                   now.isBefore(sunset))) {
             swtzom = true;
-            todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
-                'hemptytxt ');
+            updateHoliday('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
+                'hemptytxt',swfestivity, swtzom);
           } else {
             if ((fileProvider.yom == 8 &&
                     dayofweek != 5 &&
@@ -932,10 +939,10 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
                     dayofweek != 6 &&
                     now.isBefore(sunset))) {
               swtzom = true;
-              todayIsTzom('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
-                  'hemptytxt');
+              updateHoliday('assets/emptyimage.png', 'hemptytxt', 'tzom9Beav',
+                  'hemptytxt',swfestivity, swtzom);
             } else {
-              updateHoliday('assets/maguendavidyellow.png', 'hemptytxt',
+              todayIsNotHoliday('assets/maguendavidyellow.png', 'hemptytxt',
                   'hemptytxt', 'hemptytxt ', swfestivity, swtzom);
             }
           }
@@ -944,32 +951,51 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     }
   }
 
-  //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
-  void todayIsTzom(String himage, String hline1, hline2, hline3) {
-    print(' estoy todayIsTzom ' + himage + ' ' + hline2);
-
-    setState(() {
-      headerimage = himage;
-//    holidayline1 = getTranslated(context, hline1);
-//    holidayline2 = getTranslated(context, hline2);
-//    holidayline3 = getTranslated(context, hline3);
-      holidayline1 = hline1;
-      holidayline2 = hline2;
-      holidayline3 = hline3;
-    });
-  }
+//   //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
+//   void updateHoliday(String himage, String hline1, hline2, hline3) {
+//     print(' estoy updateHoliday ' + himage + ' ' + hline2);
+//
+//     setState(() {
+//       headerimage = himage;
+// //    holidayline1 = getTranslated(context, hline1);
+// //    holidayline2 = getTranslated(context, hline2);
+// //    holidayline3 = getTranslated(context, hline3);
+//       holidayline1 = hline1;
+//       holidayline2 = hline2;
+//       holidayline3 = hline3;
+//     });
+//   }
 
   void updateHoliday(String image, String line1, String line2, String line3,
       bool swfestivityst, bool swtzomst) {
     setState(() {
       this.headerimage = image;
-      this.holidayline1 = line1;
-      this.holidayline2 = line2;
-      this.holidayline3 = line3;
+      this.holidayline1 =  getTranslated(context, line1);
+      this.holidayline2 =  getTranslated(context, line2);
+      this.holidayline3 =  getTranslated(context, line3);
       this.swfestivity = swfestivityst;
       this.swtzom = swtzomst;
     });
   }
+
+  //++++++++++ metodo que maneja los dias  NO fectivos +++++++++++++++
+  void todayIsNotHoliday(String image, String line1, String line2, String line3,
+      bool swfestivityst, bool swtzomst) {
+    print('swfestiviti xxxxxxxxxxxxx' + swfestivity.toString());
+    print('swtzom xxxxxxxxxxxxxxxxxx' + swtzom.toString());
+
+    if (!swfestivity && !swtzom) {
+      setState(() {
+        this.headerimage = 'assets/maguendavidyellow.png';
+        this.holidayline1 = ' ';
+        this.holidayline2 = ' ';
+        this.holidayline3 = ' ';
+        this.swfestivity = swfestivityst;
+        this.swtzom = swtzomst;
+      });
+    }
+  }
+
 
   Future<Point> _getCurrentlocation() async {
     var completer = Completer<Point>();
