@@ -3,10 +3,16 @@ import 'package:blessingtestgridapp/localization/App_Localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/localization_constants.dart';
 
-class MyAppBar extends StatelessWidget {
-  final double barHeight = 60.0;
+class MyAppBar extends StatefulWidget {
 
   const MyAppBar();
+
+  @override
+  _MyAppBarState createState() => _MyAppBarState();
+}
+
+class _MyAppBarState extends State<MyAppBar> {
+  final double barHeight = 60.0;
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +23,7 @@ class MyAppBar extends StatelessWidget {
           Container(
             child: Padding(
               padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
-              child: Icon(
-                Icons.menu,
-                color: Colors.red,
-              ),
+              child: Text(''),
             ),
           ),
           Container(
@@ -29,7 +32,7 @@ class MyAppBar extends StatelessWidget {
               child: Text(
                 getTranslated(context, 'Book_Of_Blessings'),
                 style: TextStyle(
-                  color: Color.fromARGB(500, 13, 17, 50),
+                  color: Colors.blueGrey,
                   fontFamily: 'RobotoSlab',
                   fontWeight: FontWeight.bold,
                   fontSize: 22.0,
@@ -39,12 +42,8 @@ class MyAppBar extends StatelessWidget {
           ),
           Container(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-              child: Icon(
-                Icons.menu,
-                color: Colors.red,
-              ),
-            ),
+                padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                child: Text('')),
           ),
         ],
       ),

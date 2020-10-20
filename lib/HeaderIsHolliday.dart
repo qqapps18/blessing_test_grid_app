@@ -16,7 +16,7 @@ class HeaderIsHolliday extends StatefulWidget {
 
 class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
-  String headerimage = 'assets/maguendavidyellow.png';
+  String headerimage = 'assets/splashlogo.gif';
   String holidayline1 = '';
   String holidayline2 = '';
   String holidayline3 = '';
@@ -48,6 +48,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return new Container(
       padding: new EdgeInsets.only(top: statusBarHeight),
       height: statusBarHeight + 60.0,
@@ -986,7 +987,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
     if (!swfestivity && !swtzom) {
       setState(() {
-        this.headerimage = 'assets/maguendavidyellow.png';
+        this.headerimage = 'assets/splashlogo.gif';
         this.holidayline1 = ' ';
         this.holidayline2 = ' ';
         this.holidayline3 = ' ';

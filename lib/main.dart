@@ -56,7 +56,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   String holidayline1 = 'LINEA 1';
   String holidayline2 = 'LINEA 2';
   String holidayline3 = 'LINEA 3';
-  String headerimage = 'assets/maguendavidyellow.png';
+  String headerimage = 'assets/splashlogo.gif';
   int istzomesther = 0;
   String position;
   double lat;
@@ -173,6 +173,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         supportedLocales: [
           Locale('en', 'US'),
           Locale('es', 'ES'),
@@ -200,14 +201,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                     floating: false,
                     pinned: true,
                     expandedHeight: 180.0,
+                    backgroundColor: Color.fromARGB(500, 13, 17, 50),
                     flexibleSpace: FlexibleSpaceBar(
                       background: HeaderIsHolliday(
-//                        DateFormat.yMMMd().format(date),
-//                        fileProvider.datehebrew,
-//                        headerIsHolliday.headerimage,
-//                        headerIsHolliday.holidayline1,
-//                        headerIsHolliday.holidayline2,
-//                        headerIsHolliday.holidayline3,
                       ),
                     ),
                   ),
