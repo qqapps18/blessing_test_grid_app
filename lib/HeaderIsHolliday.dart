@@ -9,6 +9,9 @@ import 'package:intl/intl.dart';
 import 'FileProvider.dart';
 import 'localization/localization_constants.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'localization/localization_constants.dart';
+
 class HeaderIsHolliday extends StatefulWidget {
   @override
   _HeaderIsHollidaytState createState() => _HeaderIsHollidaytState();
@@ -17,9 +20,9 @@ class HeaderIsHolliday extends StatefulWidget {
 class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
   String headerimage = 'assets/splashlogo.gif';
-  String holidayline1 = '';
-  String holidayline2 = '';
-  String holidayline3 = '';
+  String holidayline1 = ' ';
+  String holidayline2 = ' ';
+  String holidayline3 = ' ';
   bool swfestivity = false;
   bool swtzom = false;
   String datehebrew = '';
@@ -47,6 +50,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
   @override
   Widget build(BuildContext context) {
+
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return new Container(
