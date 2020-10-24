@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,6 @@
 		FE4AA885253E097F00F12D43 /* DateFormatterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4AA882253E097F00F12D43 /* DateFormatterProvider.swift */; };
 		FE4AA886253E097F00F12D43 /* DaytimeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4AA883253E097F00F12D43 /* DaytimeProvider.swift */; };
 		FE4AA889253E099B00F12D43 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4AA888253E099B00F12D43 /* LocationManager.swift */; };
-		FE4AA8B8253EDDAC00F12D43 /* SomeFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4AA8B7253EDDAC00F12D43 /* SomeFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,7 +58,6 @@
 		FE4AA883253E097F00F12D43 /* DaytimeProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaytimeProvider.swift; sourceTree = "<group>"; };
 		FE4AA888253E099B00F12D43 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FE4AA8B6253E0C3400F12D43 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Runner-Bridging-Header.h"; path = "../Runner-Bridging-Header.h"; sourceTree = "<group>"; };
-		FE4AA8B7253EDDAC00F12D43 /* SomeFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +124,6 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				FE4AA887253E099B00F12D43 /* Location Manager */,
 				FE4AA880253E097F00F12D43 /* Dates Provider */,
-				FE4AA8B7253EDDAC00F12D43 /* SomeFile.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -319,7 +316,6 @@
 				FE4AA885253E097F00F12D43 /* DateFormatterProvider.swift in Sources */,
 				FE4AA889253E099B00F12D43 /* LocationManager.swift in Sources */,
 				97C146F31CF9000F007C117D /* main.m in Sources */,
-				FE4AA8B8253EDDAC00F12D43 /* SomeFile.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				FE4AA884253E097F00F12D43 /* Solar.swift in Sources */,
 			);

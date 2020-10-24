@@ -36,8 +36,9 @@ class FileProvider {
 
   // Busqueda de las fechas en android
 
+  MethodChannel _methodChannel = MethodChannel('flutter/MethodChannelDemo');
+
   Future<void> getDocuments() async {
-    MethodChannel _methodChannel = MethodChannel('flutter/MethodChannelDemo');
 
     try {
       yomview = await _methodChannel.invokeMethod("Documents");

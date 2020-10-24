@@ -14,6 +14,8 @@ import Foundation
     case hebrew
   }
 
+  private let dayInSeconds: TimeInterval = 60 * 60 * 24
+
   // MARK: Interface
 
   /// This method will provide the components and the date for today in the giving identifier calendar
@@ -25,29 +27,50 @@ import Foundation
   @objc func todaysDateComponents(for identifier: Identifier) -> [String] {
     let focusDate = Date()
     var stringDate: String
-    var dateComponents: (day: Int?, month: Int?, year: Int?, isLeapYear: Bool)
+    var todaysDateComponents: (day: Int?, month: Int?, year: Int?, isLeapYear: Bool)
+    var yesterdaysDateComponents: (day: Int?, month: Int?, year: Int?, isLeapYear: Bool)
+    var dayBeforeYesterdaysDateComponents: (day: Int?, month: Int?, year: Int?, isLeapYear: Bool)
 
     switch identifier {
     case .gregorian:
       stringDate = gregorianDate(date: focusDate)
-      dateComponents = components(for: focusDate, in: Calendar(identifier: .gregorian))
+      todaysDateComponents = components(for: focusDate, in: Calendar(identifier: .gregorian))
+      yesterdaysDateComponents = components(
+        for: focusDate.addingTimeInterval(dayInSeconds * -1),
+        in: Calendar(identifier: .gregorian)
+      )
+      dayBeforeYesterdaysDateComponents = components(
+        for: focusDate,
+        in: Calendar(identifier: .gregorian)
+      )
     case .hebrew:
       stringDate = hebrewDate(date: focusDate)
-      dateComponents = components(for: focusDate, in: Calendar(identifier: .hebrew))
+      todaysDateComponents = components(for: focusDate, in: Calendar(identifier: .hebrew))
+      yesterdaysDateComponents = components(
+        for: focusDate.addingTimeInterval(dayInSeconds * -1),
+        in: Calendar(identifier: .hebrew)
+      )
+      dayBeforeYesterdaysDateComponents = components(
+        for: focusDate.addingTimeInterval(dayInSeconds * -2),
+        in: Calendar(identifier: .hebrew)
+      )
     }
 
     return [
       stringDate,
-      dateComponents.day != nil ? String(dateComponents.day!) : "",
-      dateComponents.month != nil ? String(dateComponents.month!) : "",
-      dateComponents.year != nil ? String(dateComponents.year!) : "",
-      String(dateComponents.isLeapYear),
-      dateComponents.day != nil ? String(dateComponents.day!) : "",
-      dateComponents.month != nil ? String(dateComponents.month!) : "",
-      dateComponents.year != nil ? String(dateComponents.year!) : "",
-      dateComponents.day != nil ? String(dateComponents.day!) : "",
-      dateComponents.month != nil ? String(dateComponents.month!) : "",
-      dateComponents.year != nil ? String(dateComponents.year!) : "",
+      todaysDateComponents.day != nil ? String(todaysDateComponents.day!) : "",
+      todaysDateComponents.month != nil ? String(todaysDateComponents.month!) : "",
+      todaysDateComponents.year != nil ? String(todaysDateComponents.year!) : "",
+      String(todaysDateComponents.isLeapYear),
+      yesterdaysDateComponents.day != nil ? String(yesterdaysDateComponents.day!) : "",
+      yesterdaysDateComponents.month != nil ? String(yesterdaysDateComponents.month!) : "",
+      yesterdaysDateComponents.year != nil ? String(yesterdaysDateComponents.year!) : "",
+      dayBeforeYesterdaysDateComponents
+        .day != nil ? String(dayBeforeYesterdaysDateComponents.day!) : "",
+      dayBeforeYesterdaysDateComponents
+        .month != nil ? String(dayBeforeYesterdaysDateComponents.month!) : "",
+      dayBeforeYesterdaysDateComponents
+        .year != nil ? String(dayBeforeYesterdaysDateComponents.year!) : "",
     ]
   }
 
@@ -83,6 +106,21 @@ import Foundation
     in calendar: Calendar
   ) -> (day: Int?, month: Int?, year: Int?, isLeapYear: Bool) {
     let components = calendar.dateComponents(in: TimeZone.current, from: date)
-    return (day: components.day, month: components.month, year: components.year, isLeapYear: false)
+    var isLeapYear = false
+
+    if let year = components.year {
+      isLeapYear = isYearALeapYear(year)
+    }
+
+    return (
+      day: components.day,
+      month: components.month,
+      year: components.year,
+      isLeapYear: isLeapYear
+    )
+  }
+
+  private func isYearALeapYear(_ year: Int) -> Bool {
+    ((7 * year) + 1) % 19 < 7
   }
 }

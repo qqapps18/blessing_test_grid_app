@@ -42,7 +42,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
-  var headerIsHolliday = HeaderIsHolliday();
 
   DateTime date = DateTime.now();
   DateTime dateUTC;
@@ -204,7 +203,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                     expandedHeight: 180.0,
                     backgroundColor: Color.fromARGB(500, 13, 17, 50),
                     flexibleSpace: FlexibleSpaceBar(
-                      background: HeaderIsHolliday(
+                      background: HeaderIsHolliday(FileProvider()
                       ),
                     ),
                   ),

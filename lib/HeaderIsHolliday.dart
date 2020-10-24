@@ -13,8 +13,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/localization_constants.dart';
 
 class HeaderIsHolliday extends StatefulWidget {
+  var fileProvider;
+
   @override
-  _HeaderIsHollidaytState createState() => _HeaderIsHollidaytState();
+  _HeaderIsHollidaytState createState() => _HeaderIsHollidaytState(this.fileProvider);
+
+  HeaderIsHolliday(FileProvider this.fileProvider);
 }
 
 class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
@@ -27,15 +31,15 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   bool swtzom = false;
   String datehebrew = '';
   DateTime date = DateTime.now();
-  var fileProvider = FileProvider();
   int dayofweek = 0;
   double lat = 0;
   double long = 0;
   int istzomesther = 0;
 
-
-
+  var fileProvider;
   DateTime dateUTC;
+
+  _HeaderIsHollidaytState(FileProvider this.fileProvider);
 
   @override
   void initState() {
