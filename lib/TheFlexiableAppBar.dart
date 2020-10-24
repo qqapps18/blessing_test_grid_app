@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:blessingtestgridapp/FileProvider.dart';
+import 'package:intl/intl.dart';
 
 import 'localization/localization_constants.dart';
 
 class MyFlexiableAppBar extends StatelessWidget {
+
+
   final double appBarHeight = 60.0;
 
   final String datehebrew;
-  final String date;
+  final DateTime date;
   final String headerimage;
   final String holidayline1;
   final String holidayline2;
@@ -18,13 +22,15 @@ class MyFlexiableAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var fileProvider = FileProvider();
+
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     print(' estoy  en MyFlexiableAppBar ' + headerimage + ' ' + holidayline2);
 
     return new Container(
       padding: new EdgeInsets.only(top: statusBarHeight),
-      height: statusBarHeight + appBarHeight,
+      height: statusBarHeight + 60.0,
       child: new Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -45,7 +51,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                             )),
                       ),
                       Container(
-                        child: Text('$holidayline2',
+                        child: new Text('$holidayline2',
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -54,7 +60,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                             )),
                       ),
                       Container(
-                        child: Text('$holidayline3',
+                        child: new Text('$holidayline3',
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -75,7 +81,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                       Container(
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(date,
+                          child: Text(DateFormat.yMMMd().format(date),
                               style: TextStyle(
                                   color: Color.fromARGB(500, 13, 17, 50),
                                   fontFamily: 'RobotoSlab',
@@ -86,7 +92,7 @@ class MyFlexiableAppBar extends StatelessWidget {
                       Container(
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
-                          child: Text(datehebrew,
+                          child: Text(fileProvider.datehebrew,
                               style: TextStyle(
                                   color: Color.fromARGB(500, 13, 17, 50),
                                   fontFamily: 'RobotoSlab',
@@ -102,7 +108,7 @@ class MyFlexiableAppBar extends StatelessWidget {
           )),
       decoration: new BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(headerimage),
+          image: AssetImage('$headerimage'),
           fit: BoxFit.scaleDown,
         ),
         color: Colors.amber,
