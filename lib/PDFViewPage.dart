@@ -1,5 +1,6 @@
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class _PdfViewPageState extends State<PdfViewPage> {
   int _totalPages = 0;
