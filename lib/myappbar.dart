@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:blessingtestgridapp/localization/App_Localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/localization_constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyAppBar extends StatefulWidget {
-
   const MyAppBar();
 
   @override
@@ -30,13 +30,19 @@ class _MyAppBarState extends State<MyAppBar> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
               child: Text(
-                getTranslated(context, 'Book_Of_Blessings'),
-                style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontFamily: 'RobotoSlab',
+                getTranslated(context, 'Book_of_Blessings'),
+                style: GoogleFonts.sourceSerifPro(
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  fontSize: 22.0,
+                  color: Color.fromARGB(500, 184, 29, 29),
+                  fontStyle: FontStyle.italic,
                 ),
+                // style: TextStyle(
+                //   color: Color.fromARGB(500,184, 29, 29),
+                //   fontFamily: 'RobotoSlab-Bold',
+                //   fontWeight: FontWeight.bold,
+                //   fontSize: 22.0,
+                // ),
               ),
             ),
           ),

@@ -84,6 +84,7 @@ import 'BlessingApp.dart';
 // //**************** hasta aqui el SplashScreen ********************
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
@@ -254,84 +255,102 @@ class _BlessingGridViewState extends State<BlessingGridView> {
         },
         home: Builder(
           builder: (context) => Scaffold(
-            backgroundColor: Colors.amber,
-            body: OrientationBuilder(
-              builder: (context, orientation) {
-                return SafeArea(
-                  child: CustomScrollView(
-                    slivers: <Widget>[
-                      SliverAppBar(
-                        title: MyAppBar(),
-                        floating: false,
-                        pinned: true,
-                        expandedHeight: 180.0,
-                        backgroundColor: Color.fromARGB(500, 13, 17, 50),
-                        flexibleSpace: FlexibleSpaceBar(
-                          background: HeaderIsHolliday(),
-                        ),
-                      ),
-
-//   este es el encabezado de la primera seccion  **************************
-                      BlessingSectionHeader(
-                          Colors.amber[200], getTranslated(context, 'Family')),
-
-// lista de bendiciones de la primera seccion ******************************
-                      SliverGrid.count(
-                        crossAxisCount:
-                            orientation == Orientation.portrait ? 3 : 5,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        children: BlessingsFiles(context),
-                      ),
-
-//   este es el encabezado de la segunda  seccion  **************************
-                      BlessingSectionHeader(
-                          Colors.amber[200], getTranslated(context, 'Food')),
-
-// lista de bendiciones de la segunda seccion ******************************
-                      SliverGrid.count(
-                        crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        children: BlessingsFood(context),
-                      ),
-//   este es el encabezado de la tercera  seccion  **************************
-                      BlessingSectionHeader(
-                          Colors.amber[200], getTranslated(context, 'Sabbath')),
-
-// lista de bendiciones de la segunda seccion ******************************
-                      SliverGrid.count(
-                        crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        children: BlessingsShabbat(context),
-                      ),
-//   este es el encabezado de la cuarta  seccion  **************************
-                      BlessingSectionHeader(Colors.amber[200],
-                          getTranslated(context, 'Festivities')),
-
-// lista de bendiciones de la quinta seccion ******************************
-                      SliverGrid.count(
-                        crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        children: BlessingsFestivities(context),
-                      ),
-//   este es el encabezado de la quinta  seccion  **************************
-                      BlessingSectionHeader(Colors.amber[200],
-                          getTranslated(context, 'Miscellaneous')),
-
-// lista de bendiciones de la sexta seccion ******************************
-                      SliverGrid.count(
-                        crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        children: BlessingsMiscellaneous(context),
-                      ),
+// ****** color bacground pantalla *****************
+//            backgroundColor: Color.fromARGB(500, 56, 15, 155),
+//            backgroundColor: Colors.amber,
+            body: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromARGB(500, 254, 140, 46),
+                      Color.fromARGB(500, 254, 140, 46),
+                      Color.fromARGB(500, 253, 200, 11),
+                      Color.fromARGB(500, 254, 140, 46),
+                      Color.fromARGB(500, 254, 140, 46),
                     ],
                   ),
-                );
-              },
+              ),
+              child: OrientationBuilder(
+                builder: (context, orientation) {
+                  return SafeArea(
+                    child: CustomScrollView(
+                      slivers: <Widget>[
+                        SliverAppBar(
+                          title: MyAppBar(),
+                          floating: false,
+                          pinned: true,
+                          expandedHeight: 180.0,
+                          backgroundColor: Color.fromARGB(500, 56, 15, 155),
+//                        backgroundColor: Color.fromARGB(500, 13, 17, 50),
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: HeaderIsHolliday(),
+                          ),
+                        ),
+
+//   este es el encabezado de la primera seccion  **************************
+                        BlessingSectionHeader(
+                            Colors.amber[200], getTranslated(context, 'Family')),
+
+// lista de bendiciones de la primera seccion ******************************
+                        SliverGrid.count(
+                          crossAxisCount:
+                              orientation == Orientation.portrait ? 3 : 5,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                          children: BlessingsFiles(context),
+                        ),
+
+//   este es el encabezado de la segunda  seccion  **************************
+                        BlessingSectionHeader(
+                            Colors.amber[200], getTranslated(context, 'Food')),
+
+// lista de bendiciones de la segunda seccion ******************************
+                        SliverGrid.count(
+                          crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                          children: BlessingsFood(context),
+                        ),
+//   este es el encabezado de la tercera  seccion  **************************
+                        BlessingSectionHeader(
+                            Colors.amber[200], getTranslated(context, 'Sabbath')),
+
+// lista de bendiciones de la segunda seccion ******************************
+                        SliverGrid.count(
+                          crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                          children: BlessingsShabbat(context),
+                        ),
+//   este es el encabezado de la cuarta  seccion  **************************
+                        BlessingSectionHeader(Colors.amber[200],
+                            getTranslated(context, 'Festivities')),
+
+// lista de bendiciones de la quinta seccion ******************************
+                        SliverGrid.count(
+                          crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                          children: BlessingsFestivities(context),
+                        ),
+//   este es el encabezado de la quinta  seccion  **************************
+                        BlessingSectionHeader(Colors.amber[200],
+                            getTranslated(context, 'Miscellaneous')),
+
+// lista de bendiciones de la sexta seccion ******************************
+                        SliverGrid.count(
+                          crossAxisCount: orientation == Orientation.portrait ? 3 : 5,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                          children: BlessingsMiscellaneous(context),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ));

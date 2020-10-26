@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // esta clase va a poner los titulos de las secciones
 class BlessingSectionHeader extends StatelessWidget {
@@ -30,7 +31,7 @@ class DelegateHeader extends SliverPersistentHeaderDelegate {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: Colors.indigo),
-          color: Colors.amberAccent,
+//          color: Colors.amberAccent,
           // gradient: LinearGradient(
           //   begin: Alignment.centerLeft,
           //   end: Alignment.centerRight,
@@ -45,28 +46,31 @@ class DelegateHeader extends SliverPersistentHeaderDelegate {
           //   ],
           //
           // ),
-
+//****************  color gradiente del titulo de seccion *************
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
             colors: [
-              Colors.white,
-              Colors.blue[900],
-              Colors.white,
-              Colors.white,
-              Colors.blue[900],
-              Colors.white,
+              Color.fromARGB(500, 181, 150, 5),
+              Color.fromARGB(500, 251, 220, 128),
+              Color.fromARGB(500, 181, 150, 5),
             ],
           )
       ),
       child: Center(
         child: Text(
           headerTitle,
-          style: TextStyle(
-            color: Colors.indigo,
+          style: GoogleFonts.sourceSerifPro(
+            color: Color.fromARGB(500, 184, 29, 29),
             fontSize: 26,
             fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
           ),
+          // style: TextStyle(
+          //   color: Color.fromARGB(500, 184, 29, 29),
+          //   fontSize: 26,
+          //   fontWeight: FontWeight.bold,
+          // ),
         ),
       ),
     );

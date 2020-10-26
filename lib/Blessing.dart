@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'FileProvider.dart';
 import 'PDFViewPage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Modelo del rezo en el cual definimos la estructura del objeto que necesitamos
 /// para customizar el CardView en la pantalla principal.
@@ -32,7 +33,8 @@ class CardLoad extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Card(
-          color: Colors.amberAccent,
+// ***** color del Card *********
+          color: Color.fromARGB(500, 254, 129, 52),
           child: InkWell(
             onTap: () async {
               print('File Name ' + getTranslated(context, blessing.fileName));
@@ -49,9 +51,19 @@ class CardLoad extends StatelessWidget {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(500, 13, 17, 50),
+// **** color container prayer name *****
+                    color: Color.fromARGB(500, 116, 221, 166),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black45,
+                        offset: Offset(7, 6),
+                        blurRadius: 4,
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  height: 60,
+                  height: 75,
+                  width: 110,
                   child: Stack(
                     children: <Widget>[
                       Padding(
@@ -61,39 +73,47 @@ class CardLoad extends StatelessWidget {
                           child: Text(
                             getTranslated(context, blessing.name),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontFamily: 'RobotoSlab'),
+                            style: GoogleFonts.sourceSerifPro(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11.5,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.yellow,
-                  ),
-                  height: 2,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(500, 13, 17, 50),
-                  ),
-                  height: 15,
-                ),
+// **** color container separador del titulo y la categoria*****
                 SizedBox(
                   height: 5,
                 ),
-                Text(
-                  getTranslated(context, blessing.appBarName),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.indigo,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'RobotoSlab'),
+// ****** color Container de la categoria
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(500, 95, 181, 210),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black45,
+                        offset: Offset(7, 6),
+                        blurRadius: 4,
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  width: 110,
+                  height: 25,
+                  child: Center(
+                    child: Text(
+                      getTranslated(context, blessing.appBarName),
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.sourceSerifPro(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
