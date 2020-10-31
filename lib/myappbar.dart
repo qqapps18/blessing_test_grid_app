@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:blessingtestgridapp/localization/App_Localization.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/localization_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,9 +26,9 @@ class _MyAppBarState extends State<MyAppBar> {
           ),
           Container(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
               child: Text(
-                getTranslated(context, 'Book_of_Blessings'),
+                getTranslated(context, 'Book_Of_Blessings'),
                 style: GoogleFonts.sourceSerifPro(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
