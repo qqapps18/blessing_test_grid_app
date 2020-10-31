@@ -30,22 +30,8 @@ class DelegateHeader extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.indigo),
-//          color: Colors.amberAccent,
-          // gradient: LinearGradient(
-          //   begin: Alignment.centerLeft,
-          //   end: Alignment.centerRight,
-          //
-          //   List: <Color> [
-          //     Colors.white,
-          //         Colors.blue[900],
-          //         Colors.white,
-          //         Colors.white,
-          //         Colors.blue[900],
-          //         Colors.white,
-          //   ],
-          //
-          // ),
+// ************  color del borde del titulo de seccion ***************
+          border: Border.all(color: Color.fromARGB(500, 199, 137, 0),),
 //****************  color gradiente del titulo de seccion *************
           gradient: LinearGradient(
             begin: Alignment.centerLeft,

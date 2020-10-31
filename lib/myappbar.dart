@@ -28,21 +28,15 @@ class _MyAppBarState extends State<MyAppBar> {
           ),
           Container(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
               child: Text(
                 getTranslated(context, 'Book_of_Blessings'),
                 style: GoogleFonts.sourceSerifPro(
-                  fontSize: 22,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(500, 184, 29, 29),
                   fontStyle: FontStyle.italic,
                 ),
-                // style: TextStyle(
-                //   color: Color.fromARGB(500,184, 29, 29),
-                //   fontFamily: 'RobotoSlab-Bold',
-                //   fontWeight: FontWeight.bold,
-                //   fontSize: 22.0,
-                // ),
               ),
             ),
           ),

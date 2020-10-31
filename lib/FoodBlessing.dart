@@ -102,7 +102,7 @@ class CardLoadF extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5)
                   ),
                   width: 110,
-                  height: 25,
+                  height: 30,
                   child: Center(
                     child: Text(
                       getTranslated(context, blessingF.appBarName),

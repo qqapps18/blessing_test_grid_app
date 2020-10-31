@@ -12,14 +12,14 @@ import 'localization/localization_constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/localization_constants.dart';
 
-class HeaderIsHolliday extends StatefulWidget {
+class  HeaderIsHolliday extends StatefulWidget {
   @override
   _HeaderIsHollidaytState createState() => _HeaderIsHollidaytState();
 }
 
 class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
-  String headerimage = 'assets/splashlogo.gif';
+  String headerimage = 'assets/headerlogosinbacground.png';
   String holidayline1 = ' ';
   String holidayline2 = ' ';
   String holidayline3 = ' ';
@@ -134,9 +134,19 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       decoration: new BoxDecoration(
         image: DecorationImage(
           image: AssetImage('$headerimage'),
-          fit: BoxFit.scaleDown,
+          fit: BoxFit.contain,
         ),
-        color: Colors.amber,
+// ************* color de fondo del enbabezado ***********
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Color.fromARGB(500, 254, 140, 46),
+              Color.fromARGB(500, 253, 200, 11),
+              Color.fromARGB(500, 254, 140, 46),
+            ],
+          )
+//        color: Colors.amber,
       ),
     );
   }
@@ -991,7 +1001,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
     if (!swfestivity && !swtzom) {
       setState(() {
-        this.headerimage = 'assets/splashlogo.gif';
+        this.headerimage = 'assets/headerlogosinbacground.png';
         this.holidayline1 = ' ';
         this.holidayline2 = ' ';
         this.holidayline3 = ' ';
