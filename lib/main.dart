@@ -14,7 +14,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Blessing.dart';
 import 'FileProvider.dart';
 import 'BlessingSectionHeader.dart';
-import 'TheFlexiableAppBar.dart';
 import 'localization/localization_constants.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -23,8 +22,6 @@ import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 import 'myappbar.dart';
 import 'HeaderIsHolliday.dart';
-import 'package:splashscreen/splashscreen.dart';
-import 'package:flutter/services.dart';
 
 import 'BlessingApp.dart';
 
@@ -106,7 +103,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
-  var headerIsHolliday = HeaderIsHolliday();
 
   DateTime date = DateTime.now();
   DateTime dateUTC;
@@ -281,7 +277,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 // *************** color del encabezado cerrado **************
                           backgroundColor: Color.fromARGB(500, 181, 150, 5),
                           flexibleSpace: FlexibleSpaceBar(
-                            background: HeaderIsHolliday(),
+                            background: HeaderIsHolliday(this.fileProvider),
                           ),
                         ),
 
