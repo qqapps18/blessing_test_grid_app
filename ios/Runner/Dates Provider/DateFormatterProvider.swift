@@ -27,9 +27,27 @@ import Foundation
   @objc func todaysDateComponents(for identifier: Identifier) -> [String] {
     let focusDate = Date()
     var stringDate: String
-    var todaysDateComponents: (day: Int?, month: Int?, year: Int?, isLeapYear: Bool)
-    var yesterdaysDateComponents: (day: Int?, month: Int?, year: Int?, isLeapYear: Bool)
-    var dayBeforeYesterdaysDateComponents: (day: Int?, month: Int?, year: Int?, isLeapYear: Bool)
+    var todaysDateComponents: (
+      day: Int?,
+      month: Int?,
+      year: Int?,
+      isLeapYear: Bool,
+      monthName: String?
+    )
+    var yesterdaysDateComponents: (
+      day: Int?,
+      month: Int?,
+      year: Int?,
+      isLeapYear: Bool,
+      monthName: String?
+    )
+    var dayBeforeYesterdaysDateComponents: (
+      day: Int?,
+      month: Int?,
+      year: Int?,
+      isLeapYear: Bool,
+      monthName: String?
+    )
 
     switch identifier {
     case .gregorian:
@@ -59,14 +77,18 @@ import Foundation
     return [
       stringDate,
       todaysDateComponents.day != nil ? String(todaysDateComponents.day!) : "",
+      todaysDateComponents.monthName != nil ? todaysDateComponents.monthName! : "",
       todaysDateComponents.month != nil ? String(todaysDateComponents.month!) : "",
       todaysDateComponents.year != nil ? String(todaysDateComponents.year!) : "",
       String(todaysDateComponents.isLeapYear),
       yesterdaysDateComponents.day != nil ? String(yesterdaysDateComponents.day!) : "",
+      yesterdaysDateComponents.monthName != nil ? yesterdaysDateComponents.monthName! : "",
       yesterdaysDateComponents.month != nil ? String(yesterdaysDateComponents.month!) : "",
       yesterdaysDateComponents.year != nil ? String(yesterdaysDateComponents.year!) : "",
       dayBeforeYesterdaysDateComponents
         .day != nil ? String(dayBeforeYesterdaysDateComponents.day!) : "",
+      dayBeforeYesterdaysDateComponents.monthName != nil ? dayBeforeYesterdaysDateComponents
+        .monthName! : "",
       dayBeforeYesterdaysDateComponents
         .month != nil ? String(dayBeforeYesterdaysDateComponents.month!) : "",
       dayBeforeYesterdaysDateComponents
@@ -104,19 +126,25 @@ import Foundation
   private func components(
     for date: Date = .init(),
     in calendar: Calendar
-  ) -> (day: Int?, month: Int?, year: Int?, isLeapYear: Bool) {
+  ) -> (day: Int?, month: Int?, year: Int?, isLeapYear: Bool, monthName: String?) {
     let components = calendar.dateComponents(in: TimeZone.current, from: date)
     var isLeapYear = false
+    var monthName: String?
 
     if let year = components.year {
       isLeapYear = isYearALeapYear(year)
+    }
+
+    if let monthNum = components.month {
+      monthName = calendar.monthSymbols[monthNum - 1]
     }
 
     return (
       day: components.day,
       month: components.month,
       year: components.year,
-      isLeapYear: isLeapYear
+      isLeapYear: isLeapYear,
+      monthName: monthName
     )
   }
 
