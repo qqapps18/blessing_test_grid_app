@@ -161,6 +161,14 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   void checkHoliday(SunriseSunsetData data) {
     print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
 
+    print('[DEBUG] estoy en checkRoshHashana **********************');
+    print('[DEBUG] mes ' + fileProvider.jodesh);
+    print ('[DEBUG] numero del mes '+ fileProvider.numjodesh.toString());
+    print('[DEBUG] dia ' + fileProvider.yom.toString());
+    print('[DEBUG] año ' + fileProvider.shana.toString());
+    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
+    print('[DEBUG] dia de la semana ' + dayofweek.toString());
+
     // variables para el calculo del sunrise y sunset
     // daylight - hora local del amanecer en el meridiano 0
     // nighlight - hora local del atardecer en el meridiano 0
@@ -182,62 +190,77 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     print("===== SUNRISE " + sunriseTime.toString());
     print(' estoy en checkholiday **********************');
 
-    switch (fileProvider.jodesh) {
-      case "Elul":
+// orden de los mese a chequear
+//   1  Nisán
+//   2  Iyar
+//   3  Siván
+//   4  Tamuz
+//   5  Av
+//   6  Elul
+//   7  Tishrei
+//   8  Jeshván
+//   9  Kislev
+//  10   Tevet
+//  11   Shevat
+//  12   Adar
+//  13   Adar II
+
+    switch (fileProvider.numjodesh) {
+      case 6:
         checkRoshHashana(date, sunsetTime);
         break;
 
-      case "Tishrei":
+      case 7:
         checkRoshHashana(date, sunsetTime);
         checkTzomGedalia(date, sunriseTime, sunsetTime);
         checkYomKipur(date, sunriseTime, sunsetTime);
         checksukkot(date, sunsetTime);
         break;
 
-      case "Tevet":
+      case 9:
+        checkJanuca(date, sunsetTime);
+        break;
+
+      case 10:
         checkJanuca(date, sunsetTime);
         check10Tevet(date, sunriseTime, sunsetTime);
         break;
 
-      case "Kislev":
-        checkJanuca(date, sunsetTime);
-        break;
-
-      case "Shvat":
+      case 11:
         checkTuBishvat();
         break;
 
-      case "Adar I":
+      case 12:
         checkPurim(date, sunriseTime, sunsetTime);
         break;
 
-      case "Adar II":
+      case 13:
         checkPurim(date, sunriseTime, sunsetTime);
         break;
 
-      case "Adar":
+      case 12:
         checkPurim(date, sunriseTime, sunsetTime);
         break;
 
-      case "Nissan":
+      case 1:
         checkPassover(date, sunsetTime);
         checkOmer(date, sunsetTime);
         break;
 
-      case "Iyar":
+      case 2:
         checkOmer(date, sunsetTime);
         break;
 
-      case "Sivan":
+      case 3:
         checkOmer(date, sunsetTime);
         checkShavuot(date, sunsetTime);
         break;
 
-      case "Tamuz":
+      case 4:
         check17Tamuz(date, sunriseTime, sunsetTime);
         break;
 
-      case "Av":
+      case 5:
         check9Beav(date, sunsetTime);
         break;
     }
@@ -261,15 +284,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
 // ++++++++++++++++ check for Rosh Hashana **************************
   void checkRoshHashana(DateTime now, DateTime sunset) {
-    print('[DEBUG] estoy en checkRoshHashana **********************');
-    print('[DEBUG] mes ' + fileProvider.jodesh);
-    print('[DEBUG] dia ' + fileProvider.yom.toString());
-    print('[DEBUG] año ' + fileProvider.shana.toString());
-    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
-    print('[DEBUG] dia de la semana ' + dayofweek.toString());
-
-    // aqui chequeo la fecha para ver si es año nuevo ***************
-    if (fileProvider.jodesh == "Elul") {
+ // aqui chequeo la fecha para ver si es año nuevo ***************
+    if (fileProvider.numjodesh == 6) {
       if (fileProvider.yom == 29 && now.isAfter(sunset)) {
         swfestivity = true;
         updateHoliday('assets/roshhashana.png', 'hemptytxt', 'shana_tova',
@@ -280,7 +296,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Tishrei") {
+    if (fileProvider.numjodesh == 7) {
       if (fileProvider.yom == 1 ||
           (fileProvider.yom == 2 && now.isBefore(sunset))) {
         swfestivity = true;
@@ -298,7 +314,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 // ++++++++++++++++ check for Tzom Gedalia **************************
 
   void checkTzomGedalia(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.jodesh == "Tishrei") {
+    if (fileProvider.numjodesh == 7) {
       if (fileProvider.yom == 3 &&
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
@@ -313,7 +329,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Tishrei") {
+    if (fileProvider.numjodesh == 7) {
       if (fileProvider.yom == 4 &&
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
@@ -330,7 +346,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
 // ++++++++++++++++ check for Yom Kipur **************************
   void checkYomKipur(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.jodesh == "Tishrei") {
+    if (fileProvider.numjodesh == 7) {
       if ((fileProvider.yom == 9 && now.isAfter(sunset)) ||
           (fileProvider.yom == 10 && now.isBefore(sunset))) {
         swtzom = true;
@@ -350,7 +366,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
         ' sunset ' +
         sunset.millisecondsSinceEpoch.toString());
 
-    if (fileProvider.jodesh == "Tishrei") {
+    if (fileProvider.numjodesh == 7) {
       if ((fileProvider.yom == 14 &&
               now.millisecondsSinceEpoch > sunset.millisecondsSinceEpoch) ||
           (fileProvider.yom > 14 && fileProvider.yom < 20) ||
@@ -391,7 +407,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   void checkJanuca(DateTime now, DateTime sunset) {
     int endmonth = 0;
 
-    if (fileProvider.jodesh == "Tevet") {
+    if (fileProvider.numjodesh == 10) {
       if ((fileProvider.yom == 1 && fileProvider.yesterdayyom == 29) ||
           (fileProvider.yom == 2 && fileProvider.daybeforeyom == 29)) {
         endmonth = 1;
@@ -403,7 +419,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Kislev") {
+    if (fileProvider.numjodesh == 9) {
       if ((fileProvider.yom == 24 && now.isAfter(sunset)) ||
           (fileProvider.yom == 25 && now.isBefore(sunset))) {
         swfestivity = true;
@@ -453,7 +469,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Tevet") {
+    if (fileProvider.numjodesh == 10) {
       if (fileProvider.yom == 1 && endmonth == 1 && now.isBefore(sunset)) {
         swfestivity = true;
         updateHoliday('assets/januquilladia6.png', 'hemptytxt', 'happyjanuca',
@@ -503,7 +519,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 // ++++++++++++++++ check for Tzom 10 of TEVET **************************
 
   void check10Tevet(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.jodesh == "Tevet") {
+    if (fileProvider.numjodesh == 10) {
       if (fileProvider.yom == 10 &&
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
@@ -518,7 +534,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Tevet") {
+    if (fileProvider.numjodesh == 10) {
       if (fileProvider.yom == 11 &&
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
@@ -536,7 +552,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   // ++++++++++++++++ check for Tu Bishvat **************************
 
   void checkTuBishvat() {
-    if (fileProvider.jodesh == "Shvat") {
+    if (fileProvider.numjodesh == 11) {
       if (fileProvider.yom == 15) {
         swfestivity = true;
         updateHoliday('assets/tubishvat.png', 'hemptytxt', 'tubishvat',
@@ -552,7 +568,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
   void checkPurim(DateTime now, DateTime sunrise, DateTime sunset) {
     if (fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar I") {
+      if (fileProvider.numjodesh == 12) {
         if (fileProvider.yom == 14) {
           swfestivity = true;
           updateHoliday('assets/tpurimkatan.png', 'hemptytxt', 'purimkatan',
@@ -571,7 +587,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     }
 
     if (fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar II") {
+      if (fileProvider.numjodesh == 13) {
         todayTzomEsther(now, sunrise, sunset);
         print("[PURIM]  istzomesther regresando1 " + istzomesther.toString());
 
@@ -614,7 +630,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     }
 
     if (!fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar") {
+      if (fileProvider.numjodesh == 12) {
         todayTzomEsther(now, sunrise, sunset);
         print("[PURIM]  istzomesther regresando2 " + istzomesther.toString());
 
@@ -659,7 +675,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
   void todayTzomEsther(DateTime now, DateTime sunrise, DateTime sunset) {
     if (fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar II") {
+      if (fileProvider.numjodesh == 13) {
         if (fileProvider.yom == 11 &&
             dayofweek == 4 &&
             (now.isAfter(sunrise) && now.isBefore(sunset))) {
@@ -678,7 +694,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     }
 
     if (!fileProvider.isleapyear) {
-      if (fileProvider.jodesh == "Adar") {
+      if (fileProvider.jodesh == 12) {
         if (fileProvider.yom == 11 &&
             dayofweek == 4 &&
             (now.isAfter(sunrise) && now.isBefore(sunset))) {
@@ -699,7 +715,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
   //++++++++++++++++++++++ check for Passover +++++++++++++++++++++
   void checkPassover(DateTime now, DateTime sunset) {
-    if (fileProvider.jodesh == "Nissan") {
+    if (fileProvider.numjodesh == 1) {
       if (fileProvider.yom == 14 && now.isAfter(sunset)) {
         swfestivity = true;
         updateHoliday('assets/pesaj.png', 'hemptytxt', 'pesaje1seder',
@@ -779,7 +795,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 //++++++++++++++++++++++ check for Omer +++++++++++++++++++++
   void checkOmer(DateTime now, DateTime sunset) {
     int omerday = 0;
-    if (fileProvider.jodesh == "Nissan") {
+    if (fileProvider.numjodesh == 1) {
       for (int day = 23; day < 31; day++) {
         if (((fileProvider.yom == day && now.isAfter(sunset)) ||
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
@@ -796,7 +812,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Iyar") {
+    if (fileProvider.numjodesh == 2) {
       if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
         swfestivity = true;
         omerday = 16;
@@ -810,7 +826,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Iyar") {
+    if (fileProvider.numjodesh == 2) {
       for (int day = 1; day < 17; day++) {
         if (((fileProvider.yom == day && now.isAfter(sunset)) ||
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
@@ -827,7 +843,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Iyar") {
+    if (fileProvider.numjodesh == 2) {
       if (((fileProvider.yom == 17 && now.isAfter(sunset)) ||
           (fileProvider.yom == 18 && now.isBefore(sunset)))) {
         swfestivity = true;
@@ -836,7 +852,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Iyar") {
+    if (fileProvider.numjodesh == 2) {
       for (int day = 18; day < 30; day++) {
         if (((fileProvider.yom == day && now.isAfter(sunset)) ||
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
@@ -853,7 +869,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Sivan") {
+    if (fileProvider.numjodesh == 3) {
       if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
         swfestivity = true;
         omerday = 45;
@@ -867,7 +883,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Sivan") {
+    if (fileProvider.numjodesh == 3) {
       for (int day = 1; day < 5; day++) {
         if (((fileProvider.yom == day && now.isAfter(sunset)) ||
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
@@ -887,7 +903,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
 //++++++++++++++++++++++ check for Shavuot +++++++++++++++++++++
   void checkShavuot(DateTime now, DateTime sunset) {
-    if (fileProvider.jodesh == "Sivan") {
+    if (fileProvider.numjodesh == 3) {
       if ((fileProvider.yom == 5 && now.isAfter(sunset)) ||
           (fileProvider.yom == 6 && now.isBefore(sunset))) {
         swfestivity = true;
@@ -899,7 +915,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
 // ++++++++++++++++ check for fast of 17 of tamuz **************************
   void check17Tamuz(DateTime now, DateTime sunrise, DateTime sunset) {
-    if (fileProvider.jodesh == "Tamuz") {
+    if (fileProvider.numjodesh == 4) {
       if (fileProvider.yom == 17 &&
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 6) {
@@ -914,7 +930,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       }
     }
 
-    if (fileProvider.jodesh == "Tamuz") {
+    if (fileProvider.numjodesh == 4) {
       if (fileProvider.yom == 18 &&
           (now.isAfter(sunrise) && now.isBefore(sunset))) {
         if (dayofweek == 7) {
@@ -931,7 +947,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
 // ++++++++++++++++ check for fast of 9 of av **************************
   void check9Beav(DateTime now, DateTime sunset) {
-    if (fileProvider.jodesh == "Av") {
+    if (fileProvider.numjodesh == 5) {
       if (fileProvider.yom == 8 && dayofweek == 5 && now.isAfter(sunset)) {
         swtzom = true;
         updateHoliday('assets/emptyimage.png', 'tzomshabat1', 'tzom9beavshabat',

@@ -2,10 +2,6 @@ import 'dart:async';
 
 import 'dart:math';
 import 'package:blessingtestgridapp/BlessingSectionHeader.dart';
-import 'package:blessingtestgridapp/FestivitiesBlessing.dart';
-import 'package:blessingtestgridapp/FoodBlessing.dart';
-import 'package:blessingtestgridapp/MiscellaneousBlessing.dart';
-import 'package:blessingtestgridapp/ShabbatBlesing.dart';
 import 'package:blessingtestgridapp/localization/App_Localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +18,6 @@ import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 import 'myappbar.dart';
 import 'HeaderIsHolliday.dart';
-
-import 'BlessingApp.dart';
 
 // // *********************** SplashScreen **************************
 //
@@ -163,53 +157,53 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   ];
 
   var blessingsFood = [
-    FoodBlessing("Blessing_When_Washing_Hands", "B_PDF_Washing_Hand",
+    Blessing("Blessing_When_Washing_Hands", "B_PDF_Washing_Hand",
         'assets/fondo_bendiciones.png', "Before_Eating"),
-    FoodBlessing(
+    Blessing(
         "Wine", "B_PDF_Wine", 'assets/fondo_bendiciones.png', 'B_Wine'),
-    FoodBlessing("Blessing_When_Eating_Bread", "B_PDF_Bread",
+    Blessing("Blessing_When_Eating_Bread", "B_PDF_Bread",
         'assets/fondo_bendiciones.png', 'B_Bread'),
-    FoodBlessing("Blessing_Over_Grains", "B_PDF_Grains",
+    Blessing("Blessing_Over_Grains", "B_PDF_Grains",
         'assets/fondo_bendiciones.png', 'Grains'),
-    FoodBlessing("Blessing_Over_Vegetables", "B_PDF_Vegetables",
+    Blessing("Blessing_Over_Vegetables", "B_PDF_Vegetables",
         'assets/fondo_bendiciones.png', 'Vegetables'),
-    FoodBlessing("Blessing_When_Eating_Fruits", "B_PDF_Fruits",
+    Blessing("Blessing_When_Eating_Fruits", "B_PDF_Fruits",
         'assets/fondo_bendiciones.png', 'Fruits'),
-    FoodBlessing("All_Other_Food", "B_PDF_All_Other_Food",
+    Blessing("All_Other_Food", "B_PDF_All_Other_Food",
         'assets/fondo_bendiciones.png', 'B_All_Other_Food'),
-    FoodBlessing("Blessing_After_Meal", "B_PDF_After_Meal",
+    Blessing("Blessing_After_Meal", "B_PDF_After_Meal",
         'assets/fondo_bendiciones.png', 'Birkat_Hamazon'),
-    FoodBlessing("Making_Challa", "B_PDF_Challa",
+    Blessing("Making_Challa", "B_PDF_Challa",
         'assets/fondo_bendiciones.png', 'Challa'),
   ];
 
   var blessingsShabbat = [
-    ShabbatBlessing(
+    Blessing(
         "Blessing_Of_The_Shabbath_Candles",
         "B_PDF_Shabbath_Blessing",
         'assets/fondo_bendiciones.png',
         'The_Candles'),
-    ShabbatBlessing("Kidush_Shabbath", "B_PDF_Kidush_Shabbath",
+    Blessing("Kidush_Shabbath", "B_PDF_Kidush_Shabbath",
         'assets/fondo_bendiciones.png', 'Kidush'),
-    ShabbatBlessing("Blessing_Havdalah", "B_PDF_Havdalah",
+    Blessing("Blessing_Havdalah", "B_PDF_Havdalah",
         'assets/fondo_bendiciones.png', 'Havdalah'),
   ];
 
   var blessingsFestivites = [
-    FestivitiesBlessing("Blessing_Over_Hanukkah_Candles",
+    Blessing("Blessing_Over_Hanukkah_Candles",
         "B_PDF_Hanukkah_Candles", 'assets/fondo_bendiciones.png', 'Hanukka'),
-    FestivitiesBlessing(
+    Blessing(
         "Blessing_Over_Festivities_Candles",
         "B_PDF_Over_Festivities_Candles",
         'assets/fondo_bendiciones.png',
         'Yom_Tov'),
-    FestivitiesBlessing("Blessings_For_Sukkot", "B_PDF_Sukkot",
+    Blessing("Blessings_For_Sukkot", "B_PDF_Sukkot",
         'assets/fondo_bendiciones.png', 'Sukkot'),
-    FestivitiesBlessing("Kidush_For_Shalosh_Regalim", "B_PDF_Shalosh_Regalim",
+    Blessing("Kidush_For_Shalosh_Regalim", "B_PDF_Shalosh_Regalim",
         'assets/fondo_bendiciones.png', 'Yom_Tov'),
-    FestivitiesBlessing("Kidush_For_Rosh_Hashanah", "B_PDF_Kidush_Rosh_Hashanah",
+    Blessing("Kidush_For_Rosh_Hashanah", "B_PDF_Kidush_Rosh_Hashanah",
         'assets/fondo_bendiciones.png', 'Rosh_Hashanah'),
-    FestivitiesBlessing(
+    Blessing(
         "Blessing_Over_Yom_Kippur_Candles",
         "B_PDF_Yom_Kippur_Candles",
         'assets/fondo_bendiciones.png',
@@ -217,15 +211,15 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   ];
 
   var blessingsMiscellaneous = [
-    MiscellaneousBlessing("Blessing_When_Hear_Thunder", "B_PDF_Thunder",
+    Blessing("Blessing_When_Hear_Thunder", "B_PDF_Thunder",
         'assets/fondo_bendiciones.png', 'Nature'),
-    MiscellaneousBlessing("Blessing_When_See_Lightning", "B_PDF_Lightning",
+    Blessing("Blessing_When_See_Lightning", "B_PDF_Lightning",
         'assets/fondo_bendiciones.png', 'Nature'),
-    MiscellaneousBlessing("Blessing_When_see_a_Rainbow", "B_PDF_Rainbow",
+    Blessing("Blessing_When_see_a_Rainbow", "B_PDF_Rainbow",
         'assets/fondo_bendiciones.png', 'Nature'),
-    MiscellaneousBlessing("Blessing_When_Hear_Good_News", "B_PDF_Good_News",
+    Blessing("Blessing_When_Hear_Good_News", "B_PDF_Good_News",
         'assets/fondo_bendiciones.png', 'Personnel'),
-    MiscellaneousBlessing("Blessing_When_Hear_Bad_News", "B_PDF_Bad_news",
+    Blessing("Blessing_When_Hear_Bad_News", "B_PDF_Bad_news",
         'assets/fondo_bendiciones.png', 'Personnel'),
   ];
 
@@ -291,7 +285,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                               orientation == Orientation.portrait ? 3 : 5,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: BlessingsFiles(context),
+                          children: sectionCardWidgets(blessingsPDFs),
                         ),
 
 //   este es el encabezado de la segunda  seccion  **************************
@@ -304,7 +298,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                               orientation == Orientation.portrait ? 3 : 5,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: BlessingsFood(context),
+                          children: sectionCardWidgets(blessingsFood),
                         ),
 //   este es el encabezado de la tercera  seccion  **************************
                         BlessingSectionHeader(Colors.amber[200],
@@ -316,7 +310,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                               orientation == Orientation.portrait ? 3 : 5,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: BlessingsShabbat(context),
+                          children: sectionCardWidgets(blessingsShabbat),
                         ),
 //   este es el encabezado de la cuarta  seccion  **************************
                         BlessingSectionHeader(Colors.amber[200],
@@ -328,7 +322,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                               orientation == Orientation.portrait ? 3 : 5,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: BlessingsFestivities(context),
+                          children: sectionCardWidgets(blessingsFestivites),
                         ),
 //   este es el encabezado de la quinta  seccion  **************************
                         BlessingSectionHeader(Colors.amber[200],
@@ -340,7 +334,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                               orientation == Orientation.portrait ? 3 : 5,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: BlessingsMiscellaneous(context),
+                          children: sectionCardWidgets(blessingsMiscellaneous),
                         ),
                       ],
                     ),
@@ -353,85 +347,88 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
 // TODO la idea es crear un metodo por seccion y carge el grid con sus contenido
-
-  List<Widget> BlessingsFiles(BuildContext context) {
-    return List.generate(blessingsPDFs.length, (index) {
-      return cardView(context, index);
+  List<Widget> sectionCardWidgets(List<Blessing> blessings) {
+    return List.generate(blessings.length, (index) {
+      return CardLoad(fileProvider: fileProvider, blessing: blessings[index]);
     });
   }
 
-  List<Widget> BlessingsFood(BuildContext context) {
-    return List.generate(blessingsFood.length, (index) {
-      return cardViewF(context, index);
-    });
-  }
-
-  List<Widget> BlessingsShabbat(BuildContext context) {
-    return List.generate(blessingsShabbat.length, (index) {
-      return cardViewS(context, index);
-    });
-  }
-
-  List<Widget> BlessingsFestivities(BuildContext context) {
-    return List.generate(blessingsFestivites.length, (index) {
-      return cardViewFes(context, index);
-    });
-  }
-
-  List<Widget> BlessingsMiscellaneous(BuildContext context) {
-    return List.generate(blessingsMiscellaneous.length, (index) {
-      return cardViewMis(context, index);
-    });
-  }
+  // List<Widget> BlessingsFiles(BuildContext context) {
+  //   return List.generate(blessingsPDFs.length, (index) {
+  //     return CardLoad(fileProvider: fileProvider, blessing: blessingsPDFs[index]);
+  //   });
+  // }
+  //
+  // List<Widget> BlessingsFood(BuildContext context) {
+  //   return List.generate(blessingsFood.length, (index) {
+  //     return CardLoad(fileProvider: fileProvider, blessing: blessingsFood[index]);
+  //   });
+  // }
+  //
+  // List<Widget> BlessingsShabbat(BuildContext context) {
+  //   return List.generate(blessingsShabbat.length, (index) {
+  //     return cardView(context, index);
+  //   });
+  // }
+  //
+  // List<Widget> BlessingsFestivities(BuildContext context) {
+  //   return List.generate(blessingsFestivites.length, (index) {
+  //     return cardView(context, index);
+  //   });
+  // }
+  //
+  // List<Widget> BlessingsMiscellaneous(BuildContext context) {
+  //   return List.generate(blessingsMiscellaneous.length, (index) {
+  //     return cardViewMis(context, index);
+  //   });
+  // }
 
   // Este metodo crea el 'CardView' en base a la información del objeto
   // 'Blessing' que creamos en la lista. Este objeto se consigue en base
   // al indice que nos pasa el metodo al crear el GridCount.
   // Para mas información: https://flutter.dev/docs/cookbook/lists/grid-lists
-  Widget cardView(BuildContext context, int index) {
-    // Este es el rezo y en el metodode abajo vamos a utilizar la información
-    // para customizar el 'CardView'.
 
-    var blessing = blessingsPDFs[index];
-
-    return CardLoad(fileProvider: fileProvider, blessing: blessing);
-  }
-
-  Widget cardViewF(BuildContext context, int index) {
-    // Este es el rezo y en el metodode abajo vamos a utilizar la información
-    // para customizar el 'CardView'. 0
-
-    var blessingF = blessingsFood[index];
-
-    return CardLoadF(fileProvider: fileProvider, blessingF: blessingF);
-  }
-
-  Widget cardViewS(BuildContext context, int index) {
-    // Este es el rezo y en el metodode abajo vamos a utilizar la información
-    // para customizar el 'CardView'.
-
-    var blessingS = blessingsShabbat[index];
-
-    return CardLoadS(fileProvider: fileProvider, blessingS: blessingS);
-  }
-
-  Widget cardViewFes(BuildContext context, int index) {
-    // Este es el rezo y en el metodode abajo vamos a utilizar la información
-    // para customizar el 'CardView'.
-
-    var blessibgFe = blessingsFestivites[index];
-
-    return CardLoadFes(fileProvider: fileProvider, blessibgFe: blessibgFe);
-  }
-
-  Widget cardViewMis(BuildContext context, int index) {
-    // Este es el rezo y en el metodode abajo vamos a utilizar la información
-    // para customizar el 'CardView'.
-
-    var blessibgMis = blessingsMiscellaneous[index];
-
-    return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
-  }
+  // Widget cardView(BuildContext context, Blessing x) {
+  //   // Este es el rezo y en el metodode abajo vamos a utilizar la información
+  //   // para customizar el 'CardView'
+  //   return CardLoad(fileProvider: fileProvider, blessing: x);
+  // }
+  //
+  // Widget cardViewF(BuildContext context, int index) {
+  //   // Este es el rezo y en el metodode abajo vamos a utilizar la información
+  //   // para customizar el 'CardView'. 0
+  //
+  //   var blessingF = blessingsFood[index];
+  //
+  //   return CardLoadF(fileProvider: fileProvider, blessingF: blessingF);
+  // }
+  //
+  // Widget cardViewS(BuildContext context, int index) {
+  //   // Este es el rezo y en el metodode abajo vamos a utilizar la información
+  //   // para customizar el 'CardView'.
+  //
+  //   var blessingS = blessingsShabbat[index];
+  //
+  //   return CardLoadS(fileProvider: fileProvider, blessingS: blessingS);
+  // }
+  //
+  // Widget cardViewFes(BuildContext context, int index) {
+  //   // Este es el rezo y en el metodode abajo vamos a utilizar la información
+  //   // para customizar el 'CardView'.
+  //
+  //   var blessibgFe = blessingsFestivites[index];
+  //
+  //   return CardLoadFes(fileProvider: fileProvider, blessibgFe: blessibgFe);
+  // }
+  //
+  // Widget cardViewMis(BuildContext context, int index) {
+  //   // Este es el rezo y en el metodode abajo vamos a utilizar la información
+  //   // para customizar el 'CardView'.
+  //
+  //   var blessibgMis = blessingsMiscellaneous[index];
+  //
+  //   return CardLoadM(fileProvider: fileProvider, blessibgMis: blessibgMis);
+  // }
 
 //  void checkHoliday(SunriseSunsetData data) {
 //    print('CheckHoliday holidayline1 ' + holidayline1 + '===========');

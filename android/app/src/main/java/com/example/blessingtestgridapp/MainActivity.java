@@ -22,6 +22,7 @@ public class MainActivity extends FlutterActivity {
     int tday;
     int tmonth;
     int tyear;
+    String numHebrewDate;
     String hebrewDateYesterdayString;
     String hebrewDateDaybeforeString;
     ArrayList<String> listdates = new ArrayList<String>();
@@ -36,9 +37,11 @@ public class MainActivity extends FlutterActivity {
                         (call, result) -> {
                             if (call.method.equals("Documents")) {
                                 HebrewDate date = new HebrewDate();
+
                                 listdates.add(date.getHebrewDateAsString());
                                 listdates.add(Integer.toString(HebrewDate.CURRENT_HDAY));
                                 listdates.add(HebrewDate.CURRENT_HMONTH);
+                                listdates.add(Integer.toString(date.getHebrewMonth()));
                                 listdates.add(Integer.toString(HebrewDate.CURRENT_HYEAR));
 
                                 if(HebrewDate.IS_LEAP_YEAR == true) {
@@ -83,6 +86,7 @@ public class MainActivity extends FlutterActivity {
         HebrewDate hebrewDateYesterday = new HebrewDate(diayurzaityesterday);
         listdates.add(Integer.toString(hebrewDateYesterday.getHebrewDate()));
         listdates.add(HebrewDate.CURRENT_HMONTH);
+        listdates.add(Integer.toString(hebrewDateYesterday.getHebrewMonth()));
         listdates.add(Integer.toString(hebrewDateYesterday.getHebrewYear()));
     }
 
@@ -97,6 +101,7 @@ public class MainActivity extends FlutterActivity {
         HebrewDate hebrewDateDaybefore = new HebrewDate(diayurzaitdaybefore);
         listdates.add(Integer.toString(hebrewDateDaybefore.getHebrewDate()));
         listdates.add(HebrewDate.CURRENT_HMONTH);
+        listdates.add(Integer.toString(hebrewDateDaybefore.getHebrewMonth()));
         listdates.add(Integer.toString(hebrewDateDaybefore.getHebrewYear()));
     }
 

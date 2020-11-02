@@ -19,6 +19,9 @@ class FileProvider {
   int daybeforeyom;
   String daybeforejodesh;
   int daybeforeshana;
+  int numjodeshyesterday;
+  int numjodeshdaybefore;
+  int numjodesh;
 
   Future<File> getAssetByName(String sourceName) async {
     var sampleData = await rootBundle.load("assets/$sourceName");
@@ -46,8 +49,9 @@ class FileProvider {
       datehebrew = yomview[0];
       yom = int.parse(yomview[1]);
       jodesh = yomview[2];
-      shana = int.parse(yomview[3]);
-      leapyear = yomview[4];
+      numjodesh = int.parse(yomview[3]);
+      shana = int.parse(yomview[4]);
+      leapyear = yomview[5];
 
       if (leapyear == "1") {
         isleapyear = true;
@@ -55,13 +59,15 @@ class FileProvider {
         isleapyear = false;
       }
 
-      yesterdayyom = int.parse(yomview[5]);
-      yesterdayjodesh = yomview[6];
-      yesterdayshana = int.parse(yomview[7]);
+      yesterdayyom = int.parse(yomview[6]);
+      yesterdayjodesh = yomview[7];
+      numjodeshyesterday = int.parse(yomview[8]);
+      yesterdayshana = int.parse(yomview[9]);
 
-      daybeforeyom = int.parse(yomview[8]);
-      daybeforejodesh = yomview[9];
-      daybeforeshana = int.parse(yomview[10]);
+      daybeforeyom = int.parse(yomview[10]);
+      daybeforejodesh = yomview[11];
+      numjodeshdaybefore = int.parse(yomview[12]);
+      daybeforeshana = int.parse(yomview[13]);
 
       print("[ANDROID] Result from android: " +  yomview.cast<String>().toString());
 
