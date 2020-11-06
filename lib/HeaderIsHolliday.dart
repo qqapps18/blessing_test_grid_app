@@ -801,10 +801,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
           swfestivity = true;
           omerday = day - 14;
+          print('[DEBUG OMER $omerday');
           updateHoliday(
-              'assets/emptyimage.png',
+              'assets/headerlogosinbacground.png',
               'hemptytxt',
-              ('omerday' + ' ' + omerday.toString()),
+              ('pesaj$omerday'+ 'omer'),
+//              ('omerday' + ' ' + omerday.toString()),
               'hemptytxt',
               swfestivity,
               swtzom);
@@ -816,10 +818,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
         swfestivity = true;
         omerday = 16;
+        print('[DEBUG OMER $omerday');
         updateHoliday(
-            'assets/emptyimage.png',
+            'assets/headerlogosinbacground.png',
             'hemptytxt',
-            ('omerday' + ' ' + omerday.toString()),
+            ('pesaj$omerday'+ 'omer'),
+//            ('omerday' + ' ' + omerday.toString()),
             'hemptytxt',
             swfestivity,
             swtzom);
@@ -832,10 +836,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
           swfestivity = true;
           omerday = day + 16;
+          print('[DEBUG OMER $omerday');
           updateHoliday(
-              'assets/emptyimage.png',
+              'assets/headerlogosinbacground.png',
               'hemptytxt',
-              ('omerday' + ' ' + omerday.toString()),
+              ('pesaj$omerday'+ 'omer'),
+//              ('omerday' + ' ' + omerday.toString()),
               'hemptytxt',
               swfestivity,
               swtzom);
@@ -858,10 +864,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
           swfestivity = true;
           omerday = day + 16;
+          print('[DEBUG OMER $omerday');
           updateHoliday(
-              'assets/emptyimage.png',
+              'assets/headerlogosinbacground.png',
               'hemptytxt',
-              ('omerday' + ' ' + omerday.toString()),
+              ('pesaj$omerday'+ 'omer'),
+//              ('omerday' + ' ' + omerday.toString()),
               'hemptytxt',
               swfestivity,
               swtzom);
@@ -873,10 +881,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
         swfestivity = true;
         omerday = 45;
+        print('[DEBUG OMER $omerday');
         updateHoliday(
-            'assets/emptyimage.png',
+            'assets/headerlogosinbacground.png',
             'hemptytxt',
-            ('omerday' + ' ' + omerday.toString()),
+            ('pesaj$omerday'+ 'omer'),
+//            ('omerday' + ' ' + omerday.toString()),
             'hemptytxt',
             swfestivity,
             swtzom);
@@ -889,10 +899,12 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
           swfestivity = true;
           omerday = day + 45;
+          print('[DEBUG OMER $omerday');
           updateHoliday(
-              'assets/emptyimage.png',
+              'assets/headerlogosinbacground.png',
               'hemptytxt',
-              ('omerday' + ' ' + omerday.toString()),
+              ('pesaj$omerday'+ 'omer'),
+//              ('omerday' + ' ' + omerday.toString()),
               'hemptytxt',
               swfestivity,
               swtzom);
