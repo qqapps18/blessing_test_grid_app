@@ -1,12 +1,34 @@
+import 'dart:io';
+
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class _PdfViewPageState extends State<PdfViewPage> {
-  int _totalPages = 0;
-  int _currentPage = 0;
+class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
   bool pdfReady = false;
   PDFViewController _pdfViewController;
+  UniqueKey pdfViewerKey = UniqueKey();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    if (Platform.isAndroid) {
+      Future.delayed(Duration(milliseconds: 250), () {
+        setState(() => pdfViewerKey = UniqueKey());
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +40,7 @@ class _PdfViewPageState extends State<PdfViewPage> {
       body: Stack(
         children: <Widget>[
           PDFView(
+            key: pdfViewerKey,
             filePath: widget.path,
             autoSpacing: true,
             enableSwipe: true,
@@ -29,9 +52,7 @@ class _PdfViewPageState extends State<PdfViewPage> {
             },
             onRender: (_pages) {
               setState(() {
-                _totalPages = _pages;
-                _currentPage = _pages;
-                _pdfViewController.setPage(_pages);
+                _pdfViewController.setPage(_pages - 1);
                 pdfReady = true;
               });
             },
