@@ -44,7 +44,7 @@ public class MainActivity extends FlutterActivity {
                                 listdates.add(Integer.toString(date.getHebrewMonth()));
                                 listdates.add(Integer.toString(HebrewDate.CURRENT_HYEAR));
 
-                                if(HebrewDate.IS_LEAP_YEAR == true) {
+                                if (HebrewDate.IS_LEAP_YEAR == true) {
                                     leapyear = "1";
                                     listdates.add(leapyear);
                                 } else {
@@ -52,7 +52,7 @@ public class MainActivity extends FlutterActivity {
                                     listdates.add(leapyear);
                                 }
 
-                                calendar= Calendar.getInstance();
+                                calendar = Calendar.getInstance();
                                 tday = calendar.get(Calendar.DAY_OF_MONTH);
                                 tmonth = calendar.get(Calendar.MONTH);
                                 tyear = calendar.get(Calendar.YEAR);

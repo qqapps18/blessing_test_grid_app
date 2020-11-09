@@ -50,28 +50,28 @@ import Foundation
     )
 
     switch identifier {
-    case .gregorian:
-      stringDate = gregorianDate(date: focusDate)
-      todaysDateComponents = components(for: focusDate, in: Calendar(identifier: .gregorian))
-      yesterdaysDateComponents = components(
-        for: focusDate.addingTimeInterval(dayInSeconds * -1),
-        in: Calendar(identifier: .gregorian)
-      )
-      dayBeforeYesterdaysDateComponents = components(
-        for: focusDate,
-        in: Calendar(identifier: .gregorian)
-      )
-    case .hebrew:
-      stringDate = hebrewDate(date: focusDate)
-      todaysDateComponents = components(for: focusDate, in: Calendar(identifier: .hebrew))
-      yesterdaysDateComponents = components(
-        for: focusDate.addingTimeInterval(dayInSeconds * -1),
-        in: Calendar(identifier: .hebrew)
-      )
-      dayBeforeYesterdaysDateComponents = components(
-        for: focusDate.addingTimeInterval(dayInSeconds * -2),
-        in: Calendar(identifier: .hebrew)
-      )
+      case .gregorian:
+        stringDate = gregorianDate(date: focusDate)
+        todaysDateComponents = components(for: focusDate, in: Calendar(identifier: .gregorian))
+        yesterdaysDateComponents = components(
+          for: focusDate.addingTimeInterval(dayInSeconds * -1),
+          in: Calendar(identifier: .gregorian)
+        )
+        dayBeforeYesterdaysDateComponents = components(
+          for: focusDate,
+          in: Calendar(identifier: .gregorian)
+        )
+      case .hebrew:
+        stringDate = hebrewDate(date: focusDate)
+        todaysDateComponents = components(for: focusDate, in: Calendar(identifier: .hebrew))
+        yesterdaysDateComponents = components(
+          for: focusDate.addingTimeInterval(dayInSeconds * -1),
+          in: Calendar(identifier: .hebrew)
+        )
+        dayBeforeYesterdaysDateComponents = components(
+          for: focusDate.addingTimeInterval(dayInSeconds * -2),
+          in: Calendar(identifier: .hebrew)
+        )
     }
 
     return [
@@ -98,8 +98,8 @@ import Foundation
 
   @objc func todaysDate(for identifier: Identifier) -> String {
     switch identifier {
-    case .gregorian: return gregorianDate()
-    case .hebrew: return hebrewDate()
+      case .gregorian: return gregorianDate()
+      case .hebrew: return hebrewDate()
     }
   }
 
@@ -130,6 +130,7 @@ import Foundation
     let components = calendar.dateComponents(in: TimeZone.current, from: date)
     var isLeapYear = false
     var monthName: String?
+    var monthNumber = components.month
 
     if let year = components.year {
       isLeapYear = isYearALeapYear(year)
@@ -139,9 +140,13 @@ import Foundation
       monthName = calendar.monthSymbols[monthNum - 1]
     }
 
+    if calendar.identifier == .hebrew, let monthName = monthName, let hebrewMonthNumber = hebrewMonthsInGregorianOrder.firstIndex(of: monthName) {
+      monthNumber = hebrewMonthNumber + 1
+    }
+
     return (
       day: components.day,
-      month: components.month,
+      month: monthNumber,
       year: components.year,
       isLeapYear: isLeapYear,
       monthName: monthName
@@ -150,5 +155,12 @@ import Foundation
 
   private func isYearALeapYear(_ year: Int) -> Bool {
     ((7 * year) + 1) % 19 < 7
+  }
+
+  var hebrewMonthsInGregorianOrder: [String] {
+    var hMonths = Calendar(identifier: .hebrew).monthSymbols
+    hMonths.removeLast()
+    hMonths = hMonths >> 6
+    return hMonths
   }
 }

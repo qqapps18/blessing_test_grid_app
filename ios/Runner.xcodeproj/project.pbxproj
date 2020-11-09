@@ -19,6 +19,7 @@
 		FE4AA885253E097F00F12D43 /* DateFormatterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4AA882253E097F00F12D43 /* DateFormatterProvider.swift */; };
 		FE4AA886253E097F00F12D43 /* DaytimeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4AA883253E097F00F12D43 /* DaytimeProvider.swift */; };
 		FE4AA889253E099B00F12D43 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4AA888253E099B00F12D43 /* LocationManager.swift */; };
+		FEE6FB572559608100595900 /* Array+Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE6FB562559608100595900 /* Array+Shift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +59,7 @@
 		FE4AA883253E097F00F12D43 /* DaytimeProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaytimeProvider.swift; sourceTree = "<group>"; };
 		FE4AA888253E099B00F12D43 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FE4AA8B6253E0C3400F12D43 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Runner-Bridging-Header.h"; path = "../Runner-Bridging-Header.h"; sourceTree = "<group>"; };
+		FEE6FB562559608100595900 /* Array+Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Shift.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				FE4AA887253E099B00F12D43 /* Location Manager */,
 				FE4AA880253E097F00F12D43 /* Dates Provider */,
+				FEE6FB552559607100595900 /* Extensions */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -163,6 +166,14 @@
 				FE4AA888253E099B00F12D43 /* LocationManager.swift */,
 			);
 			path = "Location Manager";
+			sourceTree = "<group>";
+		};
+		FEE6FB552559607100595900 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FEE6FB562559608100595900 /* Array+Shift.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,6 +326,7 @@
 				978B8F6F1D3862AE00F588F7 /* AppDelegate.m in Sources */,
 				FE4AA885253E097F00F12D43 /* DateFormatterProvider.swift in Sources */,
 				FE4AA889253E099B00F12D43 /* LocationManager.swift in Sources */,
+				FEE6FB572559608100595900 /* Array+Shift.swift in Sources */,
 				97C146F31CF9000F007C117D /* main.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				FE4AA884253E097F00F12D43 /* Solar.swift in Sources */,
