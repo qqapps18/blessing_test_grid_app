@@ -77,8 +77,8 @@ import 'HeaderIsHolliday.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
+    // DeviceOrientation.landscapeLeft,
+    // DeviceOrientation.landscapeRight,
     DeviceOrientation.portraitUp
   ]);
   runApp(BlessingGridView());

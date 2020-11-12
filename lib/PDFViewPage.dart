@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
   bool pdfReady = false;
@@ -11,8 +14,14 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.portraitUp
+    ]);
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    BackButtonInterceptor.add(backButtonInterseptor);
   }
 
   @override
@@ -72,6 +81,12 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
         ],
       ),
     );
+  }
+
+  bool backButtonInterseptor(bool stopDefaultButtonEvent, RouteInfo routeInfo) {
+ //   satSate() {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+ //   }
   }
 }
 
