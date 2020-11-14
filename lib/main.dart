@@ -77,8 +77,8 @@ import 'HeaderIsHolliday.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
+    // DeviceOrientation.landscapeLeft,
+    // DeviceOrientation.landscapeRight,
     DeviceOrientation.portraitUp
   ]);
   runApp(BlessingGridView());
@@ -266,7 +266,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                         SliverAppBar(
                           title: MyAppBar(),
                           floating: false,
-                          pinned: true,
+                          pinned:  orientation == Orientation.portrait ? true : false,
                           expandedHeight: 180.0,
 // *************** color del encabezado cerrado **************
                           backgroundColor: Color.fromARGB(500, 181, 150, 5),

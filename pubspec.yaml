@@ -37,7 +37,7 @@ dependencies:
   geolocator: ^6.0.0
   sunrise_sunset:
   google_fonts: ^1.1.1
-
+  back_button_interceptor: ^4.4.0
 
 
 dev_dependencies:
