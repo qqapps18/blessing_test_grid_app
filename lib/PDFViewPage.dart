@@ -43,6 +43,13 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: new IconButton(
+            icon: new Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.portraitUp]);
+              Navigator.of(context).pop();
+            }),
         title: Text(widget.appBarName),
         centerTitle: true,
       ),
@@ -84,9 +91,7 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
   }
 
   bool backButtonInterseptor(bool stopDefaultButtonEvent, RouteInfo routeInfo) {
- //   satSate() {
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
- //   }
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 }
 
