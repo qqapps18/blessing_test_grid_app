@@ -34,7 +34,7 @@ class CardLoad extends StatelessWidget {
       children: <Widget>[
         Card(
 // ***** color del Card *********
-          color: Color.fromARGB(500, 254, 129, 52),
+          color: Color.fromARGB(500, 254, 129, 520),
           child: InkWell(
             onTap: () async {
               print('File Name ' + getTranslated(context, blessing.fileName));
@@ -62,7 +62,7 @@ class CardLoad extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  height: 75,
+                  height: 80,
                   width: 110,
                   child: Stack(
                     children: <Widget>[
@@ -101,7 +101,7 @@ class CardLoad extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  width: 110,
+                  width: 120,
                   height: 25,
                   child: Center(
                     child: Text(
