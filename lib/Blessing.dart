@@ -23,13 +23,45 @@ class CardLoad extends StatelessWidget {
     Key key,
     @required this.fileProvider,
     @required this.blessing,
+    this.largeScreen,
   }) : super(key: key);
 
   final FileProvider fileProvider;
   final Blessing blessing;
+  final largeScreen;
 
   @override
   Widget build(BuildContext context) {
+    double largeScreenWide;
+    double laregeScreenHigh;
+    double largeScreenWide2;
+
+    print('[DEBUD BLESSING SAMI] largescreen = $largeScreen');
+
+    switch (largeScreen) {
+      case "LP":
+        largeScreenWide = 90;
+        largeScreenWide2 = 30;
+        break;
+
+      case "LL":
+        largeScreenWide = 105;
+        largeScreenWide2 = 40;
+        break;
+
+      case "NL":
+        largeScreenWide = 80;
+        largeScreenWide2 = 25;
+        break;
+    }
+
+    print(
+        '[DEBUG BLESSING SAMI] Type phone $largeScreen  y el ancho es $largeScreenWide');
+
+    print(
+        '[DEBUG BLESSING SAMI] Type phone $largeScreen  y el ancho2 es $largeScreenWide2');
+
+
     return Stack(
       children: <Widget>[
         Card(
@@ -62,7 +94,8 @@ class CardLoad extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  height: 80,
+                  // ************************ wide assing according the phone size ************
+                  height: largeScreenWide,
                   width: 110,
                   child: Stack(
                     children: <Widget>[
@@ -102,7 +135,7 @@ class CardLoad extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   width: 120,
-                  height: 25,
+                  height: largeScreenWide2,
                   child: Center(
                     child: Text(
                       getTranslated(context, blessing.appBarName),
