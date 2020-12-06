@@ -76,6 +76,7 @@ class CardLoad extends StatelessWidget {
                 return PdfViewPage(
                   path: filePath.path,
                   appBarName: getTranslated(context, blessing.name),
+                    typeSxreen: largeScreen
                 );
               }));
             },

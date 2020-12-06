@@ -91,7 +91,15 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
   }
 
   bool backButtonInterseptor(bool stopDefaultButtonEvent, RouteInfo routeInfo) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    if (widget.typeSxreen != 'NL') {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight
+      ]);
+    } else {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }
   }
 }
 
@@ -99,8 +107,10 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
 class PdfViewPage extends StatefulWidget {
   final String path;
   final String appBarName;
+  final String typeSxreen;
 
-  const PdfViewPage({Key key, this.path, this.appBarName}) : super(key: key);
+  const PdfViewPage({Key key, this.path, this.appBarName, this.typeSxreen})
+      : super(key: key);
 
   @override
   _PdfViewPageState createState() => _PdfViewPageState();
