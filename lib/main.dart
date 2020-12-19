@@ -22,8 +22,8 @@ import 'HeaderIsHolliday.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
-//    DeviceOrientation.landscapeLeft,
-//    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
     DeviceOrientation.portraitUp
   ]);
   runApp(BlessingGridView());
@@ -73,6 +73,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   int highcount;
   bool isLargeScreenPortrait = false;
   String phoneTypePoss;
+  double aspectRatio;
 
   @override
   void initState() {
@@ -171,7 +172,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         supportedLocales: [
@@ -207,12 +207,18 @@ class _BlessingGridViewState extends State<BlessingGridView> {
               ),
               child: OrientationBuilder(
                 builder: (context, orientation) {
-
 //********************** Method to define type of screen ***************
                   definaLargeParams(context, orientation);
 
                   return SafeArea(
                     child: CustomScrollView(
+                      // *****************  Screen Orientation *********************
+                      // scrollDirection: isLargeScreenPortrait
+                      //     ? Axis.vertical
+                      //     : Axis.horizontal,
+                      scrollDirection: orientation == Orientation.portrait
+                          ? Axis.vertical
+                          : Axis.horizontal,
                       slivers: <Widget>[
                         SliverAppBar(
                           title: MyAppBar(),
@@ -235,10 +241,12 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 // lista de bendiciones de la primera seccion ******************************
                         SliverGrid.count(
+                          childAspectRatio: aspectRatio,
                           crossAxisCount: widecount,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: sectionCardWidgets(blessingsPDFs, phoneTypePoss),
+                          children:
+                              sectionCardWidgets(blessingsPDFs, phoneTypePoss),
                         ),
 
 //   este es el encabezado de la segunda  seccion  **************************
@@ -247,10 +255,12 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 // lista de bendiciones de la segunda seccion ******************************
                         SliverGrid.count(
+                          childAspectRatio: aspectRatio,
                           crossAxisCount: widecount,
-                          mainAxisSpacing: 2,
-                          crossAxisSpacing: 2,
-                          children: sectionCardWidgets(blessingsFood, phoneTypePoss),
+                          mainAxisSpacing: 0,
+                          crossAxisSpacing: 0,
+                          children:
+                              sectionCardWidgets(blessingsFood, phoneTypePoss),
                         ),
 //   este es el encabezado de la tercera  seccion  **************************
                         BlessingSectionHeader(Colors.amber[200],
@@ -258,10 +268,12 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 // lista de bendiciones de la segunda seccion ******************************
                         SliverGrid.count(
+                          childAspectRatio: aspectRatio,
                           crossAxisCount: widecount,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: sectionCardWidgets(blessingsShabbat, phoneTypePoss),
+                          children: sectionCardWidgets(
+                              blessingsShabbat, phoneTypePoss),
                         ),
 //   este es el encabezado de la cuarta  seccion  **************************
                         BlessingSectionHeader(Colors.amber[200],
@@ -269,10 +281,12 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 // lista de bendiciones de la quinta seccion ******************************
                         SliverGrid.count(
+                          childAspectRatio: aspectRatio,
                           crossAxisCount: widecount,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: sectionCardWidgets(blessingsFestivites, phoneTypePoss),
+                          children: sectionCardWidgets(
+                              blessingsFestivites, phoneTypePoss),
                         ),
 //   este es el encabezado de la quinta  seccion  **************************
                         BlessingSectionHeader(Colors.amber[200],
@@ -280,10 +294,12 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 // lista de bendiciones de la sexta seccion ******************************
                         SliverGrid.count(
+                          childAspectRatio: aspectRatio,
                           crossAxisCount: widecount,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
-                          children: sectionCardWidgets(blessingsMiscellaneous, phoneTypePoss),
+                          children: sectionCardWidgets(
+                              blessingsMiscellaneous, phoneTypePoss),
                         ),
                       ],
                     ),
@@ -296,7 +312,9 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
   void definaLargeParams(BuildContext context, Orientation orientation) {
-    if (MediaQuery.of(context).size.width > 600) {
+    print(' DEBUG SAMI ANCHO ' + MediaQuery.of(context).size.width.toString());
+
+    if (MediaQuery.of(context).size.width > 790) {
       isLargeScreen = true;
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
@@ -306,8 +324,8 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     } else {
       isLargeScreen = false;
       SystemChrome.setPreferredOrientations([
-        // DeviceOrientation.landscapeLeft,
-        // DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
         DeviceOrientation.portraitUp
       ]);
     }
@@ -318,44 +336,51 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     highcount = (screenHeight.floor() / 130).floor();
 
     print('[DEBUG COUNT ORIGINAL SAMI] cards portrait $widecount '
-        'cards landscape'
-        ' $highcount');
+            'cards landscape'
+            ' $highcount' +
+        ' y es largescreen $isLargeScreen');
 
     if (isLargeScreen) {
       if (orientation == Orientation.portrait) {
         isLargeScreenPortrait = true;
         phoneTypePoss = 'LP';
+        aspectRatio = 127/141;
       } else {
         isLargeScreenPortrait = false;
         phoneTypePoss = 'LL';
       }
     } else {
       phoneTypePoss = 'NL';
+      aspectRatio = 127/116;
     }
 
-    if (orientation == Orientation.portrait && widecount < 3) {
-      widecount = 3;
-    }
-
-    if (orientation == Orientation.portrait && widecount == 5) {
-      widecount = 4;
-    }
-
-    if (orientation == Orientation.portrait && widecount > 5) {
-      widecount = widecount - 1;
-    }
-
-    if (orientation == Orientation.portrait && widecount > 6) {
-      widecount = widecount - 1;
-    }
-
-    if (orientation != Orientation.portrait && widecount < 10 ) {
-      widecount = widecount - 2;
-    }
-
-    if (orientation != Orientation.portrait && widecount > 9) {
-      widecount = widecount - 3;
-    }
+    // if (orientation == Orientation.portrait && widecount < 3) {
+    //   widecount = widecount;
+    // }
+    //
+    // if (orientation != Orientation.portrait && widecount < 6) {
+    //   widecount = 3;
+    // }
+    //
+    // if (orientation == Orientation.portrait && widecount == 5) {
+    //   widecount = 4;
+    // }
+    //
+    // if (orientation == Orientation.portrait && widecount > 5) {
+    //   widecount = widecount - 1;
+    // }
+    //
+    // if (orientation != Orientation.portrait &&
+    //     phoneTypePoss != 'NL' &&
+    //     widecount < 10) {
+    //   //widecount = widecount - 2;
+    //   widecount = widecount - 4;
+    // }
+    //
+    // if (orientation != Orientation.portrait && widecount > 9) {
+    //   // widecount = widecount - 3;
+    //   widecount = widecount - 7;
+    // }
 
     print('[DEBUG COUNT SAMI] cards portrait $widecount '
         'cards landscape'
@@ -368,17 +393,19 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
     print('DEBUG SAMI   alto $screenHeight ancho $screenWidth');
 
-    print('[DEBUG SAMI] Es Larga la Pantalla?  ' +
-        isLargeScreen.toString());
+    print('[DEBUG SAMI] Es Larga la Pantalla?  ' + isLargeScreen.toString());
 
-    print(
-        '[DEBUG SAMI] is large screen and portrait $isLargeScreenPortrait');
+    print('[DEBUG SAMI] is large screen and portrait $isLargeScreenPortrait');
   }
 
 // TODO la idea es crear un metodo por seccion y carge el grid con sus contenido
   List<Widget> sectionCardWidgets(List<Blessing> blessings, largeSreen) {
     return List.generate(blessings.length, (index) {
-      return CardLoad(fileProvider: fileProvider, blessing: blessings[index],largeScreen: largeSreen,);
+      return CardLoad(
+        fileProvider: fileProvider,
+        blessing: blessings[index],
+        largeScreen: largeSreen,
+      );
     });
   }
 
@@ -421,7 +448,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 // ******** el parametro DateTime se utiliza solo para testear la app,
 // una vez en produccion, se debe eliminar
 
-//          date: DateTime(2020, 09, 19, 22),
           latitude: point.x,
           longitude: point.y);
 

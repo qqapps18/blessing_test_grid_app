@@ -41,11 +41,11 @@ class CardLoad extends StatelessWidget {
     switch (largeScreen) {
       case "LP":
         largeScreenWide = 90;
-        largeScreenWide2 = 30;
+        largeScreenWide2 = 40;
         break;
 
       case "LL":
-        largeScreenWide = 105;
+        largeScreenWide = 90;
         largeScreenWide2 = 40;
         break;
 
@@ -81,6 +81,7 @@ class CardLoad extends StatelessWidget {
               }));
             },
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
@@ -92,7 +93,7 @@ class CardLoad extends StatelessWidget {
                         offset: Offset(7, 6),
                         blurRadius: 4,
                       )
-                    ],
+                   ],
                     borderRadius: BorderRadius.circular(5),
                   ),
                   // ************************ wide assing according the phone size ************
