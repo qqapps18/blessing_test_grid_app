@@ -43,11 +43,13 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(500, 254, 140, 46),
         leading: new IconButton(
             icon: new Icon(Icons.arrow_back_ios),
             onPressed: () {
-              SystemChrome.setPreferredOrientations(
-                  [DeviceOrientation.portraitUp]);
+              if (widget.typeSxreen == 'NL') {
+                SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+              }
               Navigator.of(context).pop();
             }),
         title: Text(widget.appBarName),
@@ -91,13 +93,7 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
   }
 
   bool backButtonInterseptor(bool stopDefaultButtonEvent, RouteInfo routeInfo) {
-    if (widget.typeSxreen != 'NL') {
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight
-      ]);
-    } else {
+    if (widget.typeSxreen == 'NL') {
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
   }

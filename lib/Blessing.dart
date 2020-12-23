@@ -50,8 +50,8 @@ class CardLoad extends StatelessWidget {
         break;
 
       case "NL":
-        largeScreenWide = 80;
-        largeScreenWide2 = 25;
+        largeScreenWide = 90;
+        largeScreenWide2 = 40;
         break;
     }
 
@@ -63,10 +63,11 @@ class CardLoad extends StatelessWidget {
 
 
     return Stack(
+      alignment: Alignment.center ,
       children: <Widget>[
         Card(
 // ***** color del Card *********
-          color: Color.fromARGB(500, 254, 129, 520),
+          color: Colors.transparent,
           child: InkWell(
             onTap: () async {
               print('File Name ' + getTranslated(context, blessing.fileName));

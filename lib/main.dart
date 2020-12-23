@@ -22,8 +22,8 @@ import 'HeaderIsHolliday.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
+    // DeviceOrientation.landscapeLeft,
+    // DeviceOrientation.landscapeRight,
     DeviceOrientation.portraitUp
   ]);
   runApp(BlessingGridView());
@@ -212,21 +212,12 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
                   return SafeArea(
                     child: CustomScrollView(
-                      // *****************  Screen Orientation *********************
-                      // scrollDirection: isLargeScreenPortrait
-                      //     ? Axis.vertical
-                      //     : Axis.horizontal,
-                      scrollDirection: orientation == Orientation.portrait
-                          ? Axis.vertical
-                          : Axis.horizontal,
+                      scrollDirection: Axis.vertical,
                       slivers: <Widget>[
                         SliverAppBar(
                           title: MyAppBar(),
                           floating: false,
                           pinned: true,
-                          // pinned: orientation == Orientation.portrait
-                          //     ? true
-                          //     : false,
                           expandedHeight: isLargeScreenPortrait ? 190.0 : 200.0,
 // *************** color del encabezado cerrado **************
                           backgroundColor: Color.fromARGB(500, 181, 150, 5),
@@ -323,11 +314,11 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       ]);
     } else {
       isLargeScreen = false;
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-        DeviceOrientation.portraitUp
-      ]);
+      // SystemChrome.setPreferredOrientations([
+      //   // DeviceOrientation.landscapeLeft,
+      //   // DeviceOrientation.landscapeRight,
+      //   DeviceOrientation.portraitUp
+      // ]);
     }
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
@@ -348,10 +339,11 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       } else {
         isLargeScreenPortrait = false;
         phoneTypePoss = 'LL';
+        aspectRatio = 127/141;
       }
     } else {
       phoneTypePoss = 'NL';
-      aspectRatio = 127/116;
+      aspectRatio = 127/141;
     }
 
     // if (orientation == Orientation.portrait && widecount < 3) {
