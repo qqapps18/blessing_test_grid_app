@@ -1,4 +1,6 @@
+import 'package:blessingtestgridapp/GridLayoutHelper.dart';
 import 'package:blessingtestgridapp/localization/localization_constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'FileProvider.dart';
@@ -22,48 +24,18 @@ class CardLoad extends StatelessWidget {
   const CardLoad({
     Key key,
     @required this.fileProvider,
+    @required this.gridLayoutHelper,
     @required this.blessing,
-    this.largeScreen,
   }) : super(key: key);
 
   final FileProvider fileProvider;
+  final GridLayoutHelper gridLayoutHelper;
   final Blessing blessing;
-  final largeScreen;
 
   @override
   Widget build(BuildContext context) {
-    double largeScreenWide;
-    double laregeScreenHigh;
-    double largeScreenWide2;
-
-    print('[DEBUD BLESSING SAMI] largescreen = $largeScreen');
-
-    switch (largeScreen) {
-      case "LP":
-        largeScreenWide = 90;
-        largeScreenWide2 = 40;
-        break;
-
-      case "LL":
-        largeScreenWide = 90;
-        largeScreenWide2 = 40;
-        break;
-
-      case "NL":
-        largeScreenWide = 90;
-        largeScreenWide2 = 40;
-        break;
-    }
-
-    print(
-        '[DEBUG BLESSING SAMI] Type phone $largeScreen  y el ancho es $largeScreenWide');
-
-    print(
-        '[DEBUG BLESSING SAMI] Type phone $largeScreen  y el ancho2 es $largeScreenWide2');
-
-
     return Stack(
-      alignment: Alignment.center ,
+      alignment: Alignment.center,
       children: <Widget>[
         Card(
 // ***** color del Card *********
@@ -75,10 +47,9 @@ class CardLoad extends StatelessWidget {
                   .getAssetByName(getTranslated(context, blessing.fileName));
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return PdfViewPage(
-                  path: filePath.path,
-                  appBarName: getTranslated(context, blessing.name),
-                    typeSxreen: largeScreen
-                );
+                    path: filePath.path,
+                    appBarName: getTranslated(context, blessing.name),
+                    typeScreen: gridLayoutHelper.deviceType);
               }));
             },
             child: Column(
@@ -94,25 +65,24 @@ class CardLoad extends StatelessWidget {
                         offset: Offset(7, 6),
                         blurRadius: 4,
                       )
-                   ],
+                    ],
                     borderRadius: BorderRadius.circular(5),
                   ),
                   // ************************ wide assing according the phone size ************
-                  height: largeScreenWide,
-                  width: 110,
+                  height: gridLayoutHelper.cellWidth * 0.8,
+                  width: gridLayoutHelper.cellWidth,
                   child: Stack(
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Center(
-                          heightFactor: 5,
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
                           child: Text(
                             getTranslated(context, blessing.name),
                             textAlign: TextAlign.center,
                             style: GoogleFonts.sourceSerifPro(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 11.5,
+                              fontSize: 12,
                             ),
                           ),
                         ),
@@ -137,8 +107,8 @@ class CardLoad extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  width: 120,
-                  height: largeScreenWide2,
+                  width: gridLayoutHelper.cellWidth,
+                  height: 40,
                   child: Center(
                     child: Text(
                       getTranslated(context, blessing.appBarName),

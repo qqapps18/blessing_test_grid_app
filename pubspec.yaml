@@ -38,6 +38,7 @@ dependencies:
   sunrise_sunset:
   google_fonts: ^1.1.1
   back_button_interceptor: ^4.4.0
+  flutter_device_type: ^0.3.2
 
 
 dev_dependencies:

@@ -42,58 +42,65 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(500, 254, 140, 46),
-        leading: new IconButton(
-            icon: new Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              if (widget.typeSxreen == 'NL') {
-                SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-              }
-              Navigator.of(context).pop();
-            }),
-        title: Text(widget.appBarName),
-        centerTitle: true,
-      ),
-      body: Stack(
-        children: <Widget>[
-          PDFView(
-            key: pdfViewerKey,
-            filePath: widget.path,
-            autoSpacing: true,
-            enableSwipe: true,
-            pageSnap: true,
-            swipeHorizontal: true,
-            nightMode: false,
-            onError: (e) {
-              print(e);
-            },
-            onRender: (_pages) {
-              setState(() {
-                _pdfViewController.setPage(_pages - 1);
-                pdfReady = true;
-              });
-            },
-            onViewCreated: (PDFViewController vc) {
-              _pdfViewController = vc;
-            },
-            onPageChanged: (int page, int total) {
-              setState(() {});
-            },
-            onPageError: (page, e) {},
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(500, 254, 140, 46),
+          leading: new IconButton(
+              icon: new Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                if (widget.typeScreen == 'NL') {
+                  SystemChrome.setPreferredOrientations(
+                      [DeviceOrientation.portraitUp]);
+                }
+                Navigator.of(context).pop();
+              }),
+          title: Text(widget.appBarName),
+          centerTitle: true,
+        ),
+        body: WillPopScope(
+          child: Stack(
+            children: <Widget>[
+              PDFView(
+                key: pdfViewerKey,
+                filePath: widget.path,
+                autoSpacing: true,
+                enableSwipe: true,
+                pageSnap: true,
+                swipeHorizontal: true,
+                nightMode: false,
+                onError: (e) {
+                  print(e);
+                },
+                onRender: (_pages) {
+                  setState(() {
+                    _pdfViewController.setPage(_pages - 1);
+                    pdfReady = true;
+                  });
+                },
+                onViewCreated: (PDFViewController vc) {
+                  _pdfViewController = vc;
+                },
+                onPageChanged: (int page, int total) {
+                  setState(() {});
+                },
+                onPageError: (page, e) {},
+              ),
+              !pdfReady
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Offstage()
+            ],
           ),
-          !pdfReady
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Offstage()
-        ],
-      ),
+          onWillPop: () async {
+            print("popping from route 2 disabled");
+            return true;
+          },
+        )
     );
   }
 
   bool backButtonInterseptor(bool stopDefaultButtonEvent, RouteInfo routeInfo) {
-    if (widget.typeSxreen == 'NL') {
+    if (widget.typeScreen == 'NL') {
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
   }
@@ -103,9 +110,9 @@ class _PdfViewPageState extends State<PdfViewPage> with WidgetsBindingObserver {
 class PdfViewPage extends StatefulWidget {
   final String path;
   final String appBarName;
-  final String typeSxreen;
+  final String typeScreen;
 
-  const PdfViewPage({Key key, this.path, this.appBarName, this.typeSxreen})
+  const PdfViewPage({Key key, this.path, this.appBarName, this.typeScreen})
       : super(key: key);
 
   @override
