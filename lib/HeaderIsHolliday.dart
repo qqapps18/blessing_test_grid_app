@@ -159,15 +159,15 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   /* CHECK HOLIDAYS */
 
   void checkHoliday(SunriseSunsetData data) {
-    print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
-
-    print('[DEBUG] estoy en checkRoshHashana **********************');
-    print('[DEBUG] mes ' + fileProvider.jodesh);
-    print ('[DEBUG] numero del mes '+ fileProvider.numjodesh.toString());
-    print('[DEBUG] dia ' + fileProvider.yom.toString());
-    print('[DEBUG] año ' + fileProvider.shana.toString());
-    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
-    print('[DEBUG] dia de la semana ' + dayofweek.toString());
+    // print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
+    //
+    // print('[DEBUG] estoy en checkRoshHashana **********************');
+    // print('[DEBUG] mes ' + fileProvider.jodesh);
+    // print ('[DEBUG] numero del mes '+ fileProvider.numjodesh.toString());
+    // print('[DEBUG] dia ' + fileProvider.yom.toString());
+    // print('[DEBUG] año ' + fileProvider.shana.toString());
+    // print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
+    // print('[DEBUG] dia de la semana ' + dayofweek.toString());
 
     // variables para el calculo del sunrise y sunset
     // daylight - hora local del amanecer en el meridiano 0
@@ -178,16 +178,20 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     // sunsetTime - hora local del atardecer
     // now - la hora actual
 
-    var daylight = data.civilTwilightBegin;
-    var nighlight = data.civilTwilightEnd;
     var offsetInHours = DateTime.now().timeZoneOffset;
-    var sunriseTime = daylight.add(offsetInHours);
-    var sunsetTime = nighlight.add(offsetInHours);
-    var dateUTC = date.add(offsetInHours);
+    var sunriseTime = data.civilTwilightBegin.toLocal().add(-offsetInHours);
+    var sunsetTime = data.civilTwilightEnd.toLocal().add(-offsetInHours);
+
+    //var sunriseTime = daylight.add(offsetInHours);
+    //var sunsetTime = nighlight.add(offsetInHours);
+    var dateUTC = date;//.add(offsetInHours);
 //    var now = DateTime.now();
-    print("Daylight " + daylight.toString());
+
+    print("La Hora Ahora es " + dateUTC.toString());
+    print("Daylight " + sunriseTime.toString());
     print("Offset GMT " + offsetInHours.toString());
     print("===== SUNRISE " + sunriseTime.toString());
+    print("===== SUNSET " + sunsetTime.toString());
     print(' estoy en checkholiday **********************');
 
 // orden de los mese a chequear
@@ -207,23 +211,23 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
     switch (fileProvider.numjodesh) {
       case 6:
-        checkRoshHashana(date, sunsetTime);
+        checkRoshHashana(dateUTC, sunsetTime);
         break;
 
       case 7:
-        checkRoshHashana(date, sunsetTime);
-        checkTzomGedalia(date, sunriseTime, sunsetTime);
-        checkYomKipur(date, sunriseTime, sunsetTime);
-        checksukkot(date, sunsetTime);
+        checkRoshHashana(dateUTC, sunsetTime);
+        checkTzomGedalia(dateUTC, sunriseTime, sunsetTime);
+        checkYomKipur(dateUTC, sunriseTime, sunsetTime);
+        checksukkot(dateUTC, sunsetTime);
         break;
 
       case 9:
-        checkJanuca(date, sunsetTime);
+        checkJanuca(dateUTC, sunsetTime);
         break;
 
       case 10:
-        checkJanuca(date, sunsetTime);
-        check10Tevet(date, sunriseTime, sunsetTime);
+        checkJanuca(dateUTC, sunsetTime);
+        check10Tevet(dateUTC, sunriseTime, sunsetTime);
         break;
 
       case 11:
@@ -231,53 +235,36 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
         break;
 
       case 12:
-        checkPurim(date, sunriseTime, sunsetTime);
+        checkPurim(dateUTC, sunriseTime, sunsetTime);
         break;
 
       case 13:
-        checkPurim(date, sunriseTime, sunsetTime);
-        break;
-
-      case 12:
-        checkPurim(date, sunriseTime, sunsetTime);
+        checkPurim(dateUTC, sunriseTime, sunsetTime);
         break;
 
       case 1:
-        checkPassover(date, sunsetTime);
-        checkOmer(date, sunsetTime);
+        checkPassover(dateUTC, sunsetTime);
+        checkOmer(dateUTC, sunsetTime);
         break;
 
       case 2:
-        checkOmer(date, sunsetTime);
+        checkOmer(dateUTC, sunsetTime);
         break;
 
       case 3:
-        checkOmer(date, sunsetTime);
-        checkShavuot(date, sunsetTime);
+        checkOmer(dateUTC, sunsetTime);
+        checkShavuot(dateUTC, sunsetTime);
         break;
 
       case 4:
-        check17Tamuz(date, sunriseTime, sunsetTime);
+        check17Tamuz(dateUTC, sunriseTime, sunsetTime);
         break;
 
       case 5:
-        check9Beav(date, sunsetTime);
+        check9Beav(dateUTC, sunsetTime);
         break;
     }
 
-    // checkRoshHashana(date, sunsetTime);
-    // checkTzomGedalia(date, sunriseTime, sunsetTime);
-    // checkYomKipur(date, sunriseTime, sunsetTime);
-    // checksukkot(date, sunsetTime);
-    // checkJanuca(date, sunsetTime);
-    // check10Tevet(date, sunriseTime, sunsetTime);
-    // checkTuBishvat();
-    // checkPurim(date, sunriseTime, sunsetTime);
-    // checkPassover(date, sunsetTime);
-    // checkOmer(date, sunsetTime);
-    // checkShavuot(date, sunsetTime);
-    // check17Tamuz(date, sunriseTime, sunsetTime);
-    // check9Beav(date, sunsetTime);
     swfestivity = false;
     swtzom = false;
   }
@@ -999,21 +986,6 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     }
   }
 
-//   //++++++++++ metodo que maneja los dias de ayuno +++++++++++++++
-//   void updateHoliday(String himage, String hline1, hline2, hline3) {
-//     print(' estoy updateHoliday ' + himage + ' ' + hline2);
-//
-//     setState(() {
-//       headerimage = himage;
-// //    holidayline1 = getTranslated(context, hline1);
-// //    holidayline2 = getTranslated(context, hline2);
-// //    holidayline3 = getTranslated(context, hline3);
-//       holidayline1 = hline1;
-//       holidayline2 = hline2;
-//       holidayline3 = hline3;
-//     });
-//   }
-
   void updateHoliday(String image, String line1, String line2, String line3,
       bool swfestivityst, bool swtzomst) {
     setState(() {
@@ -1081,7 +1053,6 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 // ******** el parametro DateTime se utiliza solo para testear la app,
 // una vez en produccion, se debe eliminar
 
-//          date: DateTime(2020, 09, 19, 22),
           latitude: point.x,
           longitude: point.y);
 
@@ -1091,7 +1062,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
         print(response.error);
       }
     } catch (err) {
-      print("Failed to get data.");
+      print("************Failed to get data.************");
       print(err);
     }
 
