@@ -159,15 +159,15 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   /* CHECK HOLIDAYS */
 
   void checkHoliday(SunriseSunsetData data) {
-    // print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
-    //
-    // print('[DEBUG] estoy en checkRoshHashana **********************');
-    // print('[DEBUG] mes ' + fileProvider.jodesh);
-    // print ('[DEBUG] numero del mes '+ fileProvider.numjodesh.toString());
-    // print('[DEBUG] dia ' + fileProvider.yom.toString());
-    // print('[DEBUG] año ' + fileProvider.shana.toString());
-    // print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
-    // print('[DEBUG] dia de la semana ' + dayofweek.toString());
+    print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
+
+    print('[DEBUG] estoy en checkRoshHashana **********************');
+    print('[DEBUG] mes ' + fileProvider.jodesh);
+    print ('[DEBUG] numero del mes '+ fileProvider.numjodesh.toString());
+    print('[DEBUG] dia ' + fileProvider.yom.toString());
+    print('[DEBUG] año ' + fileProvider.shana.toString());
+    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
+    print('[DEBUG] dia de la semana ' + dayofweek.toString());
 
     // variables para el calculo del sunrise y sunset
     // daylight - hora local del amanecer en el meridiano 0
@@ -179,8 +179,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     // now - la hora actual
 
     var offsetInHours = DateTime.now().timeZoneOffset;
-    var sunriseTime = data.civilTwilightBegin.toLocal().add(-offsetInHours);
-    var sunsetTime = data.civilTwilightEnd.toLocal().add(-offsetInHours);
+    var sunriseTime = data.civilTwilightBegin.toLocal();
+    var sunsetTime = data.civilTwilightEnd.toLocal();
 
     //var sunriseTime = daylight.add(offsetInHours);
     //var sunsetTime = nighlight.add(offsetInHours);
