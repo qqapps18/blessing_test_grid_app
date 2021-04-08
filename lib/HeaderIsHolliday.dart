@@ -179,16 +179,32 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     // now - la hora actual
 
     var offsetInHours = DateTime.now().timeZoneOffset;
-    var sunriseTime = data.civilTwilightBegin.toLocal();
-    var sunsetTime = data.civilTwilightEnd.toLocal();
+    var sunriseTime = data.civilTwilightBegin.toLocal();//.add(-offsetInHours);
+    var sunsetTime = data.civilTwilightEnd.toLocal();//.add(-offsetInHours);
 
     //var sunriseTime = daylight.add(offsetInHours);
     //var sunsetTime = nighlight.add(offsetInHours);
     var dateUTC = date;//.add(offsetInHours);
 //    var now = DateTime.now();
 
+    //+++++++++todas las horas+++++++++++++++++++++++++++++++
+        print("ss_sr_data_Class - sunrise " + data.sunrise.toLocal().toString());
+        print("ss_sr_data_Class - sunset " + data.sunset.toLocal().toString());
+        print("ss_sr_data_Class - solarNoon " + data.solarNoon.toLocal().toString());
+        print("ss_sr_data_Class - dayLength " + data.dayLength.toString());
+        print("ss_sr_data_Class - civilTwilightBegin " + data.civilTwilightBegin.toLocal().toString());
+        print("ss_sr_data_Class - civilTwilightEnd " + data.civilTwilightEnd.toLocal().toString());
+        print("ss_sr_data_Class - nauticalTwilightBegin " + data.nauticalTwilightBegin.toLocal().toString());
+        print("ss_sr_data_Class - nauticalTwilightEnd " + data.nauticalTwilightEnd.toLocal().toString());
+        print("ss_sr_data_Class - astronomicalTwilightBegin " + data.astronomicalTwilightBegin.toLocal().toString());
+        print("ss_sr_data_Class - astronomicalTwilightEnd " + data.astronomicalTwilightEnd.toLocal().toString());
+
+
+    //++++++++++++++++++++++++++++++++++++
+
     print("La Hora Ahora es " + dateUTC.toString());
-    print("Daylight " + sunriseTime.toString());
+    print("Daylight " + data.sunrise.toString());
+    print("Nightlight " + data.sunset.toString());
     print("Offset GMT " + offsetInHours.toString());
     print("===== SUNRISE " + sunriseTime.toString());
     print("===== SUNSET " + sunsetTime.toString());
@@ -789,14 +805,25 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           swfestivity = true;
           omerday = day - 14;
           print('[DEBUG OMER $omerday');
-          updateHoliday(
-              'assets/headerlogosinbacground.png',
-              'hemptytxt',
-              ('pesaj$omerday'+ 'omer'),
-//              ('omerday' + ' ' + omerday.toString()),
-              'hemptytxt',
-              swfestivity,
-              swtzom);
+
+          if (((fileProvider.yom == 27 && now.isAfter(sunset)) ||
+              (fileProvider.yom == 28 && now.isBefore(sunset)))) {
+            updateHoliday(
+                'assets/velayomhashoahyellow.png',
+                'hemptytxt',
+                ('pesaj$omerday'+ 'omer'),
+                'hemptytxt',
+                swfestivity,
+                swtzom);
+          } else {
+            updateHoliday(
+                'assets/imageomerajusted.png',
+                'hemptytxt',
+                ('pesaj$omerday' + 'omer'),
+                'hemptytxt',
+                swfestivity,
+                swtzom);
+          }
         }
       }
     }
@@ -807,7 +834,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
         omerday = 16;
         print('[DEBUG OMER $omerday');
         updateHoliday(
-            'assets/headerlogosinbacground.png',
+            'assets/imageomerajusted.png',
             'hemptytxt',
             ('pesaj$omerday'+ 'omer'),
 //            ('omerday' + ' ' + omerday.toString()),
@@ -825,7 +852,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           omerday = day + 16;
           print('[DEBUG OMER $omerday');
           updateHoliday(
-              'assets/headerlogosinbacground.png',
+              'assets/imageomerajusted.png',
               'hemptytxt',
               ('pesaj$omerday'+ 'omer'),
 //              ('omerday' + ' ' + omerday.toString()),
@@ -853,7 +880,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           omerday = day + 16;
           print('[DEBUG OMER $omerday');
           updateHoliday(
-              'assets/headerlogosinbacground.png',
+              'assets/imageomerajusted.png',
               'hemptytxt',
               ('pesaj$omerday'+ 'omer'),
 //              ('omerday' + ' ' + omerday.toString()),
@@ -870,7 +897,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
         omerday = 45;
         print('[DEBUG OMER $omerday');
         updateHoliday(
-            'assets/headerlogosinbacground.png',
+            'assets/imageomerajusted.png',
             'hemptytxt',
             ('pesaj$omerday'+ 'omer'),
 //            ('omerday' + ' ' + omerday.toString()),
@@ -888,7 +915,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
           omerday = day + 45;
           print('[DEBUG OMER $omerday');
           updateHoliday(
-              'assets/headerlogosinbacground.png',
+              'assets/imageomerajusted.png',
               'hemptytxt',
               ('pesaj$omerday'+ 'omer'),
 //              ('omerday' + ' ' + omerday.toString()),
