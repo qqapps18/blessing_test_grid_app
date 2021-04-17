@@ -1,8 +1,8 @@
-package com.example.blessingtestgridapp;
+package com.qqapps.blessingbook;
 
 import androidx.annotation.NonNull;
 
-import com.example.blessingtestgridapp.HebrewDate.HebrewDate;
+import com.qqapps.blessingbook.HebrewDate.HebrewDate;
 
 import java.util.ArrayList;
 

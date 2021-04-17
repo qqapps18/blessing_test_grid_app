@@ -1,4 +1,4 @@
-package com.example.blessingtestgridapp.HebrewDate;
+package com.qqapps.blessingbook.HebrewDate;
 
 import java.util.Calendar;
 import java.util.Date;

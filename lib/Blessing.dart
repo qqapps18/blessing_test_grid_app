@@ -1,5 +1,5 @@
-import 'package:blessingtestgridapp/GridLayoutHelper.dart';
-import 'package:blessingtestgridapp/localization/localization_constants.dart';
+import 'package:blessingbook/GridLayoutHelper.dart';
+import 'package:blessingbook/localization/localization_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

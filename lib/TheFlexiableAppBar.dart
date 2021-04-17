@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:blessingtestgridapp/FileProvider.dart';
+import 'package:blessingbook/FileProvider.dart';
 import 'package:intl/intl.dart';
 
 import 'localization/localization_constants.dart';

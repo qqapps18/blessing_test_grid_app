@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'dart:math';
-import 'package:blessingtestgridapp/BlessingSectionHeader.dart';
-import 'package:blessingtestgridapp/GridLayoutHelper.dart';
-import 'package:blessingtestgridapp/localization/App_Localization.dart';
+import 'package:blessingbook/BlessingSectionHeader.dart';
+import 'package:blessingbook/GridLayoutHelper.dart';
+import 'package:blessingbook/localization/App_Localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

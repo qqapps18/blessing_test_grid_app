@@ -1,4 +1,4 @@
-package com.example.blessingtestgridapp.HebrewDate;
+package com.qqapps.blessingbook.HebrewDate;
 
 /**
 Java class for representing a time as a simple triple of numbers (hours,

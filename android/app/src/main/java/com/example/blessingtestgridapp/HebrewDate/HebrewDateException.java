@@ -1,1 +1,1 @@
-package com.example.blessingtestgridapp.HebrewDate;/** * Exception for the HebrewDate class.*/public class HebrewDateException extends Exception{	public HebrewDateException(String msg)	{		super(msg);	}}
+package com.qqapps.blessingbook.HebrewDate;/** * Exception for the HebrewDate class.*/public class HebrewDateException extends Exception{	public HebrewDateException(String msg)	{		super(msg);	}}

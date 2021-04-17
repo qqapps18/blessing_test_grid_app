@@ -1,4 +1,4 @@
-package com.example.blessingtestgridapp.HebrewDate;
+package com.qqapps.blessingbook.HebrewDate;
 
 /**
 This exception is thrown to indicate a problem with 

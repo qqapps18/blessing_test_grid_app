@@ -1,4 +1,4 @@
-package com.example.blessingtestgridapp.HebrewDate;
+package com.qqapps.blessingbook.HebrewDate;
 
 /**
 Java class for calculating sunset and sunrise times.
