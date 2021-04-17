@@ -159,15 +159,15 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   /* CHECK HOLIDAYS */
 
   void checkHoliday(SunriseSunsetData data) {
-    print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
-
-    print('[DEBUG] estoy en checkRoshHashana **********************');
-    print('[DEBUG] mes ' + fileProvider.jodesh);
-    print ('[DEBUG] numero del mes '+ fileProvider.numjodesh.toString());
-    print('[DEBUG] dia ' + fileProvider.yom.toString());
-    print('[DEBUG] año ' + fileProvider.shana.toString());
-    print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
-    print('[DEBUG] dia de la semana ' + dayofweek.toString());
+    // print('CheckHoliday holidayline1 ' + holidayline1 + '===========');
+    //
+    // print('[DEBUG] estoy en checkRoshHashana **********************');
+    // print('[DEBUG] mes ' + fileProvider.jodesh);
+    // print ('[DEBUG] numero del mes '+ fileProvider.numjodesh.toString());
+    // print('[DEBUG] dia ' + fileProvider.yom.toString());
+    // print('[DEBUG] año ' + fileProvider.shana.toString());
+    // print('[DEBUG] leapyear ' + fileProvider.isleapyear.toString());
+    // print('[DEBUG] dia de la semana ' + dayofweek.toString());
 
     // variables para el calculo del sunrise y sunset
     // daylight - hora local del amanecer en el meridiano 0
@@ -188,27 +188,27 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 //    var now = DateTime.now();
 
     //+++++++++todas las horas+++++++++++++++++++++++++++++++
-        print("ss_sr_data_Class - sunrise " + data.sunrise.toLocal().toString());
-        print("ss_sr_data_Class - sunset " + data.sunset.toLocal().toString());
-        print("ss_sr_data_Class - solarNoon " + data.solarNoon.toLocal().toString());
-        print("ss_sr_data_Class - dayLength " + data.dayLength.toString());
-        print("ss_sr_data_Class - civilTwilightBegin " + data.civilTwilightBegin.toLocal().toString());
-        print("ss_sr_data_Class - civilTwilightEnd " + data.civilTwilightEnd.toLocal().toString());
-        print("ss_sr_data_Class - nauticalTwilightBegin " + data.nauticalTwilightBegin.toLocal().toString());
-        print("ss_sr_data_Class - nauticalTwilightEnd " + data.nauticalTwilightEnd.toLocal().toString());
-        print("ss_sr_data_Class - astronomicalTwilightBegin " + data.astronomicalTwilightBegin.toLocal().toString());
-        print("ss_sr_data_Class - astronomicalTwilightEnd " + data.astronomicalTwilightEnd.toLocal().toString());
-
+    //     print("ss_sr_data_Class - sunrise " + data.sunrise.toLocal().toString());
+    //     print("ss_sr_data_Class - sunset " + data.sunset.toLocal().toString());
+    //     print("ss_sr_data_Class - solarNoon " + data.solarNoon.toLocal().toString());
+    //     print("ss_sr_data_Class - dayLength " + data.dayLength.toString());
+    //     print("ss_sr_data_Class - civilTwilightBegin " + data.civilTwilightBegin.toLocal().toString());
+    //     print("ss_sr_data_Class - civilTwilightEnd " + data.civilTwilightEnd.toLocal().toString());
+    //     print("ss_sr_data_Class - nauticalTwilightBegin " + data.nauticalTwilightBegin.toLocal().toString());
+    //     print("ss_sr_data_Class - nauticalTwilightEnd " + data.nauticalTwilightEnd.toLocal().toString());
+    //     print("ss_sr_data_Class - astronomicalTwilightBegin " + data.astronomicalTwilightBegin.toLocal().toString());
+    //     print("ss_sr_data_Class - astronomicalTwilightEnd " + data.astronomicalTwilightEnd.toLocal().toString());
+    //
 
     //++++++++++++++++++++++++++++++++++++
 
-    print("La Hora Ahora es " + dateUTC.toString());
-    print("Daylight " + data.sunrise.toString());
-    print("Nightlight " + data.sunset.toString());
-    print("Offset GMT " + offsetInHours.toString());
-    print("===== SUNRISE " + sunriseTime.toString());
-    print("===== SUNSET " + sunsetTime.toString());
-    print(' estoy en checkholiday **********************');
+    // print("La Hora Ahora es " + dateUTC.toString());
+    // print("Daylight " + data.sunrise.toString());
+    // print("Nightlight " + data.sunset.toString());
+    // print("Offset GMT " + offsetInHours.toString());
+    // print("===== SUNRISE " + sunriseTime.toString());
+    // print("===== SUNSET " + sunsetTime.toString());
+    // print(' estoy en checkholiday **********************');
 
 // orden de los mese a chequear
 //   1  Nisán
@@ -364,10 +364,10 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
 
 // ++++++++++++++++ check for Sukkot **************************
   void checksukkot(DateTime now, DateTime sunset) {
-    print('now ' +
-        now.millisecondsSinceEpoch.toString() +
-        ' sunset ' +
-        sunset.millisecondsSinceEpoch.toString());
+    // print('now ' +
+    //     now.millisecondsSinceEpoch.toString() +
+    //     ' sunset ' +
+    //     sunset.millisecondsSinceEpoch.toString());
 
     if (fileProvider.numjodesh == 7) {
       if ((fileProvider.yom == 14 &&
@@ -592,7 +592,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     if (fileProvider.isleapyear) {
       if (fileProvider.numjodesh == 13) {
         todayTzomEsther(now, sunrise, sunset);
-        print("[PURIM]  istzomesther regresando1 " + istzomesther.toString());
+//        print("[PURIM]  istzomesther regresando1 " + istzomesther.toString());
 
         if (istzomesther == 0) {
           if (fileProvider.yom == 13 &&
@@ -635,7 +635,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
     if (!fileProvider.isleapyear) {
       if (fileProvider.numjodesh == 12) {
         todayTzomEsther(now, sunrise, sunset);
-        print("[PURIM]  istzomesther regresando2 " + istzomesther.toString());
+ //       print("[PURIM]  istzomesther regresando2 " + istzomesther.toString());
 
         if (istzomesther == 0) {
           if (fileProvider.yom == 13 &&
@@ -804,7 +804,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
           swfestivity = true;
           omerday = day - 14;
-          print('[DEBUG OMER $omerday');
+ //         print('[DEBUG OMER $omerday');
 
           if (((fileProvider.yom == 27 && now.isAfter(sunset)) ||
               (fileProvider.yom == 28 && now.isBefore(sunset)))) {
@@ -832,7 +832,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
         swfestivity = true;
         omerday = 16;
-        print('[DEBUG OMER $omerday');
+//        print('[DEBUG OMER $omerday');
         updateHoliday(
             'assets/imageomerajusted.png',
             'hemptytxt',
@@ -850,7 +850,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
           swfestivity = true;
           omerday = day + 16;
-          print('[DEBUG OMER $omerday');
+//          print('[DEBUG OMER $omerday');
           updateHoliday(
               'assets/imageomerajusted.png',
               'hemptytxt',
@@ -878,7 +878,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
           swfestivity = true;
           omerday = day + 16;
-          print('[DEBUG OMER $omerday');
+//          print('[DEBUG OMER $omerday');
           updateHoliday(
               'assets/imageomerajusted.png',
               'hemptytxt',
@@ -895,7 +895,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       if ((fileProvider.yom == 1 && now.isBefore(sunset))) {
         swfestivity = true;
         omerday = 45;
-        print('[DEBUG OMER $omerday');
+//        print('[DEBUG OMER $omerday');
         updateHoliday(
             'assets/imageomerajusted.png',
             'hemptytxt',
@@ -913,7 +913,7 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
             (fileProvider.yom == (day + 1) && now.isBefore(sunset)))) {
           swfestivity = true;
           omerday = day + 45;
-          print('[DEBUG OMER $omerday');
+//          print('[DEBUG OMER $omerday');
           updateHoliday(
               'assets/imageomerajusted.png',
               'hemptytxt',
@@ -1028,8 +1028,8 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
   //++++++++++ metodo que maneja los dias  NO fectivos +++++++++++++++
   void todayIsNotHoliday(String image, String line1, String line2, String line3,
       bool swfestivityst, bool swtzomst) {
-    print('swfestiviti xxxxxxxxxxxxx' + swfestivity.toString());
-    print('swtzom xxxxxxxxxxxxxxxxxx' + swtzom.toString());
+    // print('swfestiviti xxxxxxxxxxxxx' + swfestivity.toString());
+    // print('swtzom xxxxxxxxxxxxxxxxxx' + swtzom.toString());
 
     if (!swfestivity && !swtzom) {
       setState(() {
@@ -1055,14 +1055,14 @@ class _HeaderIsHollidaytState extends State<HeaderIsHolliday> {
       long = position.longitude;
       point = Point(position.latitude, position.longitude);
 
-      print("ANDRES 1  " + position.toString());
-      print("ANDRES 1.5  latitud $lat   longitud  $long");
+      // print("ANDRES 1  " + position.toString());
+      // print("ANDRES 1.5  latitud $lat   longitud  $long");
     } on Exception catch (e) {
       lat = 0;
       long = 0;
-      print('[DEBUG] falla de geolocation ' + e.toString());
+//      print('[DEBUG] falla de geolocation ' + e.toString());
       point = Point(0.0, 0.0);
-      print("[ANDRES] no authorization granted to obtain the position ");
+//      print("[ANDRES] no authorization granted to obtain the position ");
     }
 
     completer.complete(point);

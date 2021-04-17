@@ -78,7 +78,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
   @override
   void initState() {
-    print('++++++++++++++++++  initstate ++++++++++++++++++++');
+//    print('++++++++++++++++++  initstate ++++++++++++++++++++');
     fileProvider
         .getDocuments()
         .then((file) => _getCurrentlocation())
@@ -304,7 +304,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   }
 
   void definaLargeParams(BuildContext context, Orientation orientation) {
-    print(' DEBUG SAMI ANCHO ' + MediaQuery.of(context).size.width.toString());
+//    print(' DEBUG SAMI ANCHO ' + MediaQuery.of(context).size.width.toString());
 
     if (MediaQuery.of(context).size.width > 790) {
       isLargeScreen = true;
@@ -366,14 +366,14 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       long = position.longitude;
       point = Point(position.latitude, position.longitude);
 
-      print("ANDRES 1  " + position.toString());
-      print("ANDRES 1.5  latitud $lat   longitud  $long");
+      // print("ANDRES 1  " + position.toString());
+      // print("ANDRES 1.5  latitud $lat   longitud  $long");
     } on Exception catch (e) {
       lat = 0;
       long = 0;
-      print('[DEBUG] falla de geolocation ' + e.toString());
+//      print('[DEBUG] falla de geolocation ' + e.toString());
       point = Point(0.0, 0.0);
-      print("[ANDRES] no authorization granted to obtain the position ");
+//      print("[ANDRES] no authorization granted to obtain the position ");
     }
 
     completer.complete(point);
@@ -384,7 +384,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
 
 // ***************  get sunrise & sunset ********************
   Future<SunriseSunsetData> _getSunriseSunset(Point point) async {
-    print('[DEBUG] LATITUD $lat  and LONGITUD $long');
+//    print('[DEBUG] LATITUD $lat  and LONGITUD $long');
 
     var completer = Completer<SunriseSunsetData>();
     try {

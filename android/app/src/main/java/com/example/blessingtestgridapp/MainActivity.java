@@ -31,7 +31,7 @@ public class MainActivity extends FlutterActivity {
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         super.configureFlutterEngine(flutterEngine);
 
-        System.out.println("[ANDRES] In Android");
+/*        System.out.println("[ANDRES] In Android"); */
         new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "flutter/MethodChannelDemo")
                 .setMethodCallHandler(
                         (call, result) -> {
@@ -65,11 +65,11 @@ public class MainActivity extends FlutterActivity {
                                 /* ------------------- fecha dia 2 antes(antiayer) ----------------------------- */
                                 daybeforedate();
 
-                                System.out.println("[ANDRES] In Android  " + listdates);
+ /*                               System.out.println("[ANDRES] In Android  " + listdates);  */
 
                                 result.success(listdates);
                             } else {
-                                System.out.println("[ANDRES] In the else");
+/*                                System.out.println("[ANDRES] In the else");   */
                                 result.notImplemented();
                             }
                         }

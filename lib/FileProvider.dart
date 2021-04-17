@@ -70,7 +70,7 @@ class FileProvider {
       numjodeshdaybefore = int.parse(yomview[12]);
       daybeforeshana = int.parse(yomview[13]);
 
-      print("[ANDROID] Result from android: " +  yomview.cast<String>().toString());
+//      print("[ANDROID] Result from android: " +  yomview.cast<String>().toString());
 
       //callback();
     } on Exception catch (e) {
