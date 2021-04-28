@@ -238,7 +238,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
                           children:
-                              sectionCardWidgets(blessingsPDFs),
+                          sectionCardWidgets(blessingsPDFs),
                         ),
 
 //   este es el encabezado de la segunda  seccion  **************************
@@ -252,7 +252,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
                           mainAxisSpacing: 0,
                           crossAxisSpacing: 0,
                           children:
-                              sectionCardWidgets(blessingsFood),
+                          sectionCardWidgets(blessingsFood),
                         ),
 //   este es el encabezado de la tercera  seccion  **************************
                         BlessingSectionHeader(Colors.amber[200],
@@ -361,7 +361,7 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     Point point;
     try {
       final Position position =
-          await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       lat = position.latitude;
       long = position.longitude;
       point = Point(position.latitude, position.longitude);
