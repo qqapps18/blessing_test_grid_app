@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'localization/localization_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,10 +19,28 @@ class _MyAppBarState extends State<MyAppBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
-              child: Text(''),
+          // enlace a la tienda para que califiquen la app
+          //TODO de dejar esta opcion, faltaria eliminar el enlance una
+          //TODO vez que se utilice
+
+          InkWell(
+            onTap: () {
+              StoreRedirect.redirect(
+                  androidAppId: "com.qqapps.blessingbook",
+                  iOSAppId: "com.qqapps.blessingbook");
+            },
+            child: Container(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
+                child: Image(
+                  image: AssetImage('assets/iconrate.png'),
+                  fit: BoxFit.cover,
+                  height: 30,
+                  width: 30,
+                ),
+
+                //child: Text(''),
+              ),
             ),
           ),
           Container(

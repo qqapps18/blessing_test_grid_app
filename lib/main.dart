@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:rate_my_app/rate_my_app.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'Blessing.dart';
 import 'FileProvider.dart';
 import 'BlessingSectionHeader.dart';
@@ -19,6 +21,8 @@ import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 import 'myappbar.dart';
 import 'HeaderIsHolliday.dart';
+
+import 'dart:io';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +44,17 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   int intTime;
   String headerImage = 'assets/maguendavidyellow.png';
   String holidayText = 'texto de pruebga';
+
+  // Control para dar el rating a la app *****
+  RateMyApp _rateMyApp = RateMyApp(
+    minDays: 3,
+    minLaunches: 3,
+    remindDays: 2,
+    remindLaunches: 5,
+    appStoreIdentifier: "com.qqapps.blessingbook",
+    googlePlayIdentifier: "com.qqapps.blessingbook",
+  );
+  // Control para rating fin *****
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
@@ -75,6 +90,10 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   bool isLargeScreenPortrait = false;
   String phoneTypePoss;
   double aspectRatio;
+  String os;
+
+
+
 
   @override
   void initState() {
@@ -94,9 +113,55 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     hisLeapYear = fileProvider.isleapyear;
 
     super.initState();
+    // inicializacion del proceso de rate de la app ***********
+
+    _rateMyApp.init().then((_) {
+      if(_rateMyApp.shouldOpenDialog) {
+        _rateMyApp.showRateDialog(
+          context,
+          title: 'Enjoying The Blessing Book?',
+          message: 'Thanks for using this "Book of Blessings" is just the ' +
+              'beginning of more content and information, and learnings. ' +
+              'Please help us to keep improving this App, telling us your ' +
+              'thought and suggestions to make it much better, more useful, ' +
+              'and friendly to you. Please leave a rating.',
+          dialogStyle: DialogStyle(
+            titleAlign: TextAlign.center,
+            messageAlign: TextAlign.center,
+            messagePadding: EdgeInsets.only(bottom: 20.0),
+            ),
+          rateButton: 'RATE',
+          noButton: 'NO THANKS',
+          laterButton: 'MAYBE LATER',
+            listener: (button) {
+              switch (button) {
+                case RateMyAppDialogButton.rate:
+                  if (Platform.isAndroid)
+                  {
+                    print('Clicked on "Rate Android".');
+                    StoreRedirect.redirect(
+                        androidAppId: "com.qqapps.blessingbook",
+                        iOSAppId: "com.qqapps.blessingbook");
+                  } else
+                    print('Clicked on "Rate IOS".');
+                  break;
+                case RateMyAppDialogButton.later:
+                  print('Clicked on "Later".');
+                  break;
+                case RateMyAppDialogButton.no:
+                  print('Clicked on "No".');
+                  break;
+              }
+              return true;
+            },
+        );
+      }
+    });
+    // hasta aqui rutina de calificacion de la app
+
   }
 
-  // Inicializamos un arreglo con todos los blessings que queremos mostrar.
+// Inicializamos un arreglo con todos los blessings que queremos mostrar.
   // Idealmente, este arreglo se cambiaria por otra clase que nos provea la
   // estructura de la vista, es decir, el número de secciones y la cantidad de
   // elementos por sección.
@@ -191,122 +256,130 @@ class _BlessingGridViewState extends State<BlessingGridView> {
           }
           return supportedLocales.first;
         },
+
         home: Builder(
-          builder: (context) => Scaffold(
-            body: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color.fromARGB(500, 254, 140, 46),
-                    Color.fromARGB(500, 254, 140, 46),
-                    Color.fromARGB(500, 253, 200, 11),
-                    Color.fromARGB(500, 254, 140, 46),
-                  ],
-                ),
-              ),
-              child: OrientationBuilder(
-                builder: (context, orientation) {
-//********************** Method to define type of screen ***************
-                  gridLayoutHelper.calculatelayout(context, orientation);
-
-                  return SafeArea(
-                    child: CustomScrollView(
-                      scrollDirection: Axis.vertical,
-                      slivers: <Widget>[
-                        SliverAppBar(
-                          title: MyAppBar(),
-                          floating: false,
-                          pinned: true,
-                          expandedHeight: gridLayoutHelper.needsLargeAppBar ? 190.0 : 200.0,
-// *************** color del encabezado cerrado **************
-                          backgroundColor: Color.fromARGB(500, 181, 150, 5),
-                          flexibleSpace: FlexibleSpaceBar(
-                            background: HeaderIsHolliday(this.fileProvider),
-                          ),
-                        ),
-
-//   este es el encabezado de la primera seccion  **************************
-                        BlessingSectionHeader(Colors.amber[200],
-                            getTranslated(context, 'Family')),
-
-// lista de bendiciones de la primera seccion ******************************
-                        SliverGrid.count(
-                          childAspectRatio: gridLayoutHelper.aspectRatio,
-                          crossAxisCount: gridLayoutHelper.numberOfCells,
-                          mainAxisSpacing: 2,
-                          crossAxisSpacing: 2,
-                          children:
-                          sectionCardWidgets(blessingsPDFs),
-                        ),
-
-//   este es el encabezado de la segunda  seccion  **************************
-                        BlessingSectionHeader(
-                            Colors.amber[200], getTranslated(context, 'Food')),
-
-// lista de bendiciones de la segunda seccion ******************************
-                        SliverGrid.count(
-                          childAspectRatio: gridLayoutHelper.aspectRatio,
-                          crossAxisCount: gridLayoutHelper.numberOfCells,
-                          mainAxisSpacing: 0,
-                          crossAxisSpacing: 0,
-                          children:
-                          sectionCardWidgets(blessingsFood),
-                        ),
-//   este es el encabezado de la tercera  seccion  **************************
-                        BlessingSectionHeader(Colors.amber[200],
-                            getTranslated(context, 'Sabbath')),
-
-// lista de bendiciones de la segunda seccion ******************************
-                        SliverGrid.count(
-                          childAspectRatio: gridLayoutHelper.aspectRatio,
-                          crossAxisCount: gridLayoutHelper.numberOfCells,
-                          mainAxisSpacing: 2,
-                          crossAxisSpacing: 2,
-                          children: sectionCardWidgets(
-                              blessingsShabbat),
-                        ),
-//   este es el encabezado de la cuarta  seccion  **************************
-                        BlessingSectionHeader(Colors.amber[200],
-                            getTranslated(context, 'Festivities')),
-
-// lista de bendiciones de la quinta seccion ******************************
-                        SliverGrid.count(
-                          childAspectRatio: gridLayoutHelper.aspectRatio,
-                          crossAxisCount: gridLayoutHelper.numberOfCells,
-                          mainAxisSpacing: 2,
-                          crossAxisSpacing: 2,
-                          children: sectionCardWidgets(
-                              blessingsFestivites),
-                        ),
-//   este es el encabezado de la quinta  seccion  **************************
-                        BlessingSectionHeader(Colors.amber[200],
-                            getTranslated(context, 'Miscellaneous')),
-
-// lista de bendiciones de la sexta seccion ******************************
-                        SliverGrid.count(
-                          childAspectRatio: gridLayoutHelper.aspectRatio,
-                          crossAxisCount: gridLayoutHelper.numberOfCells,
-                          mainAxisSpacing: 2,
-                          crossAxisSpacing: 2,
-                          children: sectionCardWidgets(
-                              blessingsMiscellaneous),
-                        ),
+          builder: (context) =>
+              Scaffold(
+                body: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromARGB(500, 254, 140, 46),
+                        Color.fromARGB(500, 254, 140, 46),
+                        Color.fromARGB(500, 253, 200, 11),
+                        Color.fromARGB(500, 254, 140, 46),
                       ],
                     ),
-                  );
-                },
+                  ),
+                  child: OrientationBuilder(
+                    builder: (context, orientation) {
+//********************** Method to define type of screen ***************
+                      gridLayoutHelper.calculatelayout(context, orientation);
+
+                      return SafeArea(
+                        child: CustomScrollView(
+                          scrollDirection: Axis.vertical,
+                          slivers: <Widget>[
+                            SliverAppBar(
+                              title: MyAppBar(),
+                              floating: false,
+                              pinned: true,
+                              expandedHeight: gridLayoutHelper.needsLargeAppBar
+                                  ? 190.0
+                                  : 200.0,
+// *************** color del encabezado cerrado **************
+                              backgroundColor: Color.fromARGB(500, 181, 150, 5),
+                              flexibleSpace: FlexibleSpaceBar(
+                                background: HeaderIsHolliday(this.fileProvider),
+                              ),
+                            ),
+
+//   este es el encabezado de la primera seccion  **************************
+                            BlessingSectionHeader(Colors.amber[200],
+                                getTranslated(context, 'Family')),
+
+// lista de bendiciones de la primera seccion ******************************
+                            SliverGrid.count(
+                              childAspectRatio: gridLayoutHelper.aspectRatio,
+                              crossAxisCount: gridLayoutHelper.numberOfCells,
+                              mainAxisSpacing: 2,
+                              crossAxisSpacing: 2,
+                              children:
+                              sectionCardWidgets(blessingsPDFs),
+                            ),
+
+//   este es el encabezado de la segunda  seccion  **************************
+                            BlessingSectionHeader(
+                                Colors.amber[200], getTranslated(context,
+                                'Food')),
+
+// lista de bendiciones de la segunda seccion ******************************
+                            SliverGrid.count(
+                              childAspectRatio: gridLayoutHelper.aspectRatio,
+                              crossAxisCount: gridLayoutHelper.numberOfCells,
+                              mainAxisSpacing: 0,
+                              crossAxisSpacing: 0,
+                              children:
+                              sectionCardWidgets(blessingsFood),
+                            ),
+//   este es el encabezado de la tercera  seccion  **************************
+                            BlessingSectionHeader(Colors.amber[200],
+                                getTranslated(context, 'Sabbath')),
+
+// lista de bendiciones de la segunda seccion ******************************
+                            SliverGrid.count(
+                              childAspectRatio: gridLayoutHelper.aspectRatio,
+                              crossAxisCount: gridLayoutHelper.numberOfCells,
+                              mainAxisSpacing: 2,
+                              crossAxisSpacing: 2,
+                              children: sectionCardWidgets(
+                                  blessingsShabbat),
+                            ),
+//   este es el encabezado de la cuarta  seccion  **************************
+                            BlessingSectionHeader(Colors.amber[200],
+                                getTranslated(context, 'Festivities')),
+
+// lista de bendiciones de la quinta seccion ******************************
+                            SliverGrid.count(
+                              childAspectRatio: gridLayoutHelper.aspectRatio,
+                              crossAxisCount: gridLayoutHelper.numberOfCells,
+                              mainAxisSpacing: 2,
+                              crossAxisSpacing: 2,
+                              children: sectionCardWidgets(
+                                  blessingsFestivites),
+                            ),
+//   este es el encabezado de la quinta  seccion  **************************
+                            BlessingSectionHeader(Colors.amber[200],
+                                getTranslated(context, 'Miscellaneous')),
+
+// lista de bendiciones de la sexta seccion ******************************
+                            SliverGrid.count(
+                              childAspectRatio: gridLayoutHelper.aspectRatio,
+                              crossAxisCount: gridLayoutHelper.numberOfCells,
+                              mainAxisSpacing: 2,
+                              crossAxisSpacing: 2,
+                              children: sectionCardWidgets(
+                                  blessingsMiscellaneous),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
-          ),
         ));
   }
 
   void definaLargeParams(BuildContext context, Orientation orientation) {
 //    print(' DEBUG SAMI ANCHO ' + MediaQuery.of(context).size.width.toString());
 
-    if (MediaQuery.of(context).size.width > 790) {
+    if (MediaQuery
+        .of(context)
+        .size
+        .width > 790) {
       isLargeScreen = true;
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
@@ -321,8 +394,14 @@ class _BlessingGridViewState extends State<BlessingGridView> {
       //   DeviceOrientation.portraitUp
       // ]);
     }
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     widecount = (screenWidth / 130).floor();
     aspectRatio = ((screenWidth / widecount) - 3) / 141;
