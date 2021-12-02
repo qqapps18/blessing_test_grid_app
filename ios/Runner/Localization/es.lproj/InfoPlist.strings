@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Andrés Pesate on 22/04/2021.
+  
+*/
+
+"CFBundleDisplayName" = "Lib. Bendiciones";
+"NSLocationAlwaysAndWhenInUsageDescription" = "La applicación utiliza tu ubicación para determinar la hora del amanecer y el atardecer.";
+"NSLocationAlwaysUsageDescription" = "La applicación utiliza tu ubicación para determinar la hora del amanecer y el atardecer.";
+"NSLocationWhenInUseUsageDescription" = "La applicación utiliza tu ubicación para determinar la hora del amanecer y el atardecer.";

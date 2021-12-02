@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Andrés Pesate on 22/04/2021.
+  
+*/
+
+"CFBundleDisplayName" = "Blessing Book";
+"NSLocationAlwaysAndWhenInUsageDescription" = "The app needs your location to determine the time of the sunset and sunrise.";
+"NSLocationAlwaysUsageDescription" = "The app needs your location to determine the time of the sunset and sunrise.";
+"NSLocationWhenInUseUsageDescription" = "The app needs your location to determine the time of the sunset and sunrise.";
