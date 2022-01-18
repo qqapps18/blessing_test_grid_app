@@ -24,6 +24,7 @@ import 'HeaderIsHolliday.dart';
 
 import 'dart:io';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -44,17 +45,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   int intTime;
   String headerImage = 'assets/maguendavidyellow.png';
   String holidayText = 'texto de pruebga';
-
-  // Control para dar el rating a la app *****
-  RateMyApp _rateMyApp = RateMyApp(
-    minDays: 3,
-    minLaunches: 3,
-    remindDays: 2,
-    remindLaunches: 5,
-    appStoreIdentifier: "com.qqapps.blessingbook",
-    googlePlayIdentifier: "com.qqapps.blessingbook",
-  );
-  // Control para rating fin *****
 
   // Inicializamos la clase 'FileProvider'
   var fileProvider = FileProvider();
@@ -92,9 +82,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
   double aspectRatio;
   String os;
 
-
-
-
   @override
   void initState() {
 //    print('++++++++++++++++++  initstate ++++++++++++++++++++');
@@ -113,52 +100,6 @@ class _BlessingGridViewState extends State<BlessingGridView> {
     hisLeapYear = fileProvider.isleapyear;
 
     super.initState();
-    // inicializacion del proceso de rate de la app ***********
-
-    _rateMyApp.init().then((_) {
-      if(_rateMyApp.shouldOpenDialog) {
-        _rateMyApp.showRateDialog(
-          context,
-          title: 'Enjoying The Blessing Book?',
-          message: 'Thanks for using this "Book of Blessings" is just the ' +
-              'beginning of more content and information, and learnings. ' +
-              'Please help us to keep improving this App, telling us your ' +
-              'thought and suggestions to make it much better, more useful, ' +
-              'and friendly to you. Please leave a rating.',
-          dialogStyle: DialogStyle(
-            titleAlign: TextAlign.center,
-            messageAlign: TextAlign.center,
-            messagePadding: EdgeInsets.only(bottom: 20.0),
-            ),
-          rateButton: 'RATE',
-          noButton: 'NO THANKS',
-          laterButton: 'MAYBE LATER',
-            listener: (button) {
-              switch (button) {
-                case RateMyAppDialogButton.rate:
-                  if (Platform.isAndroid)
-                  {
-                    print('Clicked on "Rate Android".');
-                    StoreRedirect.redirect(
-                        androidAppId: "com.qqapps.blessingbook",
-                        iOSAppId: "com.qqapps.blessingbook");
-                  } else
-                    print('Clicked on "Rate IOS".');
-                  break;
-                case RateMyAppDialogButton.later:
-                  print('Clicked on "Later".');
-                  break;
-                case RateMyAppDialogButton.no:
-                  print('Clicked on "No".');
-                  break;
-              }
-              return true;
-            },
-        );
-      }
-    });
-    // hasta aqui rutina de calificacion de la app
-
   }
 
 // Inicializamos un arreglo con todos los blessings que queremos mostrar.

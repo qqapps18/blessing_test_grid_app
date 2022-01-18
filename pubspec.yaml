@@ -26,7 +26,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   splashscreen: ^1.2.0
-  rate_my_app: ^1.1.1
+  rate_my_app: <1.0.0
   store_redirect: ^2.0.0
   device_info: ^2.0.3
 
